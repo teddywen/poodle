@@ -1,0 +1,47 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1571" measuredH="1206" mockupW="1275" mockupH="1147">
+  <controls>
+    <control controlID="9" controlTypeID="__group__" x="296" y="59" w="1275" h="1147" measuredW="1275" measuredH="1147" zOrder="0" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="9" controlTypeID="__group__" x="0" y="0" w="1275" h="1147" measuredW="1275" measuredH="1147" zOrder="0" locked="false" isInGroup="9">
+          <controlProperties>
+            <controlName>district-header</controlName>
+          </controlProperties>
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="0" y="0" w="1275" h="1147" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="9">
+              <controlProperties>
+                <color>16777215</color>
+                <text>Picture%20Management%20System%0Ahttp%3A//</text>
+                <value>0</value>
+                <verticalScrollbar>false</verticalScrollbar>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Image" x="30" y="95" w="177" h="146" measuredW="77" measuredH="79" zOrder="1" locked="false" isInGroup="9">
+              <controlProperties>
+                <borderStyle>none</borderStyle>
+                <size>18</size>
+                <text>LOGO</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Webcam" x="1070" y="95" w="177" h="146" measuredW="177" measuredH="146" zOrder="2" locked="false" isInGroup="9"/>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::LinkBar" x="925" y="211" w="-1" h="-1" measuredW="138" measuredH="30" zOrder="3" locked="false" isInGroup="9">
+              <controlProperties>
+                <size>24</size>
+                <text>%u9759%u5B89%u533A%2C%20%u767B%u51FA</text>
+              </controlProperties>
+            </control>
+            <control controlID="4" controlTypeID="com.balsamiq.mockups::LinkBar" x="30" y="256" w="-1" h="-1" measuredW="376" measuredH="24" zOrder="4" locked="false" isInGroup="9">
+              <controlProperties>
+                <hrefs>poodle_district_homepage_first_tag%26bm%3Bpoodle_district_homepage_first_tag.bmml%26bm%3Bpoodle_district_homepage_first_tag.bmml%26bm%3Bpoodle_district_homepage_first_tag.bmml%2C%2C%2C</hrefs>
+                <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2230%2C258%2C190%2C276%22%20href%3D%22poodle_district_homepage_first_tag.bmml%22%20alt%3D%22poodle_district_homepage_first_tag%22%20id%3D%224%22/%3E</map>
+                <size>18</size>
+                <text>%u672A%u5BA1%u6838/%u6253%u56DE/%u5F85%u6574%u6539%2C%20%u5BA1%u6838%u901A%u8FC7%2C%20%u4FEE%u6539%u4E2A%u4EBA%u8D44%u6599</text>
+                <underline>false</underline>
+              </controlProperties>
+            </control>
+            <control controlID="5" controlTypeID="com.balsamiq.mockups::HRule" x="30" y="277" w="1217" h="-1" measuredW="100" measuredH="10" zOrder="5" locked="false" isInGroup="9"/>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+  </controls>
+</mockup>
