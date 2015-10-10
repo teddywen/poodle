@@ -1,8 +1,8 @@
-<mockup version="1.0" skin="sketch" measuredW="1414" measuredH="1060" mockupW="1314" mockupH="960">
+<mockup version="1.0" skin="sketch" measuredW="1180" measuredH="1060" mockupW="1080" mockupH="960">
   <controls>
     <control controlID="0" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="100" y="100" w="1080" h="960" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>SCW%20System%20Admin%20-%20oplog%0Ahttp%3A//www.scw.com/admin/site/oplog</text>
+        <text>SCW%20System%20Admin%20-%20oplog%0Ahttp%3A//www.scw.com/admin/oplog</text>
         <value>0</value>
         <verticalScrollbar>false</verticalScrollbar>
       </controlProperties>
@@ -62,17 +62,17 @@
         <text>%u9009%u533A</text>
       </controlProperties>
     </control>
-    <control controlID="132" controlTypeID="com.balsamiq.mockups::StickyNote" x="1102" y="182" w="312" h="183" measuredW="109" measuredH="123" zOrder="11" locked="false" isInGroup="-1">
+    <control controlID="132" controlTypeID="com.balsamiq.mockups::StickyNote" x="694" y="273" w="312" h="155" measuredW="109" measuredH="123" zOrder="11" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>%u641C%u7D22%u680F%u8BE6%u7EC6%u6CE8%u91CA</text>
+        <text/>
       </controlProperties>
     </control>
-    <control controlID="133" controlTypeID="com.balsamiq.mockups::ComboBox" x="1168" y="252" w="61" h="-1" measuredW="58" measuredH="66" zOrder="12" locked="false" isInGroup="-1">
+    <control controlID="133" controlTypeID="com.balsamiq.mockups::ComboBox" x="756" y="311" w="61" h="-1" measuredW="58" measuredH="66" zOrder="12" locked="false" isInGroup="-1">
       <controlProperties>
         <text>%u4E0D%u9650%0A%u666E%u9640%u533A%0A%u9EC4%u6D66%u533A</text>
       </controlProperties>
     </control>
-    <control controlID="134" controlTypeID="com.balsamiq.mockups::Label" x="1127" y="242" w="41" h="20" measuredW="32" measuredH="22" zOrder="13" locked="false" isInGroup="-1">
+    <control controlID="134" controlTypeID="com.balsamiq.mockups::Label" x="715" y="301" w="41" h="20" measuredW="32" measuredH="22" zOrder="13" locked="false" isInGroup="-1">
       <controlProperties>
         <size>13</size>
         <text>%u9009%u533A</text>
@@ -100,7 +100,7 @@
         <text>%u68C0%u7D22</text>
       </controlProperties>
     </control>
-    <control controlID="146" controlTypeID="com.balsamiq.mockups::Label" x="878" y="195" w="104" h="20" measuredW="88" measuredH="22" zOrder="19" locked="false" isInGroup="-1">
+    <control controlID="146" controlTypeID="com.balsamiq.mockups::Label" x="878" y="195" w="86" h="20" measuredW="88" measuredH="22" zOrder="19" locked="false" isInGroup="-1">
       <controlProperties>
         <text>hi%20%u7BA1%u7406%u5458%20jessi</text>
       </controlProperties>
@@ -161,12 +161,12 @@
         <text>%u7C7B%u578B</text>
       </controlProperties>
     </control>
-    <control controlID="164" controlTypeID="com.balsamiq.mockups::ComboBox" x="1300" y="248" w="88" h="-1" measuredW="58" measuredH="102" zOrder="29" locked="false" isInGroup="-1">
+    <control controlID="164" controlTypeID="com.balsamiq.mockups::ComboBox" x="888" y="307" w="88" h="-1" measuredW="58" measuredH="102" zOrder="29" locked="false" isInGroup="-1">
       <controlProperties>
         <text>%u4E0D%u9650%0A%u4E0A%u4F20%u5E76%u65B0%u5EFA%0A%u5BA1%u6279%u901A%u8FC7%0A%u6253%u56DE%0A%u5173%u95ED</text>
       </controlProperties>
     </control>
-    <control controlID="165" controlTypeID="com.balsamiq.mockups::Label" x="1259" y="242" w="41" h="20" measuredW="32" measuredH="22" zOrder="30" locked="false" isInGroup="-1">
+    <control controlID="165" controlTypeID="com.balsamiq.mockups::Label" x="847" y="301" w="41" h="20" measuredW="32" measuredH="22" zOrder="30" locked="false" isInGroup="-1">
       <controlProperties>
         <size>13</size>
         <text>%u7C7B%u578B</text>
@@ -177,13 +177,6 @@
         <color>545684</color>
         <size>16</size>
         <text>1%202%203%204%205%206%207%208%209%2010%20%u4E0B%u4E00%u9875</text>
-      </controlProperties>
-    </control>
-    <control controlID="169" controlTypeID="com.balsamiq.mockups::Arrow" x="630" y="271" w="455" h="66" measuredW="150" measuredH="100" zOrder="32" locked="false" isInGroup="-1">
-      <controlProperties>
-        <direction>bottom</direction>
-        <leftArrow>false</leftArrow>
-        <text/>
       </controlProperties>
     </control>
   </controls>
