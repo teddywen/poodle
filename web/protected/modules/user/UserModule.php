@@ -1,6 +1,8 @@
 <?php
 class UserModule extends CWebModule
 {
+    public $defaultController = 'index';
+    
 	public function init(){
 		parent::init();
 	}
