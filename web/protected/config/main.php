@@ -6,11 +6,11 @@
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
-	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'scw',
+	'basePath' => dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
+	'name' => 'scw',
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload' => array('log'),
 
 	// autoloading model and component classes
 	'import'=>array(
@@ -28,7 +28,7 @@ return array(
                 'class' => 'system.gii.GiiModule',
                 'password' => 'admin',
                 //ipFilters用于所在服务器不在本机的情况需开启
-                'ipFilters' => array('192.168.1.10', '*', '::1'),
+                'ipFilters' => array('127.0.0.1', '*', '::1'),
             ),
             'user' => array(),
 	        'image' => array()
@@ -49,8 +49,8 @@ return array(
 			'errorAction'=>'site/error',
 		),
 		'urlManager'=>array(
-		    'showScriptName'=>false,    // 这一步是将代码里链接的index.php隐藏掉。  
-            'urlFormat'=>'path',  
+            'urlFormat'=>'path',
+		    'showScriptName'=>false,    // 这一步是将代码里链接的index.php隐藏掉。
             'rules'=>array(
                 '<controller:\w+>/<id:\d+>'=>'<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
