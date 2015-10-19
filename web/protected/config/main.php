@@ -20,19 +20,19 @@ return array(
 	),
 
 	'defaultController'=>'site',
+    'modules' => array(
+        'gii' => array(
+            'class' => 'system.gii.GiiModule',
+            'password' => 'admin',
+            //ipFilters用于所在服务器不在本机的情况需开启
+            'ipFilters' => array('127.0.0.1', '*', '::1'),
+        ),
+        'user' => array(),
+        'image' => array()
+    ),
 
 	// application components
 	'components'=>array(
-	    'modules' => array(
-            'gii' => array(
-                'class' => 'system.gii.GiiModule',
-                'password' => 'admin',
-                //ipFilters用于所在服务器不在本机的情况需开启
-                'ipFilters' => array('127.0.0.1', '*', '::1'),
-            ),
-            'user' => array(),
-	        'image' => array()
-	    ),
 		// uncomment the following to use a MySQL database
 		/*
 		'db'=>array(

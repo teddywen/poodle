@@ -5,6 +5,9 @@ class ImageModule extends CWebModule
     
 	public function init(){
 		parent::init();
+		$this->setImport(array(
+		    'image.components.*'
+		));
 	}
 
 	public function beforeControllerAction($controller, $action)

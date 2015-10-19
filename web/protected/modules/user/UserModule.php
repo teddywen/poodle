@@ -5,6 +5,9 @@ class UserModule extends CWebModule
     
 	public function init(){
 		parent::init();
+		$this->setImport(array(
+		    'user.components.*'
+		));
 	}
 
 	public function beforeControllerAction($controller, $action)
