@@ -9,5 +9,10 @@ return array(
     //上传图片路径
     'upload_img_url' => '/upload/images',
     //上传文件路径
-    'upload_file_url' => '/upload/files'
+    'upload_file_url' => '/upload/files',
+    'gov_user_type' => array(
+        '1' => '发现问题人员',
+        '2' => '解决问题人员',
+        '3' => '管理人员'
+    )
 );

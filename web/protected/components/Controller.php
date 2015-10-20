@@ -5,7 +5,9 @@
  */
 class Controller extends CController
 {
-    public function __construct($id){
-        parent::__construct($id);
+    public $PAGE_SIZE = 10;
+    
+    public function init(){
+        
     }
 }
