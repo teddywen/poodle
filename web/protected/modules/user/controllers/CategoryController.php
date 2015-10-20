@@ -14,5 +14,12 @@ class CategoryController extends UserController
         $data['page'] = $page;
         $this->render('index', $data);
     }
+    
+    public function actionCreate()
+    {
+        $this->pageTitle = '添加分类';
+        
+        $this->render('create');
+    }
 }
 ?>

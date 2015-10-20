@@ -1,6 +1,6 @@
 <?php
-    $start_num = $page * $this->PAGE_SIZE + 1;
-    $end_num = $start_num + $this->PAGE_SIZE;
+    $start_num = ($page - 1) * $this->PAGE_SIZE + 1;
+    $end_num = $page * $this->PAGE_SIZE;
 ?>
 <div class="pagination pagination-large">
 	<ul class="page_lists">
@@ -18,6 +18,12 @@
 	</ul>
 </div>
 <script type="text/javascript">
-    $(".pagination").bootstrapPaginator({currentPage: <?php echo $page;?>,totalPages: <?php echo $count;?>,numberOfPages:10});
-    
+    $(function()){
+        $(".pagination").bootstrapPaginator({currentPage: <?php echo $page;?>,totalPages: <?php echo $count;?>,numberOfPages:10});
+        $(".page_lists > li > a").each(function(){
+            var cur_url = window.location.href;
+            var cur_page = $(this).attr(data-page);
+            var forward_url = cur_url.replace("page=<?php echo $page;?>","page=" + cur_page);
+        });
+    }
 </script>

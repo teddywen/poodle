@@ -1,4 +1,12 @@
 <div class="span10">
+	<div class="row" style="margin-bottom: 20px;">
+		<div class="span2" style="width: 100px;">
+            <a class="btn btn-block btn-info" href="<?php echo Yii::app()->baseUrl?>/user/category/create">新建分类</a>
+		</div>
+	</div>
+	<ul class="nav nav-list"> 
+         <li class="divider"></li>  
+    </ul>
 	<form class="form-search form-inline">
 		<input class="input-medium search-query" type="text" /> <button type="submit" class="btn">查找</button>
 	</form>
@@ -58,6 +66,11 @@
             <?php endif;?>
 		</tbody>
 	</table>
-	<?php if(ceil($count / $this->PAGE_SIZE) > 0):?>
-	<?php endif;?>
+	<?php
+        if(ceil($count / $this->PAGE_SIZE) > 0){
+            if(file_exists(Yii::app()->basePath.'/views/common/pager.php')){
+                require_once(Yii::app()->basePath.'/views/common/pager.php');
+            }
+        }
+    ?>
 </div>
