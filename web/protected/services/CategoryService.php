@@ -4,20 +4,22 @@ class CategoryService extends  Service
 {
     /**
      * 获得单位分类列表
-     * @param boolean $need_unable  是否查询已屏蔽的
+     * @param int $page 页数
+     * @param int $limit 每页个数
+     * @param string $condition 条件
      * @return array 单位分类集合
      */
-    public function getAllCates($page = 1, $limit = 10, $need_unable = false)
+    public function getAllCatesByPage($page = 1, $limit = 10, $condition = '')
     {
         $criteria = new CDbCriteria();
-        if(!$need_unable){
-            $criteria->compare('status', 1);
+        if(!empty($condition)){
+            $criteria->condition = $condition;
         }
         $count = GovCategory::model()->count($criteria);
         $criteria->limit = $limit;
         $criteria->offset = ($page - 1) * $limit;
         $lists = GovCategory::model()->findAll($criteria);
         return array($lists, $count);
-    }  
+    } 
 }
 ?>

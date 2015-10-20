@@ -52,10 +52,5 @@
     		</div>
     	</div>
     </div>
-    <script type="text/javascript">
-        $(function(){
-		    $(".pagination").bootstrapPaginator({currentPage: 4,totalPages: 10,numberOfPages:10});
-        });
-    </script>
 </body>
 </html>
