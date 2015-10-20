@@ -35,9 +35,9 @@ return array(
 	'components'=>array(
 		// uncomment the following to use a MySQL database
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=gov_poodle',
+			'connectionString' => 'mysql:host=139.196.59.18;dbname=poodle_test',
 			'emulatePrepare' => true,
-			'username' => 'root',
+			'username' => 'poodle',
 			'password' => '',
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
