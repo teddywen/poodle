@@ -50,7 +50,7 @@
 			</tr>
             <?php endforeach;?>
             <?php else:?>
-			<tr class="info">
+			<tr>
 				<td colspan="6">
 					暂无数据...
 				</td>
