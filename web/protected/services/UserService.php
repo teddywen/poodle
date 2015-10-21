@@ -1,6 +1,6 @@
 <?php
 //单位分类服务
-class CategoryService extends Service
+class UserService extends Service
 {
     /**
      * 获得单位分类列表
@@ -9,7 +9,7 @@ class CategoryService extends Service
      * @param array $condition 条件
      * @return array 单位分类集合
      */
-    public function getAllCatesByPage($page = 1, $limit = 10, $condition = array())
+    public function getAllUsersByPage($page = 1, $limit = 10, $condition = array())
     {
         $criteria = new CDbCriteria();
         if(isset($condition['cate_name'])){

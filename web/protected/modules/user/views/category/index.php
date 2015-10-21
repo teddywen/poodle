@@ -8,7 +8,14 @@
          <li class="divider"></li>  
     </ul>
 	<form class="form-search form-inline">
-		<input class="input-medium search-query" type="text" /> <button type="submit" class="btn">查找</button>
+		分类名：<input class="input-medium search-query" name="s_cate_name" value="<?php echo isset($_REQUEST['s_cate_name'])?trim($_REQUEST['s_cate_name']):"";?>" type="text" />
+		<?php $s_status = isset($_REQUEST['s_status'])?intval($_REQUEST['s_status']):"";?>
+		状态：<select name="s_status" class="form-control input-medium">
+                <option value="">全部</option>
+                <option value="1"<?php if(strlen($s_status)>0&&$s_status==1):?> selected="selected"<?php endif;?>>启用</option>
+                <option value="0"<?php if(strlen($s_status)>0&&$s_status==0):?> selected="selected"<?php endif;?>>禁用</option>
+            </select>
+		<button type="submit" class="btn btn-primary">查找</button>
 	</form>
 	<table class="table table-condensed table-bordered table-hover">
 		<thead>
@@ -53,7 +60,12 @@
 					<?php echo date('Y-m-d H:i:s', $list->update_time) ;?>
 				</td>
 				<td>
-					...
+				    <a href="<?php echo Yii::app()->baseUrl?>/user/category/update?id=<?php echo $list->id;?>" class="btn btn-primary">修改</a>
+					<?php if($list->status == 1):?>
+					<a href="javascript:void(0);" data-cid="<?php echo $list->id;?>" class="btn btn-warning btn_disable">禁用</a>
+					<?php else:?>
+					<a href="javascript:void(0);" data-cid="<?php echo $list->id;?>" class="btn btn-success btn_enable">启用</a>
+					<?php endif;?>
 				</td>
 			</tr>
             <?php endforeach;?>
@@ -67,10 +79,46 @@
 		</tbody>
 	</table>
 	<?php
-        if(ceil($count / $this->PAGE_SIZE) > 0){
+        if(ceil($count / $this->PAGE_SIZE) > 1){
             if(file_exists(Yii::app()->basePath.'/views/common/pager.php')){
                 require_once(Yii::app()->basePath.'/views/common/pager.php');
             }
         }
     ?>
 </div>
+<script type="text/javascript">
+    $(function(){
+        //禁用按钮
+        $(".btn_disable").click(function(){
+            if(confirm("确定禁用此分类？")){
+                var cid = $(this).attr("data-cid");
+                changeCateStatus(cid, 0);
+            }
+        });
+        //启用按钮
+        $(".btn_enable").click(function(){
+            if(confirm("确定启用此分类？")){
+                var cid = $(this).attr("data-cid");
+                changeCateStatus(cid, 1);
+            }
+        });
+    });
+    function changeCateStatus(cid, status){
+        $.ajax({
+            url:"/user/category/changeStatus",
+            dataType:"json",
+            data:{cid:cid,status:status},
+            success:function(res){
+                var r_code = res.code;
+                var r_msg = res.msg;
+                if(r_code == 1){
+                    alert(r_msg);
+                    window.location.reload();
+                }
+                else{
+                    alert(r_msg);
+                }
+            }
+        });
+    }
+</script>

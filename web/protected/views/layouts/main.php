@@ -37,7 +37,7 @@
     							用户管理
     						</li>
     						<li>
-    							<a href="#">用户列表</a>
+    							<a href="<?php echo Yii::app()->baseUrl?>/user">用户列表</a>
     						</li>
     						<li>
     							<a href="<?php echo Yii::app()->baseUrl?>/user/category">单位分类</a>

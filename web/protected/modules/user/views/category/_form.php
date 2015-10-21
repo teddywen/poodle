@@ -1,19 +1,29 @@
-<form class="form-horizontal">
+<?php if(Yii::app()->user->hasFlash($result_key)):?>
+<p class="lead text-error">
+	<?php echo Yii::app()->user->getFlash($result_key);?>
+</p>
+<?php endif;?>
+<form class="form-horizontal validate" method="post">
 	<div class="control-group">
-		 <label class="control-label" for="inputEmail">邮箱</label>
+		<label class="control-label" for="inputEmail">分类名：</label>
 		<div class="controls">
-			<input id="inputEmail" type="text" />
+			<input name="cate_name" type="text" value="<?php echo $model->cate_name;?>" required />
 		</div>
 	</div>
 	<div class="control-group">
-		 <label class="control-label" for="inputPassword">密码</label>
+		<label class="control-label">是否有效：</label>
 		<div class="controls">
-			<input id="inputPassword" type="password" />
+			<label class="radio inline">
+				<input type="radio" name="status" value="1" <?php if($model->status == 1) echo 'checked="checked"' ?> /> 有效
+			</label>
+			<label class="radio inline">
+				<input type="radio" name="status" value="0" <?php if($model->status == 0) echo 'checked="checked"';?> /> 无效
+			</label>
 		</div>
 	</div>
 	<div class="control-group">
 		<div class="controls">
-			 <label class="checkbox"><input type="checkbox" /> Remember me</label> <button type="submit" class="btn">登陆</button>
+			 <button type="submit" class="btn btn-info">确定</button>
 		</div>
 	</div>
 </form>
