@@ -15,7 +15,7 @@ class SuperAdminController extends Controller {
                 'users'=>array('?'),
             ),
             array('allow',
-                'users'=>array('superAdmin'),
+                'roles'=>array('superAdmin'),
             ),
             array('deny',
                 'users'=>array('*'),

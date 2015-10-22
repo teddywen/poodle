@@ -16,7 +16,7 @@ class UnitController extends Controller {
                 'users'=>array('?'),
             ),
             array('allow',
-                'users'=>array('unit'),
+                'roles'=>array('unit'),
             ),
             array('deny',
                 'users'=>array('*'),
