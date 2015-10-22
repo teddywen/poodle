@@ -8,8 +8,28 @@
          <li class="divider"></li>  
     </ul>
 	<form class="form-search form-inline">
-		分类名：<input class="input-medium search-query" name="s_cate_name" value="<?php echo isset($_REQUEST['s_cate_name'])?trim($_REQUEST['s_cate_name']):"";?>" type="text" />
-		<?php $s_status = isset($_REQUEST['s_status'])?intval($_REQUEST['s_status']):"";?>
+		用户名：<input class="input-medium search-query" name="s_username" value="<?php echo isset($_REQUEST['s_username'])?trim($_REQUEST['s_username']):"";?>" type="text" />
+		<?php $s_gov_cate_id = isset($_REQUEST['s_gov_cate_id'])&&strlen($_REQUEST['s_gov_cate_id'])>0?intval($_REQUEST['s_gov_cate_id']):"";?>
+		单位分类：<select name="s_gov_cate_id" class="form-control input-medium">
+                <option value="">全部</option>
+                <option value="0"<?php if(strlen($s_gov_cate_id)>0&&$s_gov_cate_id==0):?> selected="selected"<?php endif;?>>未分类</option>
+                <?php if(!empty($cates)):?>
+                <?php foreach($cates as $cate):?>
+                <option value="<?php echo $cate->id;?>"<?php if($s_gov_cate_id==$cate->id):?> selected="selected"<?php endif;?>><?php echo $cate->cate_name;?></option>
+                <?php endforeach;?>
+                <?php endif;?>
+            </select>
+		<?php $s_u_type = isset($_REQUEST['s_u_type'])&&strlen($_REQUEST['s_u_type'])>0?intval($_REQUEST['s_u_type']):"";?>
+		用户类型：<select name="s_u_type" class="form-control input-medium">
+                <option value="">全部</option>
+                <?php $u_types = Yii::app()->params['gov_user_type'];?>
+                <?php if(!empty($u_types)):?>
+                <?php foreach($u_types as $key=>$u_type):?>
+                <option value="<?php echo $key;?>"<?php if($s_u_type==$key):?> selected="selected"<?php endif;?>><?php echo $u_type;?></option>
+                <?php endforeach;?>
+                <?php endif;?>
+            </select>
+		<?php $s_status = isset($_REQUEST['s_status'])&&strlen($_REQUEST['s_status'])>0?intval($_REQUEST['s_status']):"";?>
 		状态：<select name="s_status" class="form-control input-medium">
                 <option value="">全部</option>
                 <option value="1"<?php if(strlen($s_status)>0&&$s_status==1):?> selected="selected"<?php endif;?>>启用</option>
@@ -81,11 +101,11 @@
 					<?php echo date('Y-m-d H:i:s', $list->update_time) ;?>
 				</td>
 				<td>
-				    <a href="<?php echo Yii::app()->baseUrl?>/user/category/update?id=<?php echo $list->id;?>" class="btn btn-primary">修改</a>
+				    <a href="<?php echo Yii::app()->baseUrl?>/user/index/update?id=<?php echo $list->id;?>" class="btn btn-primary">修改</a>
 					<?php if($list->status == 1):?>
-					<a href="javascript:void(0);" data-cid="<?php echo $list->id;?>" class="btn btn-warning btn_disable">禁用</a>
+					<a href="javascript:void(0);" data-uid="<?php echo $list->id;?>" class="btn btn-warning btn_disable">禁用</a>
 					<?php else:?>
-					<a href="javascript:void(0);" data-cid="<?php echo $list->id;?>" class="btn btn-success btn_enable">启用</a>
+					<a href="javascript:void(0);" data-uid="<?php echo $list->id;?>" class="btn btn-success btn_enable">启用</a>
 					<?php endif;?>
 				</td>
 			</tr>
@@ -100,10 +120,8 @@
 		</tbody>
 	</table>
 	<?php
-        if(ceil($count / $this->PAGE_SIZE) > 1){
-            if(file_exists(Yii::app()->basePath.'/views/common/pager.php')){
-                require_once(Yii::app()->basePath.'/views/common/pager.php');
-            }
+        if(file_exists(Yii::app()->basePath.'/views/common/pager.php')){
+            require_once(Yii::app()->basePath.'/views/common/pager.php');
         }
     ?>
 </div>
@@ -111,24 +129,24 @@
     $(function(){
         //禁用按钮
         $(".btn_disable").click(function(){
-            if(confirm("确定禁用此分类？")){
-                var cid = $(this).attr("data-cid");
-                changeCateStatus(cid, 0);
+            if(confirm("确定禁用此用户？")){
+                var uid = $(this).attr("data-uid");
+                changeCateStatus(uid, 0);
             }
         });
         //启用按钮
         $(".btn_enable").click(function(){
-            if(confirm("确定启用此分类？")){
-                var cid = $(this).attr("data-cid");
-                changeCateStatus(cid, 1);
+            if(confirm("确定启用此用户？")){
+                var uid = $(this).attr("data-uid");
+                changeCateStatus(uid, 1);
             }
         });
     });
-    function changeCateStatus(cid, status){
+    function changeCateStatus(uid, status){
         $.ajax({
-            url:"/user/category/changeStatus",
+            url:"/user/index/changeStatus",
             dataType:"json",
-            data:{cid:cid,status:status},
+            data:{uid:uid,status:status},
             success:function(res){
                 var r_code = res.code;
                 var r_msg = res.msg;

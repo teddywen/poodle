@@ -49,6 +49,7 @@ class CategoryController extends UserController
             }
             else{
                 Yii::app()->user->setFlash($result_key, '创建成功');
+                $this->redirect(array('update', 'id' => $model->id));
             }
         }
         
@@ -57,6 +58,10 @@ class CategoryController extends UserController
         $this->render('create', $data);
     }
     
+    /**
+     * 修改分类
+     * @param int $id 分类ID
+     */
     public function actionUpdate($id)
     {
         $model = $this->cate_service->getGovCateById($id);

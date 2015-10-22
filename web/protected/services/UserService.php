@@ -2,6 +2,7 @@
 //用户服务
 class UserService extends Service
 {
+    const DEFAULT_PWD = '123456';
     /**
      * 获得用户列表
      * @param int $page 页数
@@ -12,12 +13,18 @@ class UserService extends Service
     public function getAllUsersByPage($page = 1, $limit = 10, $condition = array())
     {
         $criteria = new CDbCriteria();
-//         if(isset($condition['user_name'])){
-//             $criteria->compare('user_name', $condition['user_name'], true);
-//         }
-//         if(isset($condition['status'])){
-//             $criteria->compare('status', $condition['status']);
-//         }
+        if(isset($condition['username'])){
+            $criteria->compare('username', $condition['username'], true);
+        }
+        if(isset($condition['u_type'])){
+            $criteria->compare('u_type', $condition['u_type']);
+        }
+        if(isset($condition['gov_cate_id'])){
+            $criteria->compare('gov_cate_id', $condition['gov_cate_id']);
+        }
+        if(isset($condition['status'])){
+            $criteria->compare('status', $condition['status']);
+        }
         $count = GovUser::model()->count($criteria);
         $criteria->limit = $limit;
         $criteria->offset = ($page - 1) * $limit;
@@ -45,9 +52,14 @@ class UserService extends Service
             self::$errorMsg = '该用户名已经存在';
             return null;
         }
-        $cur_time = $_SERVER['REQUEST_TIME'];
         $model = new GovUser();
+        $cur_time = $_SERVER['REQUEST_TIME'];
+        $cate_service = new CategoryService();
+        $cate_id = isset($data['gov_cate_id'])?$data['gov_cate_id']:0;
+        $cate_info = $cate_service->getGovCateById($cate_id);
         $model->attributes = $data;
+        $model->password = md5(self::DEFAULT_PWD);
+        $model->gov_cate_name = $cate_info===null?"":$cate_info->cate_name;
         $model->create_time = $cur_time;
         $model->update_time = $cur_time;
         if($model->save()){
@@ -68,20 +80,25 @@ class UserService extends Service
     {
         $model = $this->getGovUserById($uid);
         if($model === null){
-            self::$errorMsg = '该分类不存在';
+            self::$errorMsg = '该用户不存在';
             return null;
         }
-        if(empty($user_name)){
+        $username = isset($data['username'])?trim($data['username']):"";
+        if(empty($username)){
             self::$errorMsg = '用户名不能为空';
             return null;
         }
-        if($user_name != $model->user_name && $this->getGovUserByName($username)){
+        if($username != $model->username && $this->getGovUserByName($username)){
             self::$errorMsg = '该用户名已经存在';
             return null;
         }
         $cur_time = $_SERVER['REQUEST_TIME'];
-        $model->user_name = $user_name;
-        $model->status = $status;
+        $cate_service = new CategoryService();
+        $cate_id = isset($data['gov_cate_id'])?$data['gov_cate_id']:0;
+        $cate_info = $cate_service->getGovCateById($cate_id);
+        $model->attributes = $data;
+        $model->password = md5(self::DEFAULT_PWD);
+        $model->gov_cate_name = $cate_info===null?"":$cate_info->cate_name;
         $model->update_time = $cur_time;
         if($model->save()){
             return $model;
@@ -118,9 +135,20 @@ class UserService extends Service
      * @param int $status 状态
      * @return boolean 修改结果
      */
-    public function changeStatus($cid = 0, $status = 0)
+    public function changeStatus($uid = 0, $status = 0)
     {
-        $res = GovUser::model()->updateByPk($cid, array('status' => $status));
+        $res = GovUser::model()->updateByPk($uid, array('status' => $status));
+        return $res;
+    }
+    
+    /**
+     * 重置用户密码
+     * @param int $uid 用户ID
+     * @return boolean 重置结果
+     */
+    public function resetUserPwd($uid = 0)
+    {
+        $res = GovUser::model()->updateByPk($uid, array('password' => md5(self::DEFAULT_PWD)));
         return $res;
     }
 }
