@@ -7,6 +7,11 @@ class SiteController extends Controller
         $this->render('index');
     }
 
+    public function actionLogin() {
+        $this->layout = "site";
+        $this->render("login");
+    }
+
 	/**
 	 * This is the action to handle external exceptions.
 	 */

@@ -7,10 +7,10 @@
  * @property integer $id
  * @property string $username
  * @property string $password
- * @property integer $gov_id
  * @property integer $gov_cate_id
  * @property string $gov_cate_name
  * @property integer $u_type
+ * @property integer $last_login_time
  * @property integer $status
  * @property integer $create_time
  * @property integer $update_time
@@ -33,13 +33,13 @@ class GovUser extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('gov_id, gov_cate_id, u_type, status, create_time, update_time', 'numerical', 'integerOnly'=>true),
+			array('gov_cate_id, u_type, last_login_time, status, create_time, update_time', 'numerical', 'integerOnly'=>true),
 			array('username', 'length', 'max'=>150),
 			array('password', 'length', 'max'=>20),
 			array('gov_cate_name', 'length', 'max'=>55),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, username, password, gov_id, gov_cate_id, gov_cate_name, u_type, status, create_time, update_time', 'safe', 'on'=>'search'),
+			array('id, username, password, gov_cate_id, gov_cate_name, u_type, last_login_time, status, create_time, update_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,10 +63,10 @@ class GovUser extends CActiveRecord
 			'id' => 'ID',
 			'username' => 'Username',
 			'password' => 'Password',
-			'gov_id' => 'Gov',
 			'gov_cate_id' => 'Gov Cate',
 			'gov_cate_name' => 'Gov Cate Name',
 			'u_type' => 'U Type',
+			'last_login_time' => 'Last Login Time',
 			'status' => 'Status',
 			'create_time' => 'Create Time',
 			'update_time' => 'Update Time',
@@ -94,10 +94,10 @@ class GovUser extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('username',$this->username,true);
 		$criteria->compare('password',$this->password,true);
-		$criteria->compare('gov_id',$this->gov_id);
 		$criteria->compare('gov_cate_id',$this->gov_cate_id);
 		$criteria->compare('gov_cate_name',$this->gov_cate_name,true);
 		$criteria->compare('u_type',$this->u_type);
+		$criteria->compare('last_login_time',$this->last_login_time);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('create_time',$this->create_time);
 		$criteria->compare('update_time',$this->update_time);

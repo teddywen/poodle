@@ -1,5 +1,5 @@
 <?php
-class IndexController extends UserController
+class IndexController extends AdminController
 {
     public $user_service = null;
     
