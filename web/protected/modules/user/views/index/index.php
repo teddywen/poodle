@@ -1,7 +1,7 @@
 <div class="span10">
 	<div class="row" style="margin-bottom: 20px;">
 		<div class="span2" style="width: 100px;">
-            <a class="btn btn-block btn-info" href="<?php echo Yii::app()->baseUrl?>/user/category/create">新建用户</a>
+            <a class="btn btn-block btn-info" href="<?php echo Yii::app()->baseUrl?>/user/index/create">新建用户</a>
 		</div>
 	</div>
 	<ul class="nav nav-list"> 
@@ -24,10 +24,19 @@
 					编号
 				</th>
 				<th>
-					名称
+					用户名
+				</th>
+				<th>
+					分类名称
+				</th>
+				<th>
+					用户类型
 				</th>
 				<th>
 					状态
+				</th>
+				<th>
+					最后登录时间
 				</th>
 				<th>
 					创建时间
@@ -48,10 +57,22 @@
 					<?php echo $list->id;?>
 				</td>
 				<td>
-					<?php echo $list->cate_name;?>
+					<?php echo $list->username;?>
+				</td>
+				<td>
+					<?php echo $list->gov_cate_name;?>
+				</td>
+				<td>
+					<?php
+					   $u_type_str = isset(Yii::app()->params['gov_user_type'][$list->u_type])?Yii::app()->params['gov_user_type'][$list->u_type]:"";
+					   echo $u_type_str;
+				   ?>
 				</td>
 				<td>
 					<?php echo $list->status==1?'开启':'禁用';?>
+				</td>
+				<td>
+					<?php echo date('Y-m-d H:i:s', $list->last_login_time);?>
 				</td>
 				<td>
 					<?php echo date('Y-m-d H:i:s', $list->create_time);?>

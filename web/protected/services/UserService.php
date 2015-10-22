@@ -1,50 +1,53 @@
 <?php
-//单位分类服务
+//用户服务
 class UserService extends Service
 {
     /**
-     * 获得单位分类列表
+     * 获得用户列表
      * @param int $page 页数
      * @param int $limit 每页个数
      * @param array $condition 条件
-     * @return array 单位分类集合
+     * @return array 用户集合
      */
     public function getAllUsersByPage($page = 1, $limit = 10, $condition = array())
     {
         $criteria = new CDbCriteria();
-        if(isset($condition['cate_name'])){
-            $criteria->compare('cate_name', $condition['cate_name'], true);
-        }
-        if(isset($condition['status'])){
-            $criteria->compare('status', $condition['status']);
-        }
-        $count = GovCategory::model()->count($criteria);
+//         if(isset($condition['user_name'])){
+//             $criteria->compare('user_name', $condition['user_name'], true);
+//         }
+//         if(isset($condition['status'])){
+//             $criteria->compare('status', $condition['status']);
+//         }
+        $count = GovUser::model()->count($criteria);
         $criteria->limit = $limit;
         $criteria->offset = ($page - 1) * $limit;
-        $lists = GovCategory::model()->findAll($criteria);
+        $lists = GovUser::model()->findAll($criteria);
         return array($lists, $count);
     }
     
     /**
-     * 创建单位分类
-     * @param string $cate_name 单位名称
-     * @param int $status 状态
-     * @return GovCategory 单位分类信息
+     * 创建用户
+     * @param array $data 用户信息
+     * @return GovUser 用户信息
      */
-    public function createGovCate($cate_name = '', $status = 0)
+    public function createGovUser($data = array())
     {
-        if(empty($cate_name)){
-            self::$errorMsg = '分类名不能为空';
+        if(empty($data)){
+            self::$errorMsg = '用户信息不能为空';
             return null;
         }
-        if($this->getGovCateByName($cate_name)){
-            self::$errorMsg = '该分类名已经存在';
+        $username = isset($data['username'])?trim($data['username']):"";
+        if(empty($username)){
+            self::$errorMsg = '用户名不能为空';
+            return null;
+        }
+        if($this->getGovUserByName($username)){
+            self::$errorMsg = '该用户名已经存在';
             return null;
         }
         $cur_time = $_SERVER['REQUEST_TIME'];
-        $model = new GovCategory();
-        $model->cate_name = $cate_name;
-        $model->status = $status;
+        $model = new GovUser();
+        $model->attributes = $data;
         $model->create_time = $cur_time;
         $model->update_time = $cur_time;
         if($model->save()){
@@ -55,29 +58,29 @@ class UserService extends Service
     }
     
     /**
-     * 修改单位分类
+     * 修改用户
      * @param int $cid 分类ID
-     * @param string $cate_name 单位名称
+     * @param string $user_name 单位名称
      * @param int $status 状态
-     * @return GovCategory 单位分类信息
+     * @return GovUser 用户信息
      */
-    public function updateGovCate($cid = 0, $cate_name = '', $status = 0)
+    public function updateGovUser($uid = 0, $data = array())
     {
-        $model = $this->getGovCateById($cid);
+        $model = $this->getGovUserById($uid);
         if($model === null){
             self::$errorMsg = '该分类不存在';
             return null;
         }
-        if(empty($cate_name)){
-            self::$errorMsg = '分类名不能为空';
+        if(empty($user_name)){
+            self::$errorMsg = '用户名不能为空';
             return null;
         }
-        if($cate_name != $model->cate_name && $this->getGovCateByName($cate_name)){
-            self::$errorMsg = '该分类名已经存在';
+        if($user_name != $model->user_name && $this->getGovUserByName($username)){
+            self::$errorMsg = '该用户名已经存在';
             return null;
         }
         $cur_time = $_SERVER['REQUEST_TIME'];
-        $model->cate_name = $cate_name;
+        $model->user_name = $user_name;
         $model->status = $status;
         $model->update_time = $cur_time;
         if($model->save()){
@@ -90,22 +93,22 @@ class UserService extends Service
     /**
      * 根据ID查分类
      * @param int $cid 分类ID
-     * @return GovCategory 单位分类信息
+     * @return GovUser 用户信息
      */
-    public function getGovCateById($cid = 0)
+    public function getGovUserById($uid = 0)
     {
-        $model = GovCategory::model()->findByPk($cid);
+        $model = GovUser::model()->findByPk($uid);
         return $model;
     }
     
     /**
-     * 根据分类名查分类
-     * @param string $cate_name 分类名
-     * @return GovCategory 单位分类信息
+     * 根据用户名查用户
+     * @param string $username 用户名
+     * @return GovUser 用户信息
      */
-    public function getGovCateByName($cate_name = '')
+    public function getGovUserByName($username = '')
     {
-        $model = GovCategory::model()->findByAttributes(array('cate_name' => $cate_name));
+        $model = GovUser::model()->findByAttributes(array('username' => $username));
         return $model;
     }
     
@@ -117,7 +120,7 @@ class UserService extends Service
      */
     public function changeStatus($cid = 0, $status = 0)
     {
-        $res = GovCategory::model()->updateByPk($cid, array('status' => $status));
+        $res = GovUser::model()->updateByPk($cid, array('status' => $status));
         return $res;
     }
 }

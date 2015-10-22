@@ -26,6 +26,16 @@ class CategoryService extends Service
     }
     
     /**
+     * 获得所有有效的分类
+     * @return GovCategory 分类集合
+     */
+    public function getAvailableCate()
+    {
+        $model = GovCategory::model()->findAllByAttributes(array('status' => 1));
+        return $model;
+    }
+    
+    /**
      * 创建单位分类
      * @param string $cate_name 单位名称
      * @param int $status 状态
