@@ -35,7 +35,7 @@ class GovUser extends CActiveRecord
 		return array(
 			array('gov_cate_id, u_type, last_login_time, status, create_time, update_time', 'numerical', 'integerOnly'=>true),
 			array('username', 'length', 'max'=>150),
-			array('password', 'length', 'max'=>32),
+			array('password', 'length', 'max'=>255),
 			array('gov_cate_name', 'length', 'max'=>55),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

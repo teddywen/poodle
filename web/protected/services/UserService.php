@@ -58,11 +58,14 @@ class UserService extends Service
         $cate_id = isset($data['gov_cate_id'])?$data['gov_cate_id']:0;
         $cate_info = $cate_service->getGovCateById($cate_id);
         $model->attributes = $data;
-        $model->password = md5(self::DEFAULT_PWD);
+        $model->password = CPasswordHelper::hashPassword(self::DEFAULT_PWD);
         $model->gov_cate_name = $cate_info===null?"":$cate_info->cate_name;
         $model->create_time = $cur_time;
         $model->update_time = $cur_time;
         if($model->save()){
+            if (isset(Yii::app()->params["gov_type_role"][$model->u_type])) {
+                Yii::app()->authManager->assign(Yii::app()->params["gov_type_role"][$model->u_type], $model->id);
+            }
             return $model;
         }
         self::$errorMsg = print_r($model->getErrors(), true);
@@ -97,10 +100,11 @@ class UserService extends Service
         $cate_id = isset($data['gov_cate_id'])?$data['gov_cate_id']:0;
         $cate_info = $cate_service->getGovCateById($cate_id);
         $model->attributes = $data;
-        $model->password = md5(self::DEFAULT_PWD);
+        $model->password = CPasswordHelper::hashPassword(self::DEFAULT_PWD);
         $model->gov_cate_name = $cate_info===null?"":$cate_info->cate_name;
         $model->update_time = $cur_time;
         if($model->save()){
+            // @TODO change role in srbac
             return $model;
         }
         self::$errorMsg = print_r($model->getErrors(), true);
@@ -148,7 +152,7 @@ class UserService extends Service
      */
     public function resetUserPwd($uid = 0)
     {
-        $res = GovUser::model()->updateByPk($uid, array('password' => md5(self::DEFAULT_PWD)));
+        $res = GovUser::model()->updateByPk($uid, array('password' => CPasswordHelper::hashPassword(self::DEFAULT_PWD)));
         return $res;
     }
 }

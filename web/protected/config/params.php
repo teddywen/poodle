@@ -15,5 +15,11 @@ return array(
         '2' => '上传问题人员',
         '3' => '管理员', // 
         '4' => '超级管理员', 
-    )
+    ), 
+    'gov_type_role' => array(
+        '1' => 'unit',
+        '2' => 'finder',
+        '3' => 'admin', // 
+        '4' => 'superAdmin', 
+    ), 
 );
