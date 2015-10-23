@@ -95,6 +95,7 @@ class UserService extends Service
             self::$errorMsg = '该用户名已经存在';
             return null;
         }
+        $old_u_type = $model->u_type;
         $cur_time = $_SERVER['REQUEST_TIME'];
         $cate_service = new CategoryService();
         $cate_id = isset($data['gov_cate_id'])?$data['gov_cate_id']:0;
@@ -104,7 +105,10 @@ class UserService extends Service
         $model->gov_cate_name = $cate_info===null?"":$cate_info->cate_name;
         $model->update_time = $cur_time;
         if($model->save()){
-            // @TODO change role in srbac
+            if ($old_u_type != $model->u_type && isset(Yii::app()->params["gov_type_role"][$old_u_type]) && isset(Yii::app()->params["gov_type_role"][$model->u_type])) {
+                Yii::app()->authManager->revoke(Yii::app()->params["gov_type_role"][$old_u_type], $model->id);
+                Yii::app()->authManager->assign(Yii::app()->params["gov_type_role"][$model->u_type], $model->id);
+            }
             return $model;
         }
         self::$errorMsg = print_r($model->getErrors(), true);
