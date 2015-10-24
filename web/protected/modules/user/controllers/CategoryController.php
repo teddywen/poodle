@@ -1,5 +1,5 @@
 <?php
-class CategoryController extends AdminController
+class CategoryController extends UserController
 {
     public $cate_service = null;
     

@@ -8,15 +8,15 @@
 <div class="pagination pagination-large">
 	<ul class="page_lists">
 		<li>
-			<a href="javascript:void(0);" data-page="<?php echo $start_num - 1;?>">上一页</a>
+			<a href="javascript:void(0);">上一页</a>
 		</li>
         <?php for($i=$start_num;$i<=$end_num;$i++):?>
 		<li>
-			<a href="javascript:void(0);" data-page="<?php echo $i;?>"><?php echo $i;?></a>
+			<a href="javascript:void(0);"><?php echo $i;?></a>
 		</li>
         <?php endfor;?>
 		<li>
-			<a href="javascript:void(0);" data-page="<?php echo $end_num - 1;?>">下一页</a>
+			<a href="javascript:void(0);">下一页</a>
 		</li>
 	</ul>
 </div>
@@ -24,15 +24,26 @@
     $(function(){
         var options = {
     		currentPage: <?php echo $page;?>,
-    		totalPages: <?php echo $count;?>,
+    		totalPages: <?php echo $max_page_num;?>,
 			numberOfPages:10,
 			pageUrl: function(type, page, current){
 				var cur_url = window.location.href;
-	            var cur_page = $(this).attr(data-page);
-	            var forward_url = cur_url.replace("page=<?php echo $page;?>","page=" + page); 
+	            var forward_url = cur_url;
+	            if(cur_url.indexOf('?') < 0){
+	            	forward_url = forward_url+'?page='+page;
+	            }
+	            else{
+	            	if(cur_url.indexOf('page') < 0){
+	            		forward_url = forward_url + "&page="+page;
+	            	}
+	            	else{
+	            		forward_url = forward_url.replace("page=<?php echo $page;?>","page=" + page); 
+	            	}
+	            }
 			    return forward_url;
 			}
         };
+        $(".pagination").bootstrapPaginator(options);
     });
 </script>
 <?php endif;?>
