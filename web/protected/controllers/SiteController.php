@@ -46,7 +46,7 @@ class SiteController extends Controller
         } else if (Yii::app()->user->checkAccess("admin")) {
             $this->redirect("/user/index");
         } else if (Yii::app()->user->checkAccess("superAdmin")) {
-            $this->redirect("/user/superadmin");
+            $this->redirect("/user/manager");
         } else {
             Yii::app()->user->logout();
             throw new CHttpException(500, Yii::t("Site", "privilige error."));
