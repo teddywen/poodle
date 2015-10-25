@@ -16,7 +16,7 @@ class AdminController extends Controller {
                 'users'=>array('?'),
             ),
             array('allow',
-                'roles'=>array('admin', 'finder'),
+                'roles'=>array('admin'),
             ),
             array('deny',
                 'users'=>array('*'),
