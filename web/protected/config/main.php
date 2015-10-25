@@ -56,7 +56,7 @@ return array(
             'alwaysAllowedPath' => 'srbac.components', //efault: srbac.components must be an existing alias ַ
         ),
         'user' => array(),
-        'image' => array()
+        'problem' => array()
     ),
 
 	// application components

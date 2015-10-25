@@ -1,5 +1,5 @@
 <?php
-class ImageModule extends CWebModule
+class ProblemModule extends CWebModule
 {
     public $defaultController = 'index';
     
