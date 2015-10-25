@@ -51,6 +51,9 @@
     							<a href="<?php echo Yii::app()->baseUrl?>/user/manager">管理员列表</a>
     						</li>
     						<?php endif;?>
+    						<li class="nav-header">
+    							<a href="<?php echo Yii::app()->baseUrl?>/site/logout">退出</a>
+    						</li>
     					</ul>
     				</div>
     			    <!-- 菜单结束-->
