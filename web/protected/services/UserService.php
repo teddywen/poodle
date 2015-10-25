@@ -181,5 +181,10 @@ class UserService extends Service
         $res = GovUser::model()->updateByPk($uid, array('password' => CPasswordHelper::hashPassword(self::DEFAULT_PWD)));
         return $res;
     }
+
+    public function changeUserPwd($uid = 0) {
+        $res = GovUser::model()->updateByPk($uid, array('password' => CPasswordHelper::hashPassword(self::DEFAULT_PWD)));
+        return $res;
+    }
 }
 ?>

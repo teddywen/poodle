@@ -47,6 +47,9 @@
     							<a href="<?php echo Yii::app()->baseUrl?>/user/manager">管理员列表</a>
     						</li>
     						<?php endif;?>
+                            <li class="nav-header">
+                                <a href="<?php echo Yii::app()->baseUrl?>/modpass/index">修改密码</a>
+                            </li>
     						<li class="nav-header">
     							<a href="<?php echo Yii::app()->baseUrl?>/site/logout">退出</a>
     						</li>
