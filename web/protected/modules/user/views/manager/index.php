@@ -1,7 +1,7 @@
 <div class="span10">
 	<div class="row" style="margin-bottom: 20px;">
 		<div class="span2" style="width: 100px;">
-            <a class="btn btn-block btn-info" href="<?php echo Yii::app()->baseUrl?>/user/index/create">新建用户</a>
+            <a class="btn btn-block btn-info" href="<?php echo Yii::app()->baseUrl?>/user/manager/create">新建管理员</a>
 		</div>
 	</div>
 	<ul class="nav nav-list"> 
@@ -9,27 +9,6 @@
     </ul>
 	<form class="form-search form-inline">
 		用户名：<input class="input-medium search-query" name="s_username" value="<?php echo isset($_REQUEST['s_username'])?trim($_REQUEST['s_username']):"";?>" type="text" />
-		<?php $s_gov_cate_id = isset($_REQUEST['s_gov_cate_id'])&&strlen($_REQUEST['s_gov_cate_id'])>0?intval($_REQUEST['s_gov_cate_id']):"";?>
-		单位分类：<select name="s_gov_cate_id" class="form-control input-medium">
-                <option value="">全部</option>
-                <option value="0"<?php if(strlen($s_gov_cate_id)>0&&$s_gov_cate_id==0):?> selected="selected"<?php endif;?>>未分类</option>
-                <?php if(!empty($cates)):?>
-                <?php foreach($cates as $cate):?>
-                <option value="<?php echo $cate->id;?>"<?php if($s_gov_cate_id==$cate->id):?> selected="selected"<?php endif;?>><?php echo $cate->cate_name;?></option>
-                <?php endforeach;?>
-                <?php endif;?>
-            </select>
-		<?php $s_u_type = isset($_REQUEST['s_u_type'])&&strlen($_REQUEST['s_u_type'])>0?intval($_REQUEST['s_u_type']):"";?>
-		用户类型：<select name="s_u_type" class="form-control input-medium">
-                <option value="">全部</option>
-                <?php $u_types = Yii::app()->params['gov_user_type'];?>
-                <?php if(!empty($u_types)):?>
-                <?php foreach($u_types as $key=>$u_type):?>
-                <?php if($key > 2) continue;?>
-                <option value="<?php echo $key;?>"<?php if($s_u_type==$key):?> selected="selected"<?php endif;?>><?php echo $u_type;?></option>
-                <?php endforeach;?>
-                <?php endif;?>
-            </select>
 		<?php $s_status = isset($_REQUEST['s_status'])&&strlen($_REQUEST['s_status'])>0?intval($_REQUEST['s_status']):"";?>
 		状态：<select name="s_status" class="form-control input-medium">
                 <option value="">全部</option>
@@ -102,7 +81,7 @@
 					<?php echo date('Y-m-d H:i:s', $list->update_time) ;?>
 				</td>
 				<td>
-				    <a href="<?php echo Yii::app()->baseUrl?>/user/index/update?id=<?php echo $list->id;?>" class="btn btn-primary">修改</a>
+				    <a href="<?php echo Yii::app()->baseUrl?>/user/manager/update?id=<?php echo $list->id;?>" class="btn btn-primary">修改</a>
 					<?php if($list->status == 1):?>
 					<a href="javascript:void(0);" data-uid="<?php echo $list->id;?>" class="btn btn-warning btn_disable">禁用</a>
 					<?php else:?>
@@ -145,7 +124,7 @@
     });
     function changeCateStatus(uid, status){
         $.ajax({
-            url:"/user/index/changeStatus",
+            url:"/user/manager/changeStatus",
             dataType:"json",
             data:{uid:uid,status:status},
             success:function(res){

@@ -11,33 +11,6 @@
 		</div>
 	</div>
 	<div class="control-group">
-		<label class="control-label" for="inputEmail">单位分类：</label>
-		<div class="controls">
-            <select name="gov_cate_id">
-                <option value="0">未分类</option>
-                <?php if(!empty($cates)):?>
-                <?php foreach($cates as $cate):?>
-                <option value="<?php echo $cate->id;?>"<?php if($model->gov_cate_id==$cate->id):?> selected="selected"<?php endif;?>><?php echo $cate->cate_name;?></option>
-                <?php endforeach;?>
-                <?php endif;?>
-            </select>
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label" for="inputEmail">用户类型：</label>
-		<div class="controls">
-            <select name="u_type" required>
-                <?php $u_types = Yii::app()->params['gov_user_type'];?>
-                <?php if(!empty($u_types)):?>
-                <?php foreach($u_types as $key=>$u_type):?>
-                <?php if($key > 2) continue;?>
-                <option value="<?php echo $key;?>" <?php if($model->u_type==$key):?> selected="selected"<?php endif;?>><?php echo $u_type;?></option>
-                <?php endforeach;?>
-                <?php endif;?>
-            </select>
-		</div>
-	</div>
-	<div class="control-group">
 		<label class="control-label">是否有效：</label>
 		<div class="controls">
 			<label class="radio inline">
@@ -69,7 +42,7 @@
     });
     function resetUserPwd(uid){
         $.ajax({
-            url:"<?php echo Yii::app()->baseUrl;?>/user/index/resetPwd",
+            url:"<?php echo Yii::app()->baseUrl;?>/user/manager/resetPwd",
             dataType:"json",
             data:{uid:uid},
             success:function(res){

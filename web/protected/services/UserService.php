@@ -25,6 +25,28 @@ class UserService extends Service
         if(isset($condition['status'])){
             $criteria->compare('status', $condition['status']);
         }
+        $criteria->addInCondition('u_type', array(1,2));
+        $count = GovUser::model()->count($criteria);
+        $criteria->limit = $limit;
+        $criteria->offset = ($page - 1) * $limit;
+        $lists = GovUser::model()->findAll($criteria);
+        return array($lists, $count);
+    }
+    
+    /**
+     * 获得管理员列表
+     * @param int $page 页数
+     * @param int $limit 每页个数
+     * @param array $condition 条件
+     * @return array 管理员集合
+     */
+    public function getAllManagersByPage($page = 1, $limit = 10, $condition = array())
+    {
+        $criteria = new CDbCriteria();
+        if(isset($condition['username'])){
+            $criteria->compare('username', $condition['username'], true);
+        }
+        $criteria->compare('u_type', 3);
         $count = GovUser::model()->count($criteria);
         $criteria->limit = $limit;
         $criteria->offset = ($page - 1) * $limit;

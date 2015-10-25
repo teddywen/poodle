@@ -21,6 +21,7 @@
     			<div class="row">
     				<div class="span2">
     					<ul class="nav nav-list well">
+                            <?php if(!Yii::app()->user->checkAccess('superAdmin')):?>
     						<li class="nav-header">
     							列表标题
     						</li>
@@ -33,7 +34,7 @@
     						<li>
     							<a href="#">应用</a>
     						</li>
-    						<li class="nav-header" style="font-">
+    						<li class="nav-header">
     							用户管理
     						</li>
     						<li>
@@ -42,6 +43,14 @@
     						<li>
     							<a href="<?php echo Yii::app()->baseUrl?>/user/category">单位分类</a>
     						</li>
+    						<?php else:?>
+    						<li class="nav-header">
+    							管理员管理
+    						</li>
+    						<li>
+    							<a href="<?php echo Yii::app()->baseUrl?>/user/manager">管理员列表</a>
+    						</li>
+    						<?php endif;?>
     					</ul>
     				</div>
     			    <!-- 菜单结束-->
