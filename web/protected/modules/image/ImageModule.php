@@ -1,12 +1,13 @@
 <?php
-class ProblemModule extends CWebModule
+class ImageModule extends CWebModule
 {
     public $defaultController = 'index';
     
 	public function init(){
 		parent::init();
 		$this->setImport(array(
-		    'problem.components.*'
+		    'image.components.*',
+		    'image.services.*'
 		));
 	}
 

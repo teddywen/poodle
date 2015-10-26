@@ -18,8 +18,8 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
-		'application.services.*', 
-        'application.modules.srbac.controllers.SBaseController',
+		'application.services.*',
+        'application.modules.srbac.controllers.SBaseController'
 	),
 
 	'defaultController'=>'site',
@@ -56,7 +56,8 @@ return array(
             'alwaysAllowedPath' => 'srbac.components', //efault: srbac.components must be an existing alias ַ
         ),
         'user' => array(),
-        'problem' => array()
+        'problem' => array(),
+        'image' => array()
     ),
 
 	// application components

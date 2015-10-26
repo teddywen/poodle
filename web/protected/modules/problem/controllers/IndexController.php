@@ -1,5 +1,5 @@
 <?php
-class IndexController extends ImageController
+class IndexController extends ProblemController
 {
     public function __construct($id){
         parent::__construct($id);

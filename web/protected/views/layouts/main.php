@@ -20,30 +20,38 @@
     			<!-- 菜单开始 -->
     			<div class="row">
     				<div class="span2">
-    					<ul class="nav nav-list well">
+    				    <?php
+    				        $controller_id = strtolower($this->id);
+    				        $action_id = strtolower($this->action->id);
+    				    ?>
+    					<ul class="nav nav-list well" style="font-size: 16px;">
                             <?php if(!Yii::app()->user->checkAccess('superAdmin')):?>
-    						<li class="nav-header">
+    						<?php if(!Yii::app()->user->checkAccess('admin')):?>
+    						<li class="nav-header" style="font-size: 24px;">
     							问题管理
     						</li>
-    						<li class="active">
+    						<li<?php if($controller_id=='release'&&$action_id=='index'):?> class="active"<?php endif;?>>
+    							<a href="<?php echo Yii::app()->baseUrl?>/problem/release">发布问题</a>
+    						</li>
+    						<li>
     							<a href="#">问题列表</a>
     						</li>
-    						<?php if(Yii::app()->user->checkAccess('admin')):?>
-    						<li class="nav-header">
+    						<?php else:?>
+    						<li class="nav-header" style="font-size: 24px;">
     							用户管理
     						</li>
-    						<li>
+    						<li<?php if($controller_id=='index'&&$action_id=='index'):?> class="active"<?php endif;?>>
     							<a href="<?php echo Yii::app()->baseUrl?>/user">用户列表</a>
     						</li>
-    						<li>
+    						<li<?php if($controller_id=='category'&&$action_id=='index'):?> class="active"<?php endif;?>>
     							<a href="<?php echo Yii::app()->baseUrl?>/user/category">单位分类</a>
     						</li>
     						<?php endif;?>
     						<?php else:?>
-    						<li class="nav-header">
+    						<li class="nav-header" style="font-size: 24px;">
     							管理员管理
     						</li>
-    						<li>
+    						<li<?php if($controller_id=='manager'&&$action_id=='index'):?> class="active"<?php endif;?>>
     							<a href="<?php echo Yii::app()->baseUrl?>/user/manager">管理员列表</a>
     						</li>
     						<?php endif;?>

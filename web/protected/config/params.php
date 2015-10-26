@@ -7,12 +7,12 @@ return array(
     //网站所用css文件路径
     'css_url' => '/css',
     //上传图片路径
-    'upload_img_url' => '/upload/images',
+    'upload_img_url' => '/upload/images/',
     //上传文件路径
-    'upload_file_url' => '/upload/files',
+    'upload_file_url' => '/upload/files/',
     'gov_user_type' => array(
-        '1' => '处理问题单位',
-        '2' => '上传问题人员',
+        '1' => '上传问题人员',
+        '2' => '处理问题单位',
         '3' => '管理员', // 
         '4' => '超级管理员', 
     ), 

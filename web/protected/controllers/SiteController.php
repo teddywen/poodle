@@ -42,7 +42,7 @@ class SiteController extends Controller
         if (Yii::app()->user->checkAccess("unit")) {
             $this->redirect("/user/upload");
         } else if (Yii::app()->user->checkAccess("finder")) {
-            $this->redirect("/user/finder");
+            $this->redirect("/problem/release");
         } else if (Yii::app()->user->checkAccess("admin")) {
             $this->redirect("/user/index");
         } else if (Yii::app()->user->checkAccess("superAdmin")) {
