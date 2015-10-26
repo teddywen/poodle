@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: gray
+ * Date: 2015/10/26
+ * Time: 22:42
+ */
+class OperationLogService extends Service
+{
+
+
+    /**
+     * @param int $uid  用户ID
+     * @param int $op_type 操作ID
+     * @param array $options 其他操作数据
+     * @return null|OperationLog
+     */
+    public function writeOperationLog($uid, $op_type, $options = array()) {
+        if(!$uid){
+            self::$errorMsg = '写操作日志时uid为空';
+            return NULL;
+        }
+        if(!$op_type){
+            self::$errorMsg = '写操作日志时操作类型为空';
+            return NULL;
+        }
+
+        if($options) {
+            if(!is_array($options)) {
+                $options = array($options);
+                $options_ser = serialize($options);
+            }
+        }
+
+        $log_model = new OperationLog();
+        $log_model->uid = $uid;
+        $log_model->op_type = $op_type;
+        $log_model->op_time = time();
+        if(isset($options_ser) && $options_ser) {
+            $log_model->op_markup;
+        }
+
+        if($log_model->save()) {
+            return $log_model;
+        }
+        self::$errorMsg = print_r($log_model->getErrors(), TRUE);
+        return NULL;
+    }
+}

@@ -3,6 +3,12 @@
 class SiteController extends Controller
 {
     public $layout = "site";
+    public $op_log_service = NULL;
+
+    public function init() {
+        parent::init();
+        $this->op_log_service = new OperationLogService();
+    }
 
     public function actionIndex() {
         $this->actionLogin();
@@ -34,18 +40,24 @@ class SiteController extends Controller
                 }
             }
         }
-        
+
         $this->render("login", compact("username", "password", "error"));
     }
 
     protected function goToMainPage() {
+        /** @var OperationLogService $op_log_service */
+        $op_log_service = $this->op_log_service;
         if (Yii::app()->user->checkAccess("unit")) {
+            $op_log_service->writeOperationLog(Yii::app()->user->getId(), ConstVariables::OP_USER_LOGIN);
             $this->redirect("/user/upload");
         } else if (Yii::app()->user->checkAccess("finder")) {
+            $op_log_service->writeOperationLog(Yii::app()->user->getId(), ConstVariables::OP_USER_LOGIN);
             $this->redirect("/problem/release");
         } else if (Yii::app()->user->checkAccess("admin")) {
+            $op_log_service->writeOperationLog(Yii::app()->user->getId(), ConstVariables::OP_USER_LOGIN);
             $this->redirect("/user/index");
         } else if (Yii::app()->user->checkAccess("superAdmin")) {
+            $op_log_service->writeOperationLog(Yii::app()->user->getId(), ConstVariables::OP_USER_LOGIN);
             $this->redirect("/user/manager");
         } else {
             Yii::app()->user->logout();
@@ -54,7 +66,10 @@ class SiteController extends Controller
     }
 
     public function actionLogout() {
+        /** @var OperationLogService $op_log_service */
+        $op_log_service = $this->op_log_service;
         if (!Yii::app()->user->getIsGuest()) {
+            $op_log_service->writeOperationLog(Yii::app()->user->getId(), ConstVariables::OP_USER_LOGOUT);
             Yii::app()->user->logout();
         }
         $this->redirect("/site/index");
