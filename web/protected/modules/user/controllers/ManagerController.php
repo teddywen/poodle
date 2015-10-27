@@ -42,8 +42,8 @@ class ManagerController extends SuperAdminController
         $this->pageTitle = '添加管理员';
         $model = new GovUser();
         $result_key = 'create_manager_result';
-        $_POST['u_type'] = 3;
         if(isset($_POST) && $_POST){
+            $_POST['u_type'] = 3;
             $model = $this->user_service->createGovUser($_POST);
             if(empty($model)){
                 Yii::app()->user->setFlash($result_key, $this->user_service->getLastErrMsg());
@@ -67,6 +67,7 @@ class ManagerController extends SuperAdminController
      */
     public function actionUpdate($id)
     {
+        $this->pageTitle = '修改管理员';
         $model = $this->user_service->getGovUserById($id);
         $result_key = 'create_manager_result';
         if(isset($_POST) && $_POST){
