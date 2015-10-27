@@ -11,18 +11,18 @@ class OperationLogService extends Service
 
 
     /**
-     * @param int $uid  用户ID
-     * @param int $op_type 操作ID
-     * @param array $options 其他操作数据
+     * @param int $uid  鐢ㄦ埛ID
+     * @param int $op_type 鎿嶄綔ID
+     * @param array $options 鍏朵粬鎿嶄綔澶囨敞
      * @return null|OperationLog
      */
     public function writeOperationLog($uid, $op_type, $options = array()) {
         if(!$uid){
-            self::$errorMsg = '写操作日志时uid为空';
+            self::$errorMsg = '鐢ㄦ埛uid涓嶈兘涓虹┖';
             return NULL;
         }
         if(!$op_type){
-            self::$errorMsg = '写操作日志时操作类型为空';
+            self::$errorMsg = '鐢ㄦ埛鎿嶄綔ID涓嶈兘涓虹┖';
             return NULL;
         }
 
