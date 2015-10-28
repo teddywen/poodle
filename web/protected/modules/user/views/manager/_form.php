@@ -1,7 +1,8 @@
 <?php if(Yii::app()->user->hasFlash($result_key)):?>
-<p class="lead text-error">
+<div class="alert alert-error">
+	<h4>提示!</h4>
 	<?php echo Yii::app()->user->getFlash($result_key);?>
-</p>
+</div>
 <?php endif;?>
 <form class="form-horizontal validate" method="post">
 	<div class="control-group">

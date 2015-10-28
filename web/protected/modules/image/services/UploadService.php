@@ -8,6 +8,10 @@ class UploadService extends Service
         $upload_path = Yii::app()->params->upload_img_url;
         
         $image = CUploadedFile::getInstanceByName($up_name);
+        if(empty($image->tempName)){
+            self::$errorMsg = '图片上传失败';
+            return null;
+        }
         $size_info = getimagesize($image->tempName);
         $width = $size_info[0];
         $height = $size_info[1];
@@ -20,19 +24,32 @@ class UploadService extends Service
             $new_width = ceil($new_height * $radio);
         }
         else{
-            $new_width = $new_height = self::IMAGE_MAX_SIZE;
+            $new_width = $new_height = self::IMAGE_MAX_SIZE; $radio = 1;
         }
-        $file_name = $_SERVER['DOCUMENT_ROOT'].$upload_path.date('Y-m-d');
-        $this->creteDir($file_name);
+        $upload_date = date('Y-m-d');
+        $file_path = $_SERVER['DOCUMENT_ROOT'].$upload_path.$upload_date;
+        $this->creteDir($file_path);
         list($img_name, $img_extension) = explode('.', $image->name);
-        $file_name = $file_name.'/'.(md5($img_name.$_SERVER['REQUEST_TIME'])).'.'.$img_extension;
+        $file_name = md5($img_name.$_SERVER['REQUEST_TIME']);
+        $image_path = $file_path.'/'.$file_name.'.'.$img_extension;
         Yii::import("ext.EPhpThumb.EPhpThumb");
         $thumb=new EPhpThumb();
         $thumb->init(); //this is needed
         //chain functions
-        $thumb->create($image->tempName)
+        $res = $thumb->create($image->tempName)
         ->resize($new_width, $new_height)
-        ->save($file_name);
+        ->save($image_path);
+        if(!$res){
+            self::$errorMsg = '图片压缩失败';
+            return null;
+        }
+        return array(
+            'img_path' => $upload_date.'/'.$file_name.'.'.$img_extension,
+            'img_size' => array(
+                'radio' => $radio,
+                'width' => $new_width,
+                'height' => $new_height
+            ));
     }
     
     public function creteDir($dir_path = '')

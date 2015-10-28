@@ -21,6 +21,7 @@
     			<div class="row">
     				<div class="span2">
     				    <?php
+    				        $module_id = strtolower($this->module->id);
     				        $controller_id = strtolower($this->id);
     				        $action_id = strtolower($this->action->id);
     				    ?>
@@ -30,21 +31,21 @@
     						<li class="nav-header" style="font-size: 24px;">
     							问题管理
     						</li>
-    						<li<?php if($controller_id=='release'&&$action_id=='index'):?> class="active"<?php endif;?>>
-    							<a href="<?php echo Yii::app()->baseUrl?>/problem/release">发布问题</a>
+    						<li<?php if($module_id=='problem'&&$controller_id=='release'&&$action_id=='index'):?> class="active"<?php endif;?>>
+    							<a href="<?php echo Yii::app()->baseUrl;?>/problem/release">发布问题</a>
     						</li>
-    						<li>
-    							<a href="#">问题列表</a>
+    						<li<?php if($module_id=='problem'&&$controller_id=='index'&&$action_id=='index'):?> class="active"<?php endif;?>>
+    							<a href="<?php echo Yii::app()->baseUrl;?>/problem">问题列表</a>
     						</li>
     						<?php else:?>
     						<li class="nav-header" style="font-size: 24px;">
     							用户管理
     						</li>
     						<li<?php if($controller_id=='index'&&$action_id=='index'):?> class="active"<?php endif;?>>
-    							<a href="<?php echo Yii::app()->baseUrl?>/user">用户列表</a>
+    							<a href="<?php echo Yii::app()->baseUrl;?>/user">用户列表</a>
     						</li>
     						<li<?php if($controller_id=='category'&&$action_id=='index'):?> class="active"<?php endif;?>>
-    							<a href="<?php echo Yii::app()->baseUrl?>/user/category">单位分类</a>
+    							<a href="<?php echo Yii::app()->baseUrl;?>/user/category">单位分类</a>
     						</li>
     						<?php endif;?>
     						<?php else:?>
@@ -52,14 +53,14 @@
     							管理员管理
     						</li>
     						<li<?php if($controller_id=='manager'&&$action_id=='index'):?> class="active"<?php endif;?>>
-    							<a href="<?php echo Yii::app()->baseUrl?>/user/manager">管理员列表</a>
+    							<a href="<?php echo Yii::app()->baseUrl;?>/user/manager">管理员列表</a>
     						</li>
     						<?php endif;?>
                             <li class="nav-header">
-                                <a href="<?php echo Yii::app()->baseUrl?>/modpass/index">修改密码</a>
+                                <a href="<?php echo Yii::app()->baseUrl;?>/modpass/index">修改密码</a>
                             </li>
     						<li class="nav-header">
-    							<a href="<?php echo Yii::app()->baseUrl?>/site/logout">退出</a>
+    							<a href="<?php echo Yii::app()->baseUrl;?>/site/logout">退出</a>
     						</li>
     					</ul>
     				</div>
