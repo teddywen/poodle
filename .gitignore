@@ -2,3 +2,4 @@
 .project
 .settings/*
 web/upload/*
+web/protected/runtime/*
