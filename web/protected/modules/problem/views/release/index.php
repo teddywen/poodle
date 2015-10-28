@@ -10,13 +10,13 @@
 	<div class="control-group">
         <label class="control-label" for="inputEmail">地址：</label>
 		<div class="controls">
-			<input class="input-xxlarge" name="addredd" type="text" required />
+			<input class="input-xxlarge" name="address" type="text" value="<?php echo isset($post_data['address'])?$post_data['address']:"";?>" required />
 		</div>
 	</div>
 	<div class="control-group">
         <label class="control-label" for="inputPassword">问题描述：</label>
 		<div class="controls">
-			<textarea name="description" class="input-xxlarge" rows="5" style="resize: none;" maxlength="255" required></textarea>
+			<textarea name="description" class="input-xxlarge" rows="5" style="resize: none;" maxlength="255" required><?php echo isset($post_data['description'])?$post_data['description']:"";?></textarea>
 		</div>
 	</div>
 	<div class="control-group">
@@ -92,6 +92,6 @@
         var li_obj = $(obj).closest("li");
         var img_name = $(li_obj).attr("data-imgname");
         $(".imgname_lists").find("input[value='"+img_name+"']").remove();
-        $(li_oj).remove();
+        $(li_obj).remove();
     }
 </script>

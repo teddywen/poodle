@@ -4,11 +4,12 @@
  * This is the model class for table "problem_image".
  *
  * The followings are the available columns in table 'problem_image':
- * @property integer $id
+ * @property string $id
+ * @property integer $pid
  * @property string $img_path
  * @property integer $img_type
  * @property integer $status
- * @property integer $create_time
+ * @property string $create_time
  */
 class ProblemImage extends CActiveRecord
 {
@@ -28,11 +29,12 @@ class ProblemImage extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('img_type, status, create_time', 'numerical', 'integerOnly'=>true),
+			array('pid, img_type, status', 'numerical', 'integerOnly'=>true),
 			array('img_path', 'length', 'max'=>150),
+			array('create_time', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, img_path, img_type, status, create_time', 'safe', 'on'=>'search'),
+			array('id, pid, img_path, img_type, status, create_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,6 +56,7 @@ class ProblemImage extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'pid' => 'Pid',
 			'img_path' => 'Img Path',
 			'img_type' => 'Img Type',
 			'status' => 'Status',
@@ -79,11 +82,12 @@ class ProblemImage extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('pid',$this->pid);
 		$criteria->compare('img_path',$this->img_path,true);
 		$criteria->compare('img_type',$this->img_type);
 		$criteria->compare('status',$this->status);
-		$criteria->compare('create_time',$this->create_time);
+		$criteria->compare('create_time',$this->create_time,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

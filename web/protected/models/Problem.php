@@ -5,11 +5,13 @@
  *
  * The followings are the available columns in table 'problem':
  * @property string $id
- * @property string $up_uid
+ * @property string $release_uid
+ * @property string $release_username
  * @property string $address
  * @property string $description
  * @property string $deal_uid
  * @property string $deal_username
+ * @property integer $deal_time
  * @property integer $status
  * @property integer $is_delay
  * @property string $delay_time
@@ -36,13 +38,13 @@ class Problem extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('status, is_delay, is_assistant', 'numerical', 'integerOnly'=>true),
-			array('up_uid, deal_uid, delay_time, create_time, update_time', 'length', 'max'=>10),
-			array('address, deal_username', 'length', 'max'=>150),
+			array('deal_time, status, is_delay, is_assistant', 'numerical', 'integerOnly'=>true),
+			array('release_uid, deal_uid, delay_time, create_time, update_time', 'length', 'max'=>10),
+			array('release_username, address, deal_username', 'length', 'max'=>150),
 			array('description, assist_unit', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, up_uid, address, description, deal_uid, deal_username, status, is_delay, delay_time, is_assistant, assist_unit, create_time, update_time', 'safe', 'on'=>'search'),
+			array('id, release_uid, release_username, address, description, deal_uid, deal_username, deal_time, status, is_delay, delay_time, is_assistant, assist_unit, create_time, update_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,11 +66,13 @@ class Problem extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'up_uid' => 'Up Uid',
+			'release_uid' => 'Release Uid',
+			'release_username' => 'Release Username',
 			'address' => 'Address',
 			'description' => 'Description',
 			'deal_uid' => 'Deal Uid',
 			'deal_username' => 'Deal Username',
+			'deal_time' => 'Deal Time',
 			'status' => 'Status',
 			'is_delay' => 'Is Delay',
 			'delay_time' => 'Delay Time',
@@ -98,11 +102,13 @@ class Problem extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('up_uid',$this->up_uid,true);
+		$criteria->compare('release_uid',$this->release_uid,true);
+		$criteria->compare('release_username',$this->release_username,true);
 		$criteria->compare('address',$this->address,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('deal_uid',$this->deal_uid,true);
 		$criteria->compare('deal_username',$this->deal_username,true);
+		$criteria->compare('deal_time',$this->deal_time);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('is_delay',$this->is_delay);
 		$criteria->compare('delay_time',$this->delay_time,true);

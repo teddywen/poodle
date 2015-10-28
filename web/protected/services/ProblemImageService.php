@@ -17,11 +17,11 @@ class ProblemImageService extends Service
         try{
             $cur_time = $_SERVER['REQUEST_TIME'];
             $db = Yii::app()->db;
-            $sql = "insert into problem_image(img_path,img_type,status,create_time) values ";
+            $sql = "insert into problem_image(pid,img_path,img_type,status,create_time) values ";
             $values_str = "";
             foreach($p_imgs as $p_img){
                 $tmp_path = Yii::app()->params['upload_img_url'].$p_img;
-                $values_str .= ",('{$tmp_path}',{$img_type},1,{$cur_time})";
+                $values_str .= ",({$pid},'{$tmp_path}',{$img_type},1,{$cur_time})";
             }
             $values_str = substr($values_str, 1);
             $sql = $sql.$values_str;
@@ -33,5 +33,22 @@ class ProblemImageService extends Service
             $res = false;
         }
         return $res;
+    }
+    
+    /**
+     * 获得问题相关图片
+     * @param int $pid 问题ID
+     * @param int $img_type 图片类型
+     * @return array 问题图片集合
+     */
+    public function getImagesByPid($pid = 0, $img_type = 1)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->status = 1;
+        $criteria->pid = $pid;
+        $criteria->img_type = $img_type;
+        $criteria->order = 'id asc';
+        $images = ProblemImage::model()->findAll($criteria);
+        return $images;
     }
 }
