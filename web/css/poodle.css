@@ -1,0 +1,20 @@
+.logo {
+    width: 120px;
+    height: 80px;
+}
+.site-center-block {
+    padding: 80px;
+    background-color: #5bc0de;
+    color: #fff;
+}
+.site-center-block-btn {
+    border: 1px white solid;
+    background-color: transparent;
+}
+.site-error-padding {
+    padding: 7px;
+}
+.footer {
+    margin-top: 20px;
+    color: #777;
+}

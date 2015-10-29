@@ -1,0 +1,123 @@
+2015/10/17 05:34:35 [error] [exception.CException] exception 'CException' with message 'CAssetManager.basePath "E:\xampp\htdocs\poodle\web\assets" is invalid. Please make sure the directory exists and is writable by the Web server process.' in E:\xampp\htdocs\poodle\framework\web\CAssetManager.php:138
+Stack trace:
+#0 E:\xampp\htdocs\poodle\framework\web\CAssetManager.php(123): CAssetManager->setBasePath('E:\xampp\htdocs...')
+#1 E:\xampp\htdocs\poodle\framework\web\CAssetManager.php(217): CAssetManager->getBasePath()
+#2 E:\xampp\htdocs\poodle\framework\zii\widgets\CListView.php(217): CAssetManager->publish('E:\xampp\htdocs...')
+#3 E:\xampp\htdocs\poodle\framework\web\CBaseController.php(147): CListView->init()
+#4 E:\xampp\htdocs\poodle\framework\web\CBaseController.php(180): CBaseController->createWidget('zii.widgets.CLi...', Array)
+#5 E:\xampp\htdocs\poodle\web\protected\views\post\index.php(9): CBaseController->widget('zii.widgets.CLi...', Array)
+#6 E:\xampp\htdocs\poodle\framework\web\CBaseController.php(126): require('E:\xampp\htdocs...')
+#7 E:\xampp\htdocs\poodle\framework\web\CBaseController.php(95): CBaseController->renderInternal('E:\xampp\htdocs...', Array, true)
+#8 E:\xampp\htdocs\poodle\framework\web\CController.php(869): CBaseController->renderFile('E:\xampp\htdocs...', Array, true)
+#9 E:\xampp\htdocs\poodle\framework\web\CController.php(782): CController->renderPartial('index', Array, true)
+#10 E:\xampp\htdocs\poodle\web\protected\controllers\PostController.php(136): CController->render('index', Array)
+#11 E:\xampp\htdocs\poodle\framework\web\actions\CInlineAction.php(49): PostController->actionIndex()
+#12 E:\xampp\htdocs\poodle\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#13 E:\xampp\htdocs\poodle\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#14 E:\xampp\htdocs\poodle\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#15 E:\xampp\htdocs\poodle\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#16 E:\xampp\htdocs\poodle\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#17 E:\xampp\htdocs\poodle\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#18 E:\xampp\htdocs\poodle\framework\web\CController.php(291): CFilterChain->run()
+#19 E:\xampp\htdocs\poodle\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#20 E:\xampp\htdocs\poodle\framework\web\CWebApplication.php(282): CController->run('')
+#21 E:\xampp\htdocs\poodle\framework\web\CWebApplication.php(141): CWebApplication->runController('')
+#22 E:\xampp\htdocs\poodle\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#23 E:\xampp\htdocs\poodle\web\index.php(11): CApplication->run()
+#24 {main}
+REQUEST_URI=/poodle/web/
+HTTP_REFERER=http://localhost/poodle/
+---
+2015/10/17 05:41:31 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "post".' in E:\xampp\htdocs\poodle\framework\web\CWebApplication.php:286
+Stack trace:
+#0 E:\xampp\htdocs\poodle\framework\web\CWebApplication.php(141): CWebApplication->runController('')
+#1 E:\xampp\htdocs\poodle\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 E:\xampp\htdocs\poodle\web\index.php(11): CApplication->run()
+#3 {main}
+REQUEST_URI=/poodle/web/
+---
+2015/10/17 05:51:47 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "post".' in E:\xampp\htdocs\poodle\framework\web\CWebApplication.php:286
+Stack trace:
+#0 E:\xampp\htdocs\poodle\framework\web\CWebApplication.php(141): CWebApplication->runController('')
+#1 E:\xampp\htdocs\poodle\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 E:\xampp\htdocs\poodle\web\index.php(11): CApplication->run()
+#3 {main}
+REQUEST_URI=/poodle/web/
+---
+2015/10/17 05:52:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "post".' in E:\xampp\htdocs\poodle\framework\web\CWebApplication.php:286
+Stack trace:
+#0 E:\xampp\htdocs\poodle\framework\web\CWebApplication.php(141): CWebApplication->runController('')
+#1 E:\xampp\htdocs\poodle\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 E:\xampp\htdocs\poodle\web\index.php(11): CApplication->run()
+#3 {main}
+REQUEST_URI=/poodle/web/
+---
+2015/10/17 05:55:01 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "post".' in E:\xampp\htdocs\poodle\framework\web\CWebApplication.php:286
+Stack trace:
+#0 E:\xampp\htdocs\poodle\framework\web\CWebApplication.php(141): CWebApplication->runController('')
+#1 E:\xampp\htdocs\poodle\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 E:\xampp\htdocs\poodle\web\index.php(11): CApplication->run()
+#3 {main}
+REQUEST_URI=/poodle/web/
+---
+2015/10/25 21:06:05 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "favicon.ico"。' in /Users/wenxiang/Workspace/poodle/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Users/wenxiang/Workspace/poodle/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /Users/wenxiang/Workspace/poodle/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Users/wenxiang/Workspace/poodle/web/index.php(11): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+HTTP_REFERER=http://localhost/user
+---
+2015/10/26 20:37:08 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "favicon.ico"。' in /Users/wenxiang/Workspace/poodle/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Users/wenxiang/Workspace/poodle/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /Users/wenxiang/Workspace/poodle/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Users/wenxiang/Workspace/poodle/web/index.php(11): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+HTTP_REFERER=http://localhost/user
+---
+2015/10/26 23:02:51 [error] [php] mkdir(): No such file or directory (/Users/wenxiang/Workspace/poodle/web/protected/modules/image/services/UploadService.php:42)
+Stack trace:
+#0 /Users/wenxiang/Workspace/poodle/web/protected/modules/image/controllers/IndexController.php(7): UploadService->uploadImage()
+#1 /Users/wenxiang/Workspace/poodle/framework/web/actions/CInlineAction.php(49): IndexController->actionIndex()
+#2 /Users/wenxiang/Workspace/poodle/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /Users/wenxiang/Workspace/poodle/framework/web/filters/CFilterChain.php(133): IndexController->runAction()
+#4 /Users/wenxiang/Workspace/poodle/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#5 /Users/wenxiang/Workspace/poodle/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#6 /Users/wenxiang/Workspace/poodle/framework/web/filters/CInlineFilter.php(58): IndexController->filterAccessControl()
+#7 /Users/wenxiang/Workspace/poodle/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#8 /Users/wenxiang/Workspace/poodle/framework/web/CController.php(291): CFilterChain->run()
+#9 /Users/wenxiang/Workspace/poodle/framework/web/CController.php(265): IndexController->runActionWithFilters()
+#10 /Users/wenxiang/Workspace/poodle/framework/web/CWebApplication.php(282): IndexController->run()
+#11 /Users/wenxiang/Workspace/poodle/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#12 /Users/wenxiang/Workspace/poodle/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#13 /Users/wenxiang/Workspace/poodle/web/index.php(11): CWebApplication->run()
+REQUEST_URI=/image
+2015/10/26 23:03:17 [error] [php] mkdir(): No such file or directory (/Users/wenxiang/Workspace/poodle/web/protected/modules/image/services/UploadService.php:42)
+Stack trace:
+#0 /Users/wenxiang/Workspace/poodle/web/protected/modules/image/controllers/IndexController.php(7): UploadService->uploadImage()
+#1 /Users/wenxiang/Workspace/poodle/framework/web/actions/CInlineAction.php(49): IndexController->actionIndex()
+#2 /Users/wenxiang/Workspace/poodle/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /Users/wenxiang/Workspace/poodle/framework/web/filters/CFilterChain.php(133): IndexController->runAction()
+#4 /Users/wenxiang/Workspace/poodle/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#5 /Users/wenxiang/Workspace/poodle/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#6 /Users/wenxiang/Workspace/poodle/framework/web/filters/CInlineFilter.php(58): IndexController->filterAccessControl()
+#7 /Users/wenxiang/Workspace/poodle/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#8 /Users/wenxiang/Workspace/poodle/framework/web/CController.php(291): CFilterChain->run()
+#9 /Users/wenxiang/Workspace/poodle/framework/web/CController.php(265): IndexController->runActionWithFilters()
+#10 /Users/wenxiang/Workspace/poodle/framework/web/CWebApplication.php(282): IndexController->run()
+#11 /Users/wenxiang/Workspace/poodle/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#12 /Users/wenxiang/Workspace/poodle/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#13 /Users/wenxiang/Workspace/poodle/web/index.php(11): CWebApplication->run()
+REQUEST_URI=/image
+2015/10/27 19:49:51 [error] [exception.CHttpException.404] exception 'CHttpException' with message '无法解析请求 "favicon.ico"。' in /Users/wenxiang/Workspace/poodle/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /Users/wenxiang/Workspace/poodle/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /Users/wenxiang/Workspace/poodle/framework/base/CApplication.php(184): CWebApplication->processRequest()
+#2 /Users/wenxiang/Workspace/poodle/web/index.php(11): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+HTTP_REFERER=http://localhost/site/index
+---

@@ -15,11 +15,11 @@ class UserIdentity extends CUserIdentity {
 	public function authenticate() {
 		$record = GovUser::model()->findByAttributes(array('username'=>$this->username));
         if($record === null) {
-        	$this->errorMessage = Yii::t("Site", "user name is not exist.");
+        	$this->errorMessage = "用户名不存在";
             $this->errorCode = self::ERROR_USERNAME_INVALID;
         }
         else if(!CPasswordHelper::verifyPassword($this->password, $record->password)) {
-        	$this->errorMessage = Yii::t("Site", "pass word error.");
+        	$this->errorMessage = "密码不存在";
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         }
         else {
