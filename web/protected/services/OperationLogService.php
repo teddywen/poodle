@@ -47,4 +47,23 @@ class OperationLogService extends Service
         self::$errorMsg = print_r($log_model->getErrors(), TRUE);
         return NULL;
     }
+
+    public function getAllOperationLogsByPage($page = 1, $limit = 10, $condition = array())
+    {
+        $criteria = new CDbCriteria();
+
+        if(isset($condition['op_type'])){
+            $criteria->compare('op_type', $condition['op_type']);
+        }
+        $count = OperationLog::model()->count($criteria);
+        $criteria->limit = $limit;
+        $criteria->offset = ($page - 1) * $limit;
+        $criteria->order = 't.op_time DESC';
+        $lists = OperationLog::model()->with(
+            array(
+                'users' => array('select' => 'username, gov_cate_name, u_type'),
+            )
+        )->findAll($criteria);
+        return array($lists, $count);
+    }
 }

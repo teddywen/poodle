@@ -47,6 +47,9 @@
     						<li<?php if($controller_id=='category'&&$action_id=='index'):?> class="active"<?php endif;?>>
     							<a href="<?php echo Yii::app()->baseUrl;?>/user/category">单位分类</a>
     						</li>
+                            <li <?php if($controller_id=='operation'&&$action_id=='index'):?> class="active"<?php endif;?>>
+                                <a href="<?php echo Yii::app()->baseUrl;?>/user/operation">用户操作日志</a>
+                            </li>
     						<?php endif;?>
     						<?php else:?>
     						<li class="nav-header" style="font-size: 24px;">
@@ -55,6 +58,9 @@
     						<li<?php if($controller_id=='manager'&&$action_id=='index'):?> class="active"<?php endif;?>>
     							<a href="<?php echo Yii::app()->baseUrl;?>/user/manager">管理员列表</a>
     						</li>
+                            <li <?php if($controller_id=='operation'&&$action_id=='index'):?> class="active"<?php endif;?>>
+                                <a href="<?php echo Yii::app()->baseUrl;?>/user/operation">用户操作日志</a>
+                            </li>
     						<?php endif;?>
                             <li class="nav-header">
                                 <a href="<?php echo Yii::app()->baseUrl;?>/modpass/index">修改密码</a>
