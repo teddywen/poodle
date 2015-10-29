@@ -19,29 +19,35 @@ class SiteController extends Controller
             $this->goToMainPage();
         }
 
+        $this->render("login");
+    }
+
+    public function actionDoLogin() {
         $request = Yii::app()->getRequest();
+        if (!$request->getIsAjaxRequest()) {
+            echo CJSON::encode(array("ok"=>false, "msg"=>"Invalid request."));
+            Yii::app()->end();
+        }
+
         $error = "";
         $username = $request->getParam("username", "");
         $password = $request->getParam("password", "");
-
-        $login = $request->getParam("login", null);
-        if ($login !== null) {
-            if (trim($username) == "") {
-                $error = Yii::t("Site", "user name is empty.");
-            } else if ($password == "") {
-                $error = Yii::t("Site", "pass word is empty.");
+        
+        if (trim($username) == "") {
+            $error = "用户名不能为空";
+        } else if ($password == "") {
+            $error = "密码不能为空";
+        } else {
+            $identity = new UserIdentity($username, $password);
+            if($identity->authenticate()) {
+                Yii::app()->user->login($identity, 3600*24*7);
+                echo CJSON::encode(array("ok"=>true, "msg"=>"登陆成功"));
+                Yii::app()->end();
             } else {
-                $identity = new UserIdentity($username, $password);
-                if($identity->authenticate()) {
-                    Yii::app()->user->login($identity, 3600*24*7);
-                    $this->goToMainPage();
-                } else {
-                    $error = $identity->errorMessage;
-                }
+                $error = $identity->errorMessage;
             }
         }
-
-        $this->render("login", compact("username", "password", "error"));
+        echo CJSON::encode(array("ok"=>false, "msg"=>$error));
     }
 
     protected function goToMainPage() {
