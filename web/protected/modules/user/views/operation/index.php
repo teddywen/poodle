@@ -11,11 +11,13 @@
 		</h3>
 
         <form class="form-search form-inline">
-            <?php $s_status = isset($_REQUEST['s_status'])?intval($_REQUEST['s_status']):"";?>
-            状态：<select name="s_status" class="form-control input-medium"><?php print_r($op_type_list)?>
-                <option value="">全部</option>
-                <option value="1"<?php if(strlen($s_status)>0&&$s_status==1):?> selected="selected"<?php endif;?>>启用</option>
-                <option value="0"<?php if(strlen($s_status)>0&&$s_status==0):?> selected="selected"<?php endif;?>>禁用</option>
+            操作类型：<select name="op_type_value" class="form-control input-medium">
+                <option value="" <?php if($op_type_value == ""):?>selected="selected"<?php endif;?>>全部</option>
+                <?php foreach($op_type_list as $op_id => $op_type):?>
+                    <option value="<?php echo $op_id;?>" <?php if($op_type_value == $op_id):?>selected="selected"<?php endif;?>>
+                        <?php echo $op_type;?>
+                    </option>
+                <?php endforeach;?>
             </select>
             <button type="submit" class="btn btn-primary">查找</button>
         </form>
