@@ -18,6 +18,9 @@ class OperationController extends UserController
         $page = filter_input(INPUT_GET, 'page');
         $page = (isset($page) && $page > 0) ? $page : 1;
 
+        $op_type_value = filter_input(INPUT_GET, 'op_type_value');
+        $op_type_value = (isset($op_type_value) && $op_type_value) ? $op_type_value : '';
+
         /** @var OperationLogService $op_service */
         $op_service = $this->op_service;
         list($op_log_list, $count) = $op_service->getAllOperationLogsByPage($page, $this->PAGE_SIZE);
@@ -29,6 +32,7 @@ class OperationController extends UserController
         $data['page'] = $page;
         $data['count'] = $count;
         $data['op_log_list'] = $op_log_list;
+        $data['op_type_value'] = $op_type_value;
         $this->render('index', $data);
     }
 
