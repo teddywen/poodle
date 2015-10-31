@@ -89,7 +89,7 @@
 		</div>
 	</div>
 	<div class="control-group set_deal_time">
-		<label class="control-label" for="inputEmail">完成时间：</label>
+		<label class="control-label" for="inputEmail">完成用时：</label>
 		<div class="controls deal_user_container">
             <?php
                 $deal_month = floor($problem->deal_time / (30 * 24));
