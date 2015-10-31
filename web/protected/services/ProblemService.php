@@ -50,10 +50,26 @@ class ProblemService extends Service
             if(!$res1){
                 throw new Exception(print_r($model->getErrors(), true));
             }
+            
             $pimg_service = new ProblemImageService();
             $res2 = $pimg_service->addNewProblemImage($p_imgs, $model->id);
             if(!$res2){
                 throw new Exception($pimg_service->getLastErrMsg());
+            }
+            
+            $plog_service = new ProblemLogService();
+            $log_data = array(
+                'pid' => $model->id,
+                'pre_status' => 0,
+                'cur_status' => 0,
+                'oper_uid' => Yii::app()->user->id,
+                'oper_user' => Yii::app()->user->name,
+                'log_desc' => Yii::app()->user->name.'发布问题',
+                'create_time' => $cur_time
+            );
+            $res3 = $plog_service->addNewProblemLog($log_data);
+            if(!$res3){
+                throw new Exception(self::getLastErrMsg());
             }
             $res = true;
         }
@@ -129,11 +145,13 @@ class ProblemService extends Service
             $user_service = new UserService();
             $deal_user = $user_service->getGovUserById($deal_uid);
             $problem = $this->getProlemById($pid);
+            $pre_status = $problem->status;
+            $cur_status = self::BE_ASSIGNED;
             $problem->deal_cate_id = $deal_user->gov_cate_id;
             $problem->deal_uid = $deal_uid;
             $problem->deal_username = $deal_user->username;
             $problem->deal_time = $deal_time;
-            $problem->status = self::BE_ASSIGNED;
+            $problem->status = $cur_status;
             $problem->update_time = $cur_time;
             $res1 = $problem->save();
             if(!$res1){
@@ -143,10 +161,11 @@ class ProblemService extends Service
             $plog_service = new ProblemLogService();
             $log_data = array(
                 'pid' => $pid,
-                'pre_status' => self::BE_CREATED,
-                'cur_status' => self::BE_ASSIGNED,
+                'pre_status' => $pre_status,
+                'cur_status' => $cur_status,
                 'oper_uid' => Yii::app()->user->id,
                 'oper_user' => Yii::app()->user->name,
+                'log_desc' => Yii::app()->user->name.'将问题分配给'.$deal_user->username,
                 'create_time' => $cur_time
             );
             $res2 = $plog_service->addNewProblemLog($log_data);
@@ -166,6 +185,177 @@ class ProblemService extends Service
             $transaction->rollback();
         }
         
+        return $res;
+    }
+    
+    /**
+     * 单位接收问题
+     * @param int $pid 问题ID
+     * @throws Exception 错误信息
+     * @return boolean 接受结果
+     */
+    public function acceptProblem($pid = 0)
+    {
+        if(empty($pid)){
+            self::$errorMsg = '问题信息缺失';
+            return false;
+        }
+        
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            $cur_time = $_SERVER['REQUEST_TIME'];
+            $problem = $this->getProlemById($pid);
+            $pre_status = $problem->status;
+            $cur_status = self::BE_DEALING;
+            $problem->status = $cur_status;
+            $problem->update_time = $cur_time;
+            $res1 = $problem->save();
+            if(!$res1){
+                throw new Exception(print_r($problem->getErrors(), true));
+            }
+            
+            $plog_service = new ProblemLogService();
+            $log_data = array(
+                'pid' => $pid,
+                'pre_status' => $pre_status,
+                'cur_status' => $cur_status,
+                'oper_uid' => Yii::app()->user->id,
+                'oper_user' => Yii::app()->user->name,
+                'log_desc' => Yii::app()->user->name.'接受处理问题',
+                'create_time' => $cur_time
+            );
+            
+            $res2 = $plog_service->addNewProblemLog($log_data);
+            if(!$res2){
+                throw new Exception(self::getLastErrMsg());
+            }
+            $res = true;
+        }
+        catch(Exception $e){
+            self::$errorMsg = $e->getMessage();
+            $res = false;
+        }
+        
+        if($res){
+            $transaction->commit();
+        }
+        else{
+            $transaction->rollback();
+        }
+        return $res;
+    }
+    
+    /**
+     * 单位提交处理问题凭证
+     * @param int $pid 问题ID
+     * @param array $solve_images
+     * @throws Exception 错误信息
+     * @return boolean 提交结果
+     */
+    public function solveProblem($pid = 0, $solve_images = array())
+    {
+        if(empty($pid) && empty($solve_images)){
+            self::$errorMsg = '凭证信息缺失';
+            return false;
+        }
+        
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            $cur_time = $_SERVER['REQUEST_TIME'];
+            $problem = $this->getProlemById($pid);
+            $pre_pstatus = $problem->status;
+            $cur_status = self::WAIT_CHECKING;
+            $problem->status = $cur_status;
+            $problem->update_time = $cur_time;
+            $res1 = $problem->save();
+            if(!$res1){
+                throw new Exception(print_r($problem->getErrors(), true));
+            }
+            
+            $pimg_service = new ProblemImageService();
+            $res2 = $pimg_service->addNewProblemImage($solve_images, $pid, 2);
+            if(!$res2){
+                throw new Exception($pimg_service->getLastErrMsg());
+            }
+            
+            $plog_service = new ProblemLogService();
+            $log_data = array(
+                'pid' => $pid,
+                'pre_status' => $pre_pstatus,
+                'cur_status' => $cur_status,
+                'oper_uid' => Yii::app()->user->id,
+                'oper_user' => Yii::app()->user->name,
+                'log_desc' => Yii::app()->user->name.'提交处理问题凭证',
+                'create_time' => $cur_time
+            );
+            $res3 = $plog_service->addNewProblemLog($log_data);
+            if(!$res3){
+                throw new Exception(self::getLastErrMsg());
+            }
+            $res = true;
+        }
+        catch(Exception $e){
+            self::$errorMsg = $e->getMessage();
+            $res = false;
+        }
+        
+        if($res){
+            $transaction->commit();
+        }
+        else{
+            $transaction->rollback();
+        }
+        return $res;
+    }
+    
+    public function setSolveResult($pid = 0, $solve_result = 0)
+    {
+        if(empty($pid) && strlen($solve_result) == 0){
+            self::$errorMsg = '凭证信息缺失';
+            return false;
+        }
+        
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            $cur_time = $_SERVER['REQUEST_TIME'];
+            $problem = $this->getProlemById($pid);
+            $pre_pstatus = $problem->status;
+            $cur_status = $solve_result==1?self::BE_UNQUALIFIED:self::BE_UNQUALIFIED;
+            $problem->status = $cur_status;
+            $problem->update_time = $cur_time;
+            $res1 = $problem->save();
+            if(!$res1){
+                throw new Exception(print_r($problem->getErrors(), true));
+            }
+        
+            $plog_service = new ProblemLogService();
+            $log_data = array(
+                'pid' => $pid,
+                'pre_status' => $pre_pstatus,
+                'cur_status' => $cur_status,
+                'oper_uid' => Yii::app()->user->id,
+                'oper_user' => Yii::app()->user->name,
+                'log_desc' => Yii::app()->user->name.'审核'.$problem->deal_username.'的处理结果',
+                'create_time' => $cur_time
+            );
+        
+            $res2 = $plog_service->addNewProblemLog($log_data);
+            if(!$res2){
+                throw new Exception(self::getLastErrMsg());
+            }
+            $res = true;
+        }
+        catch(Exception $e){
+            self::$errorMsg = $e->getMessage();
+            $res = false;
+        }
+        
+        if($res){
+            $transaction->commit();
+        }
+        else{
+            $transaction->rollback();
+        }
         return $res;
     }
 }

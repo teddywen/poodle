@@ -2,16 +2,7 @@
 $(function(){
 	//提交表单
     $(".btn_submit_form").click(function(){
-        $(".problem_info_form").ajaxSubmit({
-            dataType:"json",
-            success: function(res){
-                var r_msg = res.msg, r_code = res.code;
-                alert(r_msg);
-                if(r_code == 1){
-                    window.location.reload();
-                }
-            }
-        });
+    	submitProblemDealForm();
     });
     //联动选择单位
     $("#gov_cate_id").change(function(){
@@ -19,6 +10,16 @@ $(function(){
         if(cate_id.length > 0){
             getCateUsers(cate_id);
         }
+    });
+    //审核通过处理结果
+    $(".btn_solve_qualified").click(function(){
+    	$(".problem_info_form").append('<input name="solve_result" value="1" type="hidden" />');
+    	submitProblemDealForm();
+    });
+    //审核打回处理结果
+    $(".btn_solve_unqualified").click(function(){
+    	$(".problem_info_form").append('<input name="solve_result" value="0" type="hidden" />');
+    	submitProblemDealForm();
     });
 });
 //页面加载完成执行结束
@@ -60,4 +61,17 @@ function showOptionUsers(user_lists){
 	$("#gov_users").html(user_lists);
 	$("#gov_users").show();
     $(".set_deal_time").show();
+}
+//提交问题处理表单
+function submitProblemDealForm(){
+	$(".problem_info_form").ajaxSubmit({
+        dataType:"json",
+        success: function(res){
+            var r_msg = res.msg, r_code = res.code;
+            alert(r_msg);
+            if(r_code == 1){
+                window.location.reload();
+            }
+        }
+    });
 }

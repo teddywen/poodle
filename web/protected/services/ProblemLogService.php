@@ -10,11 +10,26 @@ class ProblemLogService extends Service
     {
         $problem_log = new ProblemLog();
         $problem_log->attributes = $data;
+        $problem_log->status = 1;
         $res = $problem_log->save();
         if($res){
             return true;
         }
         self::$errorMsg = print_r($problem_log->getErrors(), true);
         return false;
+    }
+    
+    /**
+     * 获得指定问题的处理日志
+     * @param int $pid
+     * @return array 日记集合
+     */
+    public function getProblemLog($pid = 0)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->compare('status', 1);
+        $criteria->compare('pid', $pid);
+        $p_logs = ProblemLog::model()->findAll($criteria);
+        return $p_logs;
     }
 }

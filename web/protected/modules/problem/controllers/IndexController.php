@@ -54,21 +54,9 @@ class IndexController extends ProblemController
         
         $data['problem'] = $problem;
         $data['problem_images'] = $problem_images;
-        
+        $data['pimg_service'] = $pimg_service;
+
         $this->render('view', $data);
-    }
-    
-    public function actionAssignDealUser()
-    {
-        $pid = isset($_POST['pid'])?intval($_POST['pid']):0;
-        unset($_POST['pid']);
-        $res = $this->problem_service->assginDealUser($pid, $_POST);
-        $data['code'] = 1; $data['msg'] = '分配成功';
-        if($res){
-            exit(json_encode($data));
-        }
-        $data['code'] = 0; $data['msg'] = '分配失败';
-        exit(json_encode($data));
     }
 }
 ?>

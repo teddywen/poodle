@@ -1,7 +1,13 @@
 <?php
     $opetate_url = '';
-    if(Yii::app()->user->checkAccess('admin') && in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_ASSIGNED, ProblemService::BE_BACKING))){
-        $opetate_url = '/problem/index/assignDealUser';
+    if(Yii::app()->user->checkAccess('admin') && in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_BACKING))){
+        $opetate_url = '/problem/problemFlow/assignDealUser';
+    }
+    if(Yii::app()->user->checkAccess('unit') && in_array($problem->status, array(ProblemService::BE_ASSIGNED))){
+        $opetate_url = '/problem/problemFlow/acceptProblem';
+    }
+    if(in_array($problem->status, array(ProblemService::WAIT_CHECKING))){
+        $opetate_url = '/problem/problemFlow/setSolveResult';
     }
 ?>
 <h3 class="text-left">问题详情</h3>
@@ -85,7 +91,7 @@
 	<div class="control-group">
 		<label class="control-label" for="inputEmail">指派单位：</label>
 		<div class="controls">
-		  <label class="control-label" style="text-align: left;"><?php echo $problem->deal_username;?></label>
+            <label class="control-label" style="text-align: left;"><?php echo $problem->deal_username;?></label>
 		</div>
 	</div>
 	<div class="control-group set_deal_time">
@@ -114,11 +120,55 @@
             </ul>
 		</div>
 	</div>
+	<?php if(in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_QUALIFIED, ProblemService::BE_UNQUALIFIED, ProblemService::BE_CLOSED))):?>
+	<div class="control-group">
+        <label class="control-label" for="inputPassword">解决图片：</label>
+		<div class="controls">
+            <ul class="unstyled inline img_lists">
+                <?php
+                    $solve_images = $pimg_service->getImagesByPid($problem->id, 2);
+                ?>
+                <?php foreach($solve_images as $solve_image):?>
+                <?php
+                    $img_path = $solve_image->img_path;
+                    $img_radio = round($solve_image->img_width / $solve_image->img_height, 2);
+                    $img_height = 190; $img_width = $img_height * $img_radio;
+                ?>
+                <li style="margin-bottom: 15px;"><img src="<?php echo $img_path;?>" width="<?php echo $img_width;?>" height="<?php echo $img_height;?>" class="img-rounded" /></li>
+            <?php endforeach;?>
+            </ul>
+		</div>
+	</div>
+	<?php endif;?>
 	<?php if(!Yii::app()->user->checkAccess('finder')):?><!-- 是发布人员，本页面只能观看信息，不能再进行操作 -->
 	<div class="control-group">
+        <?php if(Yii::app()->user->checkAccess('admin')):?>
+        <?php if(in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_BACKING))):?>
 		<div class="controls">
-			 <button type="button" class="btn btn-info btn_submit_form">提交</button>
+            <button type="button" class="btn btn-info btn_submit_form">分配</button>
 		</div>
+		<?php endif;?>
+		<?php if(in_array($problem->status, array(ProblemService::WAIT_CHECKING))):?>
+		<div class="controls">
+            <button type="button" name="solve_qualified" class="btn btn-success btn_solve_qualified">通过</button>
+            <button type="button" name="solve_unqualified" class="btn btn-danger btn_solve_unqualified">打回</button>
+		</div>
+		<?php endif;?>
+		<?php endif;?>
+        <?php if(Yii::app()->user->checkAccess('unit')):?>
+		<div class="controls">
+            <?php if(in_array($problem->status, array(ProblemService::BE_ASSIGNED))):?>
+            <button type="button" class="btn btn-success btn_submit_form">接受</button>
+            <?php endif;?>
+            <?php if(in_array($problem->status, array(ProblemService::BE_DEALING))):?>
+            <a href="<?php ?>/problem/solve?pid=<?php echo $problem->id;?>" class="btn btn-primary">上传处理结果</a>
+            <?php endif;?>
+            <?php if(in_array($problem->status, array(ProblemService::BE_ASSIGNED, ProblemService::BE_DEALING))):?>
+            <button type="button" class="btn btn-warning btn_submit_form">申请联动</button>
+            <button type="button" class="btn btn-inverse btn_submit_form">申请延时</button>
+            <?php endif;?>
+		</div>
+        <?php endif;?>
 	</div>
 	<?php endif;?>
 </form>
