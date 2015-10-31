@@ -77,14 +77,14 @@
     function addNewImage(img_info){
         var r_img_path = img_info.img_path;
         var r_img_size = img_info.img_size;
-        var img_radion = r_img_size.radio;
+        var img_radion = r_img_size.radio, t_width = r_img_size.width, t_height = r_img_size.height;
         var img_height = 190;
         var img_width = Math.ceil(img_height * img_radion);
         var img_str = '<img src="/upload/images/'+r_img_path+'" width="'+img_width+'px" height="'+img_height+'px" class="img-rounded" />'
         var li_str = '<li style="margin-bottom: 15px;" data-imgname="'+r_img_path+'">'
             + '<a class="close remove_img" style="color: red;" title="删除">×</a>'
             + img_str + '</i>';
-        $(".imgname_lists").append('<input type="hidden" name="img_names[]" value="'+r_img_path+'" />');
+        $(".imgname_lists").append('<input type="hidden" name="img_names[]" value="'+r_img_path+","+t_width+","+t_height+'" />');
         $(".img_lists").append(li_str);
     }
     //删除照片

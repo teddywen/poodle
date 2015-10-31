@@ -112,11 +112,31 @@ class IndexController extends UserController
         exit(json_encode(array('code' => 0, 'msg' => '修改失败')));
     }
     
+    /**
+     * 重置密码
+     */
     public function actionResetPwd()
     {
         $uid = isset($_REQUEST['uid'])?intval($_REQUEST['uid']):0;
         $res = $this->user_service->resetUserPwd($uid);
         exit(json_encode(array('code' => 1, 'msg' => '重置成功')));
+    }
+    
+    /**
+     * 指派任务时指定分类下的用户ID
+     */
+    public function actionGetCateUsers()
+    {
+        $cate_id = isset($_REQUEST['cate_id'])?intval($_REQUEST['cate_id']):0;
+        $users = $this->user_service->getUserByCate($cate_id);
+        $u_infos = array();
+        if(!empty($users)){
+            foreach($users as $user){
+                $u_infos[] = array('uid' => $user->id, 'username' => $user->username);
+            }
+        }
+        
+        exit(json_encode($u_infos));
     }
 }
 ?>

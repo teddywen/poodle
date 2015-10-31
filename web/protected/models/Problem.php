@@ -9,6 +9,7 @@
  * @property string $release_username
  * @property string $address
  * @property string $description
+ * @property integer $deal_cate_id
  * @property string $deal_uid
  * @property string $deal_username
  * @property integer $deal_time
@@ -38,13 +39,13 @@ class Problem extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('deal_time, status, is_delay, is_assistant', 'numerical', 'integerOnly'=>true),
+			array('deal_cate_id, deal_time, status, is_delay, is_assistant', 'numerical', 'integerOnly'=>true),
 			array('release_uid, deal_uid, delay_time, create_time, update_time', 'length', 'max'=>10),
 			array('release_username, address, deal_username', 'length', 'max'=>150),
 			array('description, assist_unit', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, release_uid, release_username, address, description, deal_uid, deal_username, deal_time, status, is_delay, delay_time, is_assistant, assist_unit, create_time, update_time', 'safe', 'on'=>'search'),
+			array('id, release_uid, release_username, address, description, deal_cate_id, deal_uid, deal_username, deal_time, status, is_delay, delay_time, is_assistant, assist_unit, create_time, update_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,6 +71,7 @@ class Problem extends CActiveRecord
 			'release_username' => 'Release Username',
 			'address' => 'Address',
 			'description' => 'Description',
+			'deal_cate_id' => 'Deal Cate',
 			'deal_uid' => 'Deal Uid',
 			'deal_username' => 'Deal Username',
 			'deal_time' => 'Deal Time',
@@ -106,6 +108,7 @@ class Problem extends CActiveRecord
 		$criteria->compare('release_username',$this->release_username,true);
 		$criteria->compare('address',$this->address,true);
 		$criteria->compare('description',$this->description,true);
+		$criteria->compare('deal_cate_id',$this->deal_cate_id);
 		$criteria->compare('deal_uid',$this->deal_uid,true);
 		$criteria->compare('deal_username',$this->deal_username,true);
 		$criteria->compare('deal_time',$this->deal_time);

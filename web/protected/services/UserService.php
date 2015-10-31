@@ -96,9 +96,7 @@ class UserService extends Service
     
     /**
      * 修改用户
-     * @param int $cid 分类ID
-     * @param string $user_name 单位名称
-     * @param int $status 状态
+     * @param int $uid 用户ID
      * @return GovUser 用户信息
      */
     public function updateGovUser($uid = 0, $data = array())
@@ -138,8 +136,8 @@ class UserService extends Service
     }
     
     /**
-     * 根据ID查分类
-     * @param int $cid 分类ID
+     * 根据ID查用户
+     * @param int $uid 用户ID
      * @return GovUser 用户信息
      */
     public function getGovUserById($uid = 0)
@@ -160,8 +158,8 @@ class UserService extends Service
     }
     
     /**
-     * 修改分类状态
-     * @param int $cid 分类ID
+     * 修改用户状态
+     * @param int $uid 用户ID
      * @param int $status 状态
      * @return boolean 修改结果
      */
@@ -180,6 +178,21 @@ class UserService extends Service
     {
         $res = GovUser::model()->updateByPk($uid, array('password' => CPasswordHelper::hashPassword(self::DEFAULT_PWD)));
         return $res;
+    }
+    
+    /**
+     * 根据单位分类查询用户，用于分配任务
+     * @param int $cate_id 单位分类ID
+     * @return array 用户集合
+     */
+    public function getUserByCate($cate_id = 0)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->compare('gov_cate_id', $cate_id);
+        $criteria->compare('status', 1);
+        $criteria->compare('u_type', 2);
+        $users = GovUser::model()->findAll($criteria);
+        return $users;
     }
 }
 ?>

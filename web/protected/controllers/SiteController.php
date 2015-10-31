@@ -55,13 +55,13 @@ class SiteController extends Controller
         $op_log_service = $this->op_log_service;
         if (Yii::app()->user->checkAccess("unit")) {
             $op_log_service->writeOperationLog(Yii::app()->user->getId(), ConstVariables::OP_USER_LOGIN);
-            $this->redirect("/user/upload");
+            $this->redirect("/problem");
         } else if (Yii::app()->user->checkAccess("finder")) {
             $op_log_service->writeOperationLog(Yii::app()->user->getId(), ConstVariables::OP_USER_LOGIN);
             $this->redirect("/problem/release");
         } else if (Yii::app()->user->checkAccess("admin")) {
             $op_log_service->writeOperationLog(Yii::app()->user->getId(), ConstVariables::OP_USER_LOGIN);
-            $this->redirect("/user/index");
+            $this->redirect("/problem");
         } else if (Yii::app()->user->checkAccess("superAdmin")) {
             $op_log_service->writeOperationLog(Yii::app()->user->getId(), ConstVariables::OP_USER_LOGIN);
             $this->redirect("/user/manager");

@@ -5,8 +5,11 @@
 	<meta name="language" content="en" />
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 	<link href="<?php echo Yii::app()->params->css_url;?>/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+	<link href="<?php echo Yii::app()->params->css_url;?>/my_style.css" rel="stylesheet">
 	<script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/jquery.form.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/bootstrap/bootstrap-paginator.min.js"></script>
+	
 </head>
 <body>
     <div class="container">
@@ -27,24 +30,25 @@
     				    ?>
     					<ul class="nav nav-list well" style="font-size: 16px;">
                             <?php if(!Yii::app()->user->checkAccess('superAdmin')):?>
-    						<?php if(!Yii::app()->user->checkAccess('admin')):?>
     						<li class="nav-header" style="font-size: 24px;">
     							问题管理
     						</li>
+    						<?php if(Yii::app()->user->checkAccess('finder')):?>
     						<li<?php if($module_id=='problem'&&$controller_id=='release'&&$action_id=='index'):?> class="active"<?php endif;?>>
     							<a href="<?php echo Yii::app()->baseUrl;?>/problem/release">发布问题</a>
     						</li>
+    						<?php endif;?>
     						<li<?php if($module_id=='problem'&&$controller_id=='index'&&$action_id=='index'):?> class="active"<?php endif;?>>
     							<a href="<?php echo Yii::app()->baseUrl;?>/problem">问题列表</a>
     						</li>
-    						<?php else:?>
+    						<?php if(Yii::app()->user->checkAccess('admin')):?>
     						<li class="nav-header" style="font-size: 24px;">
     							用户管理
     						</li>
-    						<li<?php if($controller_id=='index'&&$action_id=='index'):?> class="active"<?php endif;?>>
+    						<li<?php if($module_id=='user'&&$controller_id=='index'&&$action_id=='index'):?> class="active"<?php endif;?>>
     							<a href="<?php echo Yii::app()->baseUrl;?>/user">用户列表</a>
     						</li>
-    						<li<?php if($controller_id=='category'&&$action_id=='index'):?> class="active"<?php endif;?>>
+    						<li<?php if($module_id=='user'&&$controller_id=='category'&&$action_id=='index'):?> class="active"<?php endif;?>>
     							<a href="<?php echo Yii::app()->baseUrl;?>/user/category">单位分类</a>
     						</li>
                             <li <?php if($controller_id=='operation'&&$action_id=='index'):?> class="active"<?php endif;?>>
@@ -55,7 +59,7 @@
     						<li class="nav-header" style="font-size: 24px;">
     							管理员管理
     						</li>
-    						<li<?php if($controller_id=='manager'&&$action_id=='index'):?> class="active"<?php endif;?>>
+    						<li<?php if($module_id=='user'&&$controller_id=='manager'&&$action_id=='index'):?> class="active"<?php endif;?>>
     							<a href="<?php echo Yii::app()->baseUrl;?>/user/manager">管理员列表</a>
     						</li>
                             <li <?php if($controller_id=='operation'&&$action_id=='index'):?> class="active"<?php endif;?>>

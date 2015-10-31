@@ -17,11 +17,12 @@ class ProblemImageService extends Service
         try{
             $cur_time = $_SERVER['REQUEST_TIME'];
             $db = Yii::app()->db;
-            $sql = "insert into problem_image(pid,img_path,img_type,status,create_time) values ";
+            $sql = "insert into problem_image(pid,img_path,img_width,img_height,img_type,status,create_time) values ";
             $values_str = "";
             foreach($p_imgs as $p_img){
-                $tmp_path = Yii::app()->params['upload_img_url'].$p_img;
-                $values_str .= ",({$pid},'{$tmp_path}',{$img_type},1,{$cur_time})";
+                list($p_path, $p_width, $p_height) = explode(',', $p_img);
+                $tmp_path = Yii::app()->params['upload_img_url'].$p_path;
+                $values_str .= ",({$pid},'{$tmp_path}','{$p_width}','{$p_height}',{$img_type},1,{$cur_time})";
             }
             $values_str = substr($values_str, 1);
             $sql = $sql.$values_str;
@@ -44,9 +45,9 @@ class ProblemImageService extends Service
     public function getImagesByPid($pid = 0, $img_type = 1)
     {
         $criteria = new CDbCriteria();
-        $criteria->status = 1;
-        $criteria->pid = $pid;
-        $criteria->img_type = $img_type;
+        $criteria->compare('status', 1);
+        $criteria->compare('pid', $pid);
+        $criteria->compare('img_type', $img_type);
         $criteria->order = 'id asc';
         $images = ProblemImage::model()->findAll($criteria);
         return $images;

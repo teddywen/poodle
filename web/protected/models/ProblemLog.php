@@ -1,26 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "problem_image".
+ * This is the model class for table "problem_log".
  *
- * The followings are the available columns in table 'problem_image':
+ * The followings are the available columns in table 'problem_log':
  * @property string $id
- * @property integer $pid
- * @property string $img_path
- * @property integer $img_width
- * @property integer $img_height
- * @property integer $img_type
- * @property integer $status
+ * @property string $pid
+ * @property integer $pre_status
+ * @property integer $cur_status
+ * @property integer $oper_uid
+ * @property string $oper_user
  * @property string $create_time
  */
-class ProblemImage extends CActiveRecord
+class ProblemLog extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'problem_image';
+		return 'problem_log';
 	}
 
 	/**
@@ -31,12 +30,12 @@ class ProblemImage extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('pid, img_width, img_height, img_type, status', 'numerical', 'integerOnly'=>true),
-			array('img_path', 'length', 'max'=>150),
-			array('create_time', 'length', 'max'=>10),
+			array('pre_status, cur_status, oper_uid', 'numerical', 'integerOnly'=>true),
+			array('pid, create_time', 'length', 'max'=>10),
+			array('oper_user', 'length', 'max'=>150),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, pid, img_path, img_width, img_height, img_type, status, create_time', 'safe', 'on'=>'search'),
+			array('id, pid, pre_status, cur_status, oper_uid, oper_user, create_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,11 +58,10 @@ class ProblemImage extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'pid' => 'Pid',
-			'img_path' => 'Img Path',
-			'img_width' => 'Img Width',
-			'img_height' => 'Img Height',
-			'img_type' => 'Img Type',
-			'status' => 'Status',
+			'pre_status' => 'Pre Status',
+			'cur_status' => 'Cur Status',
+			'oper_uid' => 'Oper Uid',
+			'oper_user' => 'Oper User',
 			'create_time' => 'Create Time',
 		);
 	}
@@ -87,12 +85,11 @@ class ProblemImage extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('pid',$this->pid);
-		$criteria->compare('img_path',$this->img_path,true);
-		$criteria->compare('img_width',$this->img_width);
-		$criteria->compare('img_height',$this->img_height);
-		$criteria->compare('img_type',$this->img_type);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('pid',$this->pid,true);
+		$criteria->compare('pre_status',$this->pre_status);
+		$criteria->compare('cur_status',$this->cur_status);
+		$criteria->compare('oper_uid',$this->oper_uid);
+		$criteria->compare('oper_user',$this->oper_user,true);
 		$criteria->compare('create_time',$this->create_time,true);
 
 		return new CActiveDataProvider($this, array(
@@ -104,7 +101,7 @@ class ProblemImage extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ProblemImage the static model class
+	 * @return ProblemLog the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

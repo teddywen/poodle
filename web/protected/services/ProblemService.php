@@ -48,7 +48,7 @@ class ProblemService extends Service
             $model->create_time = $cur_time;
             $res1 = $model->save();
             if(!$res1){
-                throw new  Exception(print_r($model->getErrors(), true));
+                throw new Exception(print_r($model->getErrors(), true));
             }
             $pimg_service = new ProblemImageService();
             $res2 = $pimg_service->addNewProblemImage($p_imgs, $model->id);
@@ -104,5 +104,68 @@ class ProblemService extends Service
         $problems = Problem::model()->findAll($criteria);
         
         return $problems;
+    }
+    
+    /**
+     * 分配处理问题单位
+     * @param int $pid 问题ID
+     * @param array $data 分配信息
+     * @throws Exception 错误信息
+     * @return boolean 分配结果
+     */
+    public function assginDealUser($pid = 0, $data = array())
+    {
+        $deal_uid = isset($data['deal_uid'])?intval($data['deal_uid']):0;
+        if(empty($pid) || empty($deal_uid)){
+            self::$errorMsg = '分配单位有缺失';
+            return false;
+        }
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            $cur_time = $_SERVER['REQUEST_TIME'];
+            $deal_month = isset($data['deal_month'])?intval($data['deal_month']):0;
+            $deal_day = isset($data['deal_day'])?intval($data['deal_day']):1;
+            $deal_time = $deal_month * 30 *24 + $deal_day * 24;
+            $user_service = new UserService();
+            $deal_user = $user_service->getGovUserById($deal_uid);
+            $problem = $this->getProlemById($pid);
+            $problem->deal_cate_id = $deal_user->gov_cate_id;
+            $problem->deal_uid = $deal_uid;
+            $problem->deal_username = $deal_user->username;
+            $problem->deal_time = $deal_time;
+            $problem->status = self::BE_ASSIGNED;
+            $problem->update_time = $cur_time;
+            $res1 = $problem->save();
+            if(!$res1){
+                throw new Exception(print_r($problem->getErrors(), true));
+            }
+            
+            $plog_service = new ProblemLogService();
+            $log_data = array(
+                'pid' => $pid,
+                'pre_status' => self::BE_CREATED,
+                'cur_status' => self::BE_ASSIGNED,
+                'oper_uid' => Yii::app()->user->id,
+                'oper_user' => Yii::app()->user->name,
+                'create_time' => $cur_time
+            );
+            $res2 = $plog_service->addNewProblemLog($log_data);
+            if(!$res2){
+                throw new Exception(self::getLastErrMsg());
+            }
+            $res = true;
+        }
+        catch(Exception $e){
+            $res = false;
+            self::$errorMsg = $e->getMessage();
+        }
+        if($res){
+            $transaction->commit();
+        }
+        else{
+            $transaction->rollback();
+        }
+        
+        return $res;
     }
 }
