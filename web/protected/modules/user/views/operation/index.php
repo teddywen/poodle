@@ -11,6 +11,23 @@
 		</h3>
 
         <form class="form-search form-inline">
+            用户名：<input type="text" name="u_name_value" class="form-control input-small" <?php if($u_name_value):?>value="<?php echo $u_name_value?>"<?php endif;?>>
+            用户所属单位：<select name="u_cate_value" class="form-control input-small">
+                <option value="" <?php if($u_cate_value == ""):?>selected="selected"<?php endif;?>>全部</option>
+                <?php foreach($cates as $cat):?>
+                    <option value="<?php echo $cat->id;?>" <?php if($u_cate_value == $cat->id):?>selected="selected"<?php endif;?>>
+                        <?php echo $cat->cate_name;?>
+                    </option>
+                <?php endforeach;?>
+            </select>
+            用户类型：<select name="u_type_value" class="form-control input-medium">
+                <option value="" <?php if($u_type_value == ""):?>selected="selected"<?php endif;?>>全部</option>
+                <?php foreach($u_types as $u_id => $u_type):?>
+                    <option value="<?php echo $u_id;?>" <?php if($u_type_value == $u_id):?>selected="selected"<?php endif;?>>
+                        <?php echo $u_type;?>
+                    </option>
+                <?php endforeach;?>
+            </select>
             操作类型：<select name="op_type_value" class="form-control input-medium">
                 <option value="" <?php if($op_type_value == ""):?>selected="selected"<?php endif;?>>全部</option>
                 <?php foreach($op_type_list as $op_id => $op_type):?>
@@ -58,7 +75,7 @@
                     <?php echo $list->users->gov_cate_name;?>
                 </td>
                 <td>
-                    <?php echo $u_type[$list->users->u_type];?>
+                    <?php echo $u_types[$list->users->u_type];?>
                 </td>
 				<td>
                     <?php echo $op_type_list[$list->op_type];?>

@@ -51,19 +51,28 @@ class OperationLogService extends Service
     public function getAllOperationLogsByPage($page = 1, $limit = 10, $condition = array())
     {
         $criteria = new CDbCriteria();
+        $criteria->together = TRUE;
+        $criteria->with = array('users');
 
         if(isset($condition['op_type'])){
             $criteria->compare('op_type', $condition['op_type']);
         }
+        if(isset($condition['u_type'])){
+            $criteria->compare('users.u_type', $condition['u_type']);
+        }
+        if(isset($condition['u_cate_value'])){
+            $criteria->compare('users.gov_cate_id', $condition['u_cate_value']);
+        }
+        if(isset($condition['u_name_value'])){
+            $criteria->compare('users.username', $condition['u_name_value'], TRUE);
+        }
+
+
         $count = OperationLog::model()->count($criteria);
         $criteria->limit = $limit;
         $criteria->offset = ($page - 1) * $limit;
         $criteria->order = 't.op_time DESC';
-        $lists = OperationLog::model()->with(
-            array(
-                'users' => array('select' => 'username, gov_cate_name, u_type'),
-            )
-        )->findAll($criteria);
+        $lists = OperationLog::model()->findAll($criteria);
         return array($lists, $count);
     }
 }
