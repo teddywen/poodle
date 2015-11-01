@@ -142,6 +142,8 @@ class ProblemService extends Service
             $deal_month = isset($data['deal_month'])?intval($data['deal_month']):0;
             $deal_day = isset($data['deal_day'])?intval($data['deal_day']):1;
             $deal_time = $deal_month * 30 *24 + $deal_day * 24;
+            $need_assistant = isset($data['need_assistant'])?intval($data['need_assistant']):0;
+            $uint_uids = isset($data['user_ids'])?$data['user_ids']:array();
             $user_service = new UserService();
             $deal_user = $user_service->getGovUserById($deal_uid);
             $problem = $this->getProlemById($pid);
@@ -153,6 +155,8 @@ class ProblemService extends Service
             $problem->deal_time = $deal_time;
             $problem->status = $cur_status;
             $problem->update_time = $cur_time;
+            $problem->is_assistant = $need_assistant;
+            $problem->assist_unit = json_encode($uint_uids);
             $res1 = $problem->save();
             if(!$res1){
                 throw new Exception(print_r($problem->getErrors(), true));
@@ -165,7 +169,7 @@ class ProblemService extends Service
                 'cur_status' => $cur_status,
                 'oper_uid' => Yii::app()->user->id,
                 'oper_user' => Yii::app()->user->name,
-                'log_desc' => Yii::app()->user->name.'将问题分配给'.$deal_user->username,
+                'log_desc' => Yii::app()->user->name.'将问题分配给'.$deal_user->username,"，时长：".$deal_time,
                 'create_time' => $cur_time
             );
             $res2 = $plog_service->addNewProblemLog($log_data);
@@ -377,7 +381,6 @@ class ProblemService extends Service
      */
     public function backProblem($pid = 0, $problem_log_remark = '')
     {
-
         if(empty($pid) && strlen($problem_log_remark) == 0){
             self::$errorMsg = '退单请求信息缺失';
             return false;
@@ -404,6 +407,137 @@ class ProblemService extends Service
                 'oper_uid' => Yii::app()->user->id,
                 'oper_user' => Yii::app()->user->name,
                 'log_desc' => Yii::app()->user->name.'申请问题退单',
+                'remark' => $problem_log_remark,
+                'create_time' => $cur_time
+            );
+        
+            $res2 = $plog_service->addNewProblemLog($log_data);
+            if(!$res2){
+                throw new Exception(self::getLastErrMsg());
+            }
+            $res = true;
+        }
+        catch(Exception $e){
+            self::$errorMsg = $e->getMessage();
+            $res = false;
+        }
+        
+        if($res){
+            $transaction->commit();
+        }
+        else{
+            $transaction->rollback();
+        }
+        return $res;
+    }
+    
+    /**
+     * 设置问题延时信息
+     * @param int $pid 问题ID
+     * @param string $problem_log_remark 延时理由
+     * @param int $delay_time 延时时间
+     * @param int $delay_status 延时状态
+     * @throws Exception 错误信息
+     * @return boolean 申请结果
+     */
+    public function delayProblem($pid = 0, $problem_log_remark = '', $delay_time = 0, $delay_status = 1)
+    {
+        if(empty($pid) && strlen($problem_log_remark) == 0){
+            self::$errorMsg = '延时请求信息缺失';
+            return false;
+        }
+        
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            $cur_time = $_SERVER['REQUEST_TIME'];
+            $problem = $this->getProlemById($pid);
+            $pre_pstatus = $problem->status;
+            $cur_status = self::APPLY_DELAYING;
+            $problem->status = $cur_status;
+            $problem->is_delay = $delay_status;
+            if($delay_time > 0){
+                $problem->delay_time = $delay_time;
+            }
+            $problem->update_time = $cur_time;
+            $res1 = $problem->save();
+            if(!$res1){
+                throw new Exception(print_r($problem->getErrors(), true));
+            }
+        
+            $plog_service = new ProblemLogService();
+            $log_data = array(
+                'pid' => $pid,
+                'pre_status' => $pre_pstatus,
+                'cur_status' => $cur_status,
+                'oper_uid' => Yii::app()->user->id,
+                'oper_user' => Yii::app()->user->name,
+                'log_desc' => Yii::app()->user->name.'申请延时'.$delay_time.'个小时',
+                'remark' => $problem_log_remark,
+                'create_time' => $cur_time
+            );
+        
+            $res2 = $plog_service->addNewProblemLog($log_data);
+            if(!$res2){
+                throw new Exception(self::getLastErrMsg());
+            }
+            $res = true;
+        }
+        catch(Exception $e){
+            self::$errorMsg = $e->getMessage();
+            $res = false;
+        }
+        
+        if($res){
+            $transaction->commit();
+        }
+        else{
+            $transaction->rollback();
+        }
+        return $res;
+    }
+    
+    /**
+     * 问题联动设置
+     * @param int $pid 问题ID
+     * @param string $problem_log_remark 联动理由
+     * @param array $unit_users 联动用户ID集合
+     * @param int $is_assistant 联动状态
+     * @throws Exception 错误信息
+     * @return boolean 设置联动结果
+     */
+    public function assitedProblem($pid = 0, $problem_log_remark = '', $unit_users = array(), $is_assistant = 1)
+    {
+
+        if(empty($pid) && strlen($problem_log_remark) == 0){
+            self::$errorMsg = '联动请求信息缺失';
+            return false;
+        }
+        
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            $cur_time = $_SERVER['REQUEST_TIME'];
+            $problem = $this->getProlemById($pid);
+            $pre_pstatus = $problem->status;
+            $cur_status = self::APPLY_ASSISTING;
+            $problem->status = $cur_status;
+            $problem->is_assistant = $is_assistant;
+            if(!empty($unit_users)){
+                $problem->assist_unit = json_encode($unit_users);
+            }
+            $problem->update_time = $cur_time;
+            $res1 = $problem->save();
+            if(!$res1){
+                throw new Exception(print_r($problem->getErrors(), true));
+            }
+        
+            $plog_service = new ProblemLogService();
+            $log_data = array(
+                'pid' => $pid,
+                'pre_status' => $pre_pstatus,
+                'cur_status' => $cur_status,
+                'oper_uid' => Yii::app()->user->id,
+                'oper_user' => Yii::app()->user->name,
+                'log_desc' => Yii::app()->user->name.'申请联动APPLYASSITED['.json_encode($unit_users).']APPLYASSITED个小时',
                 'remark' => $problem_log_remark,
                 'create_time' => $cur_time
             );

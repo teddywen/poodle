@@ -22,16 +22,86 @@ $(function(){
     });
     //提交打回表单
     $(".btn_solve_unqualified").click(function(){
+    	if($(this).closest("form").find(".problem_log_remark").val().length <= 0){
+    		alert("请填写理由");
+    		return false;
+    	}
     	submitProblemDealForm('solve_unqualified_form');
     });
     //弹出退单理由对话框
     $(".btn_go_back_problem").click(function(){
     	$("#back_problem_modal").modal("show");
     });
-  //提交退单表单
+    //提交退单表单
     $(".btn_back_problem").click(function(){
+    	if($(this).closest("form").find(".problem_log_remark").val().length <= 0){
+    		alert("请填写理由");
+    		return false;
+    	}
     	submitProblemDealForm('back_problem_form');
     });
+    //弹出申请延时对话框
+    $(".btn_go_delay_problem").click(function(){
+    	$("#delay_problem_modal").modal("show");
+    });
+    //提交延时申请表单
+    $(".btn_delay_problem").click(function(){
+    	if($(this).closest("form").find(".problem_log_remark").val().length <= 0){
+    		alert("请填写理由");
+    		return false;
+    	}
+    	submitProblemDealForm('delay_problem_form');
+    });
+    //弹出申请联动对话框
+    $(".btn_go_assisted_problem").click(function(){
+    	$("#assisted_problem_modal").modal("show");
+    });
+    //提交联动申请表单
+    $(".btn_assisted_problem").click(function(){
+    	if($(this).closest("form").find(".problem_log_remark").val().length <= 0){
+    		alert("请填写理由");
+    		return false;
+    	}
+    	submitProblemDealForm('assisted_problem_form');
+    });
+    //重新分配联动
+    $(".btn_reset_assisted").click(function(){
+    	$(".reset_assisted_units").show();
+    });
+    //判断是否需要联动
+    $(".rdi_need_assistant").click(function(){
+    	var cur_value = $(this).val();
+    	if(cur_value == 1){
+    		$(".assisted_units_lists").show();
+    	}
+    	else{
+    		$(".assisted_units_lists").hide();
+    	}
+    });
+//    //弹出检查延时申请对话框
+//    $(".btn_go_check_delayapply").click(function(){
+//    	$("#check_delay_modal").modal("show");
+//    });
+//    //提交检查延时申请表单
+//    $(".btn_check_delayapply").click(function(){
+//    	if($(this).closest("form").find(".problem_log_remark").val().length <= 0){
+//    		alert("请填写理由");
+//    		return false;
+//    	}
+//    	submitProblemDealForm('check_delay_form');
+//    });
+//    //弹出检查联动申请对话框
+//    $(".btn_go_check_assistedapply").click(function(){
+//    	$("#check_assisted_modal").modal("show");
+//    });
+//    //提交检查联动申请表单
+//    $(".btn_check_assistedapply").click(function(){
+//    	if($(this).closest("form").find(".problem_log_remark").val().length <= 0){
+//    		alert("请填写理由");
+//    		return false;
+//    	}
+//    	submitProblemDealForm('check_assisted_form');
+//    });
 });
 //页面加载完成执行结束
 

@@ -147,6 +147,19 @@ class UserService extends Service
     }
     
     /**
+     * 根据ID查用户
+     * @param array() $uid 用户ID集合
+     * @return GovUser 用户信息集合
+     */
+    public function getGovUserByIds($uids = array())
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('id', $uids);
+        $users = GovUser::model()->findAll($criteria);
+        return $users;
+    }
+    
+    /**
      * 根据用户名查用户
      * @param string $username 用户名
      * @return GovUser 用户信息
@@ -192,6 +205,16 @@ class UserService extends Service
         $criteria->compare('status', 1);
         $criteria->compare('u_type', 2);
         $users = GovUser::model()->findAll($criteria);
+        return $users;
+    }
+    
+    /**
+     * 获得所有有效的用户
+     * @return GovUser 分类集合
+     */
+    public function getAvailableUsers()
+    {
+        $users = GovUser::model()->findAllByAttributes(array('status' => 1, 'u_type' => 2));
         return $users;
     }
 }

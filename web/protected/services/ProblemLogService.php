@@ -35,7 +35,9 @@ class ProblemLogService extends Service
     
     /**
      * 获得指定状态问题的处理日志
-     * @param int $pid
+     * @param int $pid 问题ID
+     * @param int $cur_status 当前状态
+     * @param int $pre_status 上一个状态 
      * @return array 日记集合
      */
     public function getProblemStatusLog($pid = 0, $cur_status = -1, $pre_status = -1)

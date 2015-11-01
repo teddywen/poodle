@@ -72,6 +72,9 @@ class ProblemFlowController extends ProblemController
         exit(json_encode($data));
     }
     
+    /**
+     * 申请退单
+     */
     public function actionBackProblem()
     {
         if(!Yii::app()->user->checkAccess('unit')){
@@ -86,6 +89,51 @@ class ProblemFlowController extends ProblemController
             exit(json_encode($data));
         }
         $data['code'] = 0; $data['msg'] = '退单申请失败';
+        exit(json_encode($data));
+    }
+    
+    /**
+     * 申请延时
+     */
+    public function actionApplyDelayProblem()
+    {
+        if(!Yii::app()->user->checkAccess('unit')){
+            $data['code'] = 0; $data['msg'] = '没有权限';
+            exit(json_encode($data));
+        }
+        $pid = isset($_POST['pid'])?intval($_POST['pid']):0;
+        $problem_log_remark = isset($_POST['problem_log_remark'])?trim($_POST['problem_log_remark']):"";
+        $delay_month = isset($data['delay_month'])?intval($data['delay_month']):0;
+        $delay_day = isset($data['delay_day'])?intval($data['delay_day']):1;
+        $delay_time = $delay_month * 30 *24 + $delay_day * 24;
+        $res = $this->problem_service->delayProblem($pid, $problem_log_remark, $delay_time);
+        $data['code'] = 1; $data['msg'] = '延时申请成功';
+        if($res){
+            exit(json_encode($data));
+        }
+        $data['code'] = 0; $data['msg'] = '延时申请失败';
+        exit(json_encode($data));
+    }
+    
+    /**
+     * 申请联动
+     */
+    public function actionApplyAssitedProblem()
+    {
+
+        if(!Yii::app()->user->checkAccess('unit')){
+            $data['code'] = 0; $data['msg'] = '没有权限';
+            exit(json_encode($data));
+        }
+        $pid = isset($_POST['pid'])?intval($_POST['pid']):0;
+        $problem_log_remark = isset($_POST['problem_log_remark'])?trim($_POST['problem_log_remark']):"";
+        $unit_users = isset($_POST['user_ids'])?$_POST['user_ids']:array();
+        $res = $this->problem_service->assitedProblem($pid, $problem_log_remark, $unit_users);
+        $data['code'] = 1; $data['msg'] = '联动申请成功';
+        if($res){
+            exit(json_encode($data));
+        }
+        $data['code'] = 0; $data['msg'] = '联动申请失败';
         exit(json_encode($data));
     }
 }
