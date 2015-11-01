@@ -50,6 +50,9 @@ class ProblemFlowController extends ProblemController
         exit(json_encode($data));
     }
     
+    /*
+     * 设置处理结果
+     */
     public function actionSetSolveResult()
     {
         if(!Yii::app()->user->checkAccess('admin')){
@@ -58,13 +61,31 @@ class ProblemFlowController extends ProblemController
         }
         $pid = isset($_POST['pid'])?intval($_POST['pid']):0;
         $solve_result = isset($_POST['solve_result'])?intval($_POST['solve_result']):0;
-        $res = $this->problem_service->setSolveResult($pid, $solve_result);
+        $problem_log_remark = isset($_POST['problem_log_remark'])?trim($_POST['problem_log_remark']):0;
+        $res = $this->problem_service->setSolveResult($pid, $solve_result, $problem_log_remark);
 
         $data['code'] = 1; $data['msg'] = '审核成功';
         if($res){
             exit(json_encode($data));
         }
         $data['code'] = 0; $data['msg'] = '审核失败';
+        exit(json_encode($data));
+    }
+    
+    public function actionBackProblem()
+    {
+        if(!Yii::app()->user->checkAccess('unit')){
+            $data['code'] = 0; $data['msg'] = '没有权限';
+            exit(json_encode($data));
+        }
+        $pid = isset($_POST['pid'])?intval($_POST['pid']):0;
+        $problem_log_remark = isset($_POST['problem_log_remark'])?trim($_POST['problem_log_remark']):"";
+        $res = $this->problem_service->backProblem($pid, $problem_log_remark);
+        $data['code'] = 1; $data['msg'] = '退单申请成功';
+        if($res){
+            exit(json_encode($data));
+        }
+        $data['code'] = 0; $data['msg'] = '退单申请失败';
         exit(json_encode($data));
     }
 }

@@ -32,4 +32,24 @@ class ProblemLogService extends Service
         $p_logs = ProblemLog::model()->findAll($criteria);
         return $p_logs;
     }
+    
+    /**
+     * 获得指定状态问题的处理日志
+     * @param int $pid
+     * @return array 日记集合
+     */
+    public function getProblemStatusLog($pid = 0, $cur_status = -1, $pre_status = -1)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->compare('status', 1);
+        $criteria->compare('pid', $pid);
+        if($cur_status >= 0){
+            $criteria->compare('cur_status', $cur_status);
+        }
+        if($pre_status >= 0){
+            $criteria->compare('pre_status', $pre_status);
+        }
+        $p_logs = ProblemLog::model()->findAll($criteria);
+        return $p_logs;
+    }
 }

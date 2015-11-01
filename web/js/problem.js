@@ -2,7 +2,7 @@
 $(function(){
 	//提交表单
     $(".btn_submit_form").click(function(){
-    	submitProblemDealForm();
+    	submitProblemDealForm('problem_info_form');
     });
     //联动选择单位
     $("#gov_cate_id").change(function(){
@@ -14,12 +14,23 @@ $(function(){
     //审核通过处理结果
     $(".btn_solve_qualified").click(function(){
     	$(".problem_info_form").append('<input name="solve_result" value="1" type="hidden" />');
-    	submitProblemDealForm();
+    	submitProblemDealForm('problem_info_form');
     });
-    //审核打回处理结果
+    //打回处理结果对话框
+    $(".btn_go_solve_unqualified").click(function(){
+    	$("#solve_unqualified_modal").modal('show');
+    });
+    //提交打回表单
     $(".btn_solve_unqualified").click(function(){
-    	$(".problem_info_form").append('<input name="solve_result" value="0" type="hidden" />');
-    	submitProblemDealForm();
+    	submitProblemDealForm('solve_unqualified_form');
+    });
+    //弹出退单理由对话框
+    $(".btn_go_back_problem").click(function(){
+    	$("#back_problem_modal").modal("show");
+    });
+  //提交退单表单
+    $(".btn_back_problem").click(function(){
+    	submitProblemDealForm('back_problem_form');
     });
 });
 //页面加载完成执行结束
@@ -63,8 +74,8 @@ function showOptionUsers(user_lists){
     $(".set_deal_time").show();
 }
 //提交问题处理表单
-function submitProblemDealForm(){
-	$(".problem_info_form").ajaxSubmit({
+function submitProblemDealForm(submit_form_selector){
+	$("."+submit_form_selector).ajaxSubmit({
         dataType:"json",
         success: function(res){
             var r_msg = res.msg, r_code = res.code;

@@ -1,7 +1,8 @@
 <?php
-    $opetate_url = '';
+    $opetate_url = ''; $assign_control_disabled = 'disbled="disabled"';
     if(Yii::app()->user->checkAccess('admin') && in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_BACKING))){
         $opetate_url = '/problem/problemFlow/assignDealUser';
+        $assign_control_disabled = '';
     }
     if(Yii::app()->user->checkAccess('unit') && in_array($problem->status, array(ProblemService::BE_ASSIGNED))){
         $opetate_url = '/problem/problemFlow/acceptProblem';
@@ -11,7 +12,7 @@
     }
 ?>
 <h3 class="text-left">问题详情</h3>
-<form class="form-horizontal problem_info_form" method="post" action="<?php echo $opetate_url;?>">
+<form class="form-horizontal problem_info_form" method="post" action="<?php echo $opetate_url;?>" onsubmit="return false;">
     <input type="hidden" name="pid" value="<?php echo $problem->id;?>" />
     <div class="imgname_lists" style="display: none;"></div>
 	<div class="control-group">
@@ -20,6 +21,19 @@
 			<label class="control-label" style="text-align: left;"><?php echo ProblemService::$status[$problem->status];?></label>
 		</div>
 	</div>
+	<?php if($problem->status == ProblemService::BE_BACKING):?>
+	<div class="control-group">
+        <label class="control-label" for="inputEmail">退单理由：</label>
+		<div class="controls">
+        <?php
+            $problem_log_service = new ProblemLogService();
+            $log_infos = $problem_log_service->getProblemStatusLog($problem->id, ProblemService::BE_BACKING);
+            $back_info = end($log_infos);
+		?>
+			<label class="control-label" style="text-align: left; width: 100%;"><?php echo !empty($back_info)?$back_info->remark:"";?></label>
+		</div>
+	</div>
+	<?php endif;?>
 	<div class="control-group">
         <label class="control-label" for="inputEmail">地址：</label>
 		<div class="controls">
@@ -45,7 +59,7 @@
             }
         ?>
 		<div class="controls deal_user_container">
-            <select id="gov_cate_id" class="input-xxlarge" style="margin-bottom: 10px;">
+            <select id="gov_cate_id" class="input-xxlarge" <?php echo $assign_control_disabled;?> style="margin-bottom: 10px;">
                 <option value="">未分类</option>
                 <?php if(!empty($gov_cates)):?>
                 <?php foreach($gov_cates as $gov_cate):?>
@@ -59,7 +73,7 @@
                     $gov_users_display = "";
                 }
             ?>
-            <select id="gov_users" name="deal_uid" class="input-xxlarge" style="<?php echo $gov_users_display;?>">
+            <select id="gov_users" name="deal_uid" class="input-xxlarge" <?php echo $assign_control_disabled;?> style="<?php echo $gov_users_display;?>">
             <?php if(empty($gov_users_display)):?>
             <?php foreach($select_gov_users as $select_gov_user):?>
             <option value="<?php echo $select_gov_user->id;?>"<?php if($select_gov_user->id==$problem->deal_uid):?> selected="selected"<?php endif;?>><?php echo $select_gov_user->username;?></option>
@@ -75,12 +89,12 @@
                 $deal_month = floor($problem->deal_time / (30 * 24));
                 $deal_day = ($problem->deal_time - ($deal_month * 30 * 24)) / 24;
             ?>
-            <select id="deal_month" name="deal_month" class="input-large">
+            <select id="deal_month" name="deal_month" <?php echo $assign_control_disabled;?> class="input-large">
                 <?php for($i=0;$i<=12;$i++):?>
                 <option value="<?php echo $i;?>"<?php if($i==$deal_month):?> selected="selected"<?php endif;?>><?php echo $i;?></option>
                 <?php endfor;?>
             </select>&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;
-            <select id="deal_day" name="deal_day" class="input-large">
+            <select id="deal_day" name="deal_day" <?php echo $assign_control_disabled;?> class="input-large">
                 <?php for($i=1;$i<=30;$i++):?>
                 <option value="<?php echo $i;?>"<?php if($i==$deal_day):?> selected="selected"<?php endif;?>><?php echo $i;?></option>
                 <?php endfor;?>
@@ -151,7 +165,7 @@
 		<?php if(in_array($problem->status, array(ProblemService::WAIT_CHECKING))):?>
 		<div class="controls">
             <button type="button" name="solve_qualified" class="btn btn-success btn_solve_qualified">通过</button>
-            <button type="button" name="solve_unqualified" class="btn btn-danger btn_solve_unqualified">打回</button>
+            <button type="button" name="solve_unqualified" class="btn btn-danger btn_go_solve_unqualified">打回</button>
 		</div>
 		<?php endif;?>
 		<?php endif;?>
@@ -159,8 +173,9 @@
 		<div class="controls">
             <?php if(in_array($problem->status, array(ProblemService::BE_ASSIGNED))):?>
             <button type="button" class="btn btn-success btn_submit_form">接受</button>
+            <button type="button" class="btn btn-danger btn_go_back_problem">退单</button>
             <?php endif;?>
-            <?php if(in_array($problem->status, array(ProblemService::BE_DEALING))):?>
+            <?php if(in_array($problem->status, array(ProblemService::BE_DEALING, ProblemService::BE_UNQUALIFIED))):?>
             <a href="<?php ?>/problem/solve?pid=<?php echo $problem->id;?>" class="btn btn-primary">上传处理结果</a>
             <?php endif;?>
             <?php if(in_array($problem->status, array(ProblemService::BE_ASSIGNED, ProblemService::BE_DEALING))):?>
@@ -172,5 +187,15 @@
 	</div>
 	<?php endif;?>
 </form>
+<?php
+    //退单form
+    if(file_exists(dirname(__FILE__).'/_back_problem.php')){
+        require_once(dirname(__FILE__).'/_back_problem.php');
+    }
+    //打回处理结果form
+    if(file_exists(dirname(__FILE__).'/_solve_unqualified.php')){
+        require_once(dirname(__FILE__).'/_solve_unqualified.php');
+    }
+?>
 <script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/file/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/problem.js"></script>

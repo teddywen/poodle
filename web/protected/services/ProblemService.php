@@ -308,7 +308,15 @@ class ProblemService extends Service
         return $res;
     }
     
-    public function setSolveResult($pid = 0, $solve_result = 0)
+    /**
+     * 设置单位处理问题审核结果
+     * @param int $pid 问题ID
+     * @param int $solve_result 处理结果
+     * @param string $problem_log_remark 处理说明
+     * @throws Exception 错误信息
+     * @return boolean 设置结果
+     */
+    public function setSolveResult($pid = 0, $solve_result = 0, $problem_log_remark = '')
     {
         if(empty($pid) && strlen($solve_result) == 0){
             self::$errorMsg = '凭证信息缺失';
@@ -320,7 +328,7 @@ class ProblemService extends Service
             $cur_time = $_SERVER['REQUEST_TIME'];
             $problem = $this->getProlemById($pid);
             $pre_pstatus = $problem->status;
-            $cur_status = $solve_result==1?self::BE_UNQUALIFIED:self::BE_UNQUALIFIED;
+            $cur_status = $solve_result==1?self::BE_QUALIFIED:self::BE_UNQUALIFIED;
             $problem->status = $cur_status;
             $problem->update_time = $cur_time;
             $res1 = $problem->save();
@@ -336,6 +344,67 @@ class ProblemService extends Service
                 'oper_uid' => Yii::app()->user->id,
                 'oper_user' => Yii::app()->user->name,
                 'log_desc' => Yii::app()->user->name.'审核'.$problem->deal_username.'的处理结果',
+                'remark' => $problem_log_remark,
+                'create_time' => $cur_time
+            );
+        
+            $res2 = $plog_service->addNewProblemLog($log_data);
+            if(!$res2){
+                throw new Exception(self::getLastErrMsg());
+            }
+            $res = true;
+        }
+        catch(Exception $e){
+            self::$errorMsg = $e->getMessage();
+            $res = false;
+        }
+        
+        if($res){
+            $transaction->commit();
+        }
+        else{
+            $transaction->rollback();
+        }
+        return $res;
+    }
+    
+    /**
+     * 单位申请退单
+     * @param int $pid 问题ID
+     * @param string $problem_log_remark 退单理由
+     * @throws Exception 错误信息
+     * @return boolean 退单申请结果
+     */
+    public function backProblem($pid = 0, $problem_log_remark = '')
+    {
+
+        if(empty($pid) && strlen($problem_log_remark) == 0){
+            self::$errorMsg = '退单请求信息缺失';
+            return false;
+        }
+        
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            $cur_time = $_SERVER['REQUEST_TIME'];
+            $problem = $this->getProlemById($pid);
+            $pre_pstatus = $problem->status;
+            $cur_status = self::BE_BACKING;
+            $problem->status = $cur_status;
+            $problem->update_time = $cur_time;
+            $res1 = $problem->save();
+            if(!$res1){
+                throw new Exception(print_r($problem->getErrors(), true));
+            }
+        
+            $plog_service = new ProblemLogService();
+            $log_data = array(
+                'pid' => $pid,
+                'pre_status' => $pre_pstatus,
+                'cur_status' => $cur_status,
+                'oper_uid' => Yii::app()->user->id,
+                'oper_user' => Yii::app()->user->name,
+                'log_desc' => Yii::app()->user->name.'申请问题退单',
+                'remark' => $problem_log_remark,
                 'create_time' => $cur_time
             );
         

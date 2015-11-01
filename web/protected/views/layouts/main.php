@@ -7,6 +7,7 @@
 	<link href="<?php echo Yii::app()->params->css_url;?>/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
 	<link href="<?php echo Yii::app()->params->css_url;?>/my_style.css" rel="stylesheet">
 	<script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/bootstrap/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/jquery.form.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/bootstrap/bootstrap-paginator.min.js"></script>
 	

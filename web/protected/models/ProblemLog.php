@@ -11,6 +11,8 @@
  * @property integer $oper_uid
  * @property string $oper_user
  * @property string $log_desc
+ * @property string $remark
+ * @property integer $status
  * @property string $create_time
  */
 class ProblemLog extends CActiveRecord
@@ -31,12 +33,13 @@ class ProblemLog extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('pre_status, cur_status, oper_uid', 'numerical', 'integerOnly'=>true),
+			array('pre_status, cur_status, oper_uid, status', 'numerical', 'integerOnly'=>true),
 			array('pid, create_time', 'length', 'max'=>10),
 			array('oper_user, log_desc', 'length', 'max'=>150),
+			array('remark', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, pid, pre_status, cur_status, oper_uid, oper_user, log_desc, create_time', 'safe', 'on'=>'search'),
+			array('id, pid, pre_status, cur_status, oper_uid, oper_user, log_desc, remark, status, create_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,6 +67,8 @@ class ProblemLog extends CActiveRecord
 			'oper_uid' => 'Oper Uid',
 			'oper_user' => 'Oper User',
 			'log_desc' => 'Log Desc',
+			'remark' => 'Remark',
+			'status' => 'Status',
 			'create_time' => 'Create Time',
 		);
 	}
@@ -93,6 +98,8 @@ class ProblemLog extends CActiveRecord
 		$criteria->compare('oper_uid',$this->oper_uid);
 		$criteria->compare('oper_user',$this->oper_user,true);
 		$criteria->compare('log_desc',$this->log_desc,true);
+		$criteria->compare('remark',$this->remark,true);
+		$criteria->compare('status',$this->status);
 		$criteria->compare('create_time',$this->create_time,true);
 
 		return new CActiveDataProvider($this, array(
