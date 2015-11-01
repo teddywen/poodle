@@ -1,1 +1,13 @@
 .table tr td,.table tr th{text-align: center;}
+
+/*------------------GLOBAL---------------------------*/
+.div-margin-top-10{
+    margin-top: 10px;
+}
+/*------------------GLOBAL END---------------------------*/
+
+/*-------------operation log page--------------------*/
+.operation-log-customer-alert{
+    display: none;
+}
+/*-------------operation log page end--------------------*/

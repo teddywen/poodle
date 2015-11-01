@@ -28,5 +28,7 @@ class Util {
         return $df->formatDateTime($timestamp);
     }
 
-
+    public static function date2timestamp($date, $format_str) {
+        return CDateTimeParser::parse($date, $format_str);
+    }
 }

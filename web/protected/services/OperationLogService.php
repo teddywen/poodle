@@ -66,6 +66,12 @@ class OperationLogService extends Service
         if(isset($condition['u_name_value'])){
             $criteria->compare('users.username', $condition['u_name_value'], TRUE);
         }
+        if(isset($condition['date_from'])){
+            $criteria->compare('op_time', '>=' . $condition['date_from']);
+        }
+        if(isset($condition['date_to'])){
+            $criteria->compare('op_time', '<=' . $condition['date_to']);
+        }
 
 
         $count = OperationLog::model()->count($criteria);
