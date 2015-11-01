@@ -3,3 +3,5 @@
 .settings/*
 web/upload/*
 web/protected/runtime/*
+.idea
+.idea/*
