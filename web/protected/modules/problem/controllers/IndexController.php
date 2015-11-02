@@ -18,8 +18,8 @@ class IndexController extends ProblemController
         $page = isset($_REQUEST['page'])?intval($_REQUEST['page']):1;
         $condition = $this->setSearchCond();
         
-        $count = $this->problem_service->getProblemByPage($page, $this->PAGE_SIZE, array(), true);
-        $problems = $this->problem_service->getProblemByPage($page, $this->PAGE_SIZE);
+        $count = $this->problem_service->getProblemByPage($page, $this->PAGE_SIZE, $condition, true);
+        $problems = $this->problem_service->getProblemByPage($page, $this->PAGE_SIZE, $condition);
         
         $data['count'] = $count;
         $data['problems'] = $problems;
@@ -33,7 +33,16 @@ class IndexController extends ProblemController
      */
     private function setSearchCond()
     {
-        return array();
+        $condition = array();
+        //发布者只能看到自己发布的问题
+        if(Yii::app()->user->checkAccess('finder')){
+            $condition['release_uid'] = Yii::app()->user->id;
+        }
+        //解决者只能看到分配给自己的问题
+        if(Yii::app()->user->checkAccess('unit')){
+            $condition['deal_uid'] = Yii::app()->user->id;
+        }
+        return $condition;
     }
     
     /**
@@ -46,7 +55,7 @@ class IndexController extends ProblemController
         
         $problem = $this->problem_service->getProlemById($id);
         //如果不是当前发布人的发布问题则跳回到列表
-        if(Yii::app()->user->checkAccess('finder') && $problem->release_uid != Yii::app()->user->id){
+        if(Yii::app()->user->checkAccess('finder') && $problem->release_uid != Yii::app()->user->id || Yii::app()->user->checkAccess('unit') && $problem->deal_uid != Yii::app()->user->id){
             $this->redirect(Yii::app()->createUrl('problem'));
         }
         $pimg_service = new ProblemImageService();

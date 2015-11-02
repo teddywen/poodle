@@ -157,7 +157,9 @@
                 }
             ?>
             <label class="control-label" style="text-align: left;width: 100%;"><?php echo $users_str;?></label>
+            <?php if(Yii::app()->user->checkAccess('admin')):?>
             <button type="button" class="btn btn-info btn_reset_assisted">重新分配</button>
+            <?php endif;?>
 		</div>
 	</div>
 	<div class="control-group">

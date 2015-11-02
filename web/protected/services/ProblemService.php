@@ -101,13 +101,24 @@ class ProblemService extends Service
      * 获得问题列表
      * @param int $page 当前页数
      * @param int $limit 每页问题数量
-     * @param array $condion 搜索条件
+     * @param array $condition 搜索条件
      * @param boolean $is_count 是否只进行计数
      * @return int or array 数量或者问题集合
      */
-    public function getProblemByPage($page = 1, $limit = 10 ,$condion = array(), $is_count = false)
+    public function getProblemByPage($page = 1, $limit = 10 ,$condition = array(), $is_count = false)
     {
         $criteria = new CDbCriteria();
+        
+        if(!empty($condition)){
+            foreach($condition as $key=>$cond){
+                if(is_array($cond)){
+                    
+                }
+                else{
+                    $criteria->compare($key, $cond);
+                }
+            }
+        }
         
         if($is_count){
             $count = Problem::model()->count($criteria);
