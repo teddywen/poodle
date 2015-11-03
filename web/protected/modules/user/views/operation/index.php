@@ -3,7 +3,7 @@
 ?>
 <!--<h1>--><?php //echo $this->id . '/' . $this->action->id; ?><!--</h1>-->
 
-<div class="container-fluid">
+<div class="op-log container-fluid">
 <div class="row">
 	<div class="col-md-12">
 		<h3 class="text-info">
@@ -39,7 +39,7 @@
             </select>
             <div>
             <div class="div-margin-top-10 text-center">
-                <span>起始日期：</span>
+                <span>操作日期：</span>
                 <?php
                 $this->widget('zii.widgets.jui.CJuiDatePicker', array(
                     'name' => 'date_from',
@@ -53,7 +53,8 @@
                     ),
                 ));
                 ?>
-                <span>结束日期：</span>
+                <span class="icon-calendar"></span>
+                <span>-</span>
                 <?php
                 $this->widget('zii.widgets.jui.CJuiDatePicker', array(
                     'name' => 'date_to',
@@ -67,6 +68,7 @@
                     ),
                 ));
                 ?>
+                <span class="icon-calendar"></span>
             </div>
             <div class="div-margin-top-10 col-md-12">
                 <div class="text-center">

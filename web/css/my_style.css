@@ -7,7 +7,14 @@
 /*------------------GLOBAL END---------------------------*/
 
 /*-------------operation log page--------------------*/
-.operation-log-customer-alert{
+.op-log .operation-log-customer-alert{
     display: none;
+}
+.op-log .icon-calendar{
+    width: 21px;
+    height: 21px;
+    background-size: 703.5px 238.5px;
+    background-position: -288px -180px;
+    vertical-align: middle;
 }
 /*-------------operation log page end--------------------*/

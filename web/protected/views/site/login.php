@@ -11,7 +11,7 @@
         <div class="site-center-block center-block">
             <h2 class="text-center">问题管理中心</h2>
             <p class="lead text-center">敌军还有三十秒到达战场 碾碎他们...</p>
-            <p class="lead text-center">项目不完成我习主席就倒过来念!!!</p>
+            <p class="lead text-center">项目不完成我李总理就倒过来念!!!</p>
             <div class="text-center"><button type="button" class="site-center-block-btn btn btn-info btn-lg" data-toggle="modal" data-target="#loginModal">马上登录</button></div>
         </div>
     </div>
@@ -71,7 +71,6 @@ $(function(){
             success: function(ret) {
                 if (ret.ok) {
                     $("#error").removeClass("show").addClass("hidden");
-                    alert(ret.msg);
                     window.location.href = "<?php echo Yii::app()->createUrl("site/index"); ?>";
                 } else {
                     $("#error").html(ret.msg).removeClass("hidden").addClass("show");
