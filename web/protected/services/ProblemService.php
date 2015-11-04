@@ -112,7 +112,12 @@ class ProblemService extends Service
         if(!empty($condition)){
             foreach($condition as $key=>$cond){
                 if(is_array($cond)){
-                    
+                    foreach($cond as $k=>$val){
+                        if($k == 'between'){
+                            list($s_v, $e_v) = $val;
+                            $criteria->addBetweenCondition($key, $s_v, $e_v);
+                        }
+                    }
                 }
                 else{
                     $criteria->compare($key, $cond);

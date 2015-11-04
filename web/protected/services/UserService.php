@@ -209,6 +209,20 @@ class UserService extends Service
     }
     
     /**
+     * 根据指定类型查询用户
+     * @param int $u_type 用户类型
+     * @return array 用户集合
+     */
+    public function getUserByType($u_type = 0)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->compare('status', 1);
+        $criteria->compare('u_type', $u_type);
+        $users = GovUser::model()->findAll($criteria);
+        return $users;
+    }
+    
+    /**
      * 获得所有有效的用户
      * @return GovUser 分类集合
      */
