@@ -43,6 +43,12 @@
     							<a href="<?php echo Yii::app()->baseUrl;?>/problem">问题列表</a>
     						</li>
     						<?php if(Yii::app()->user->checkAccess('admin')):?>
+    						<li<?php if($module_id=='problem'&&$controller_id=='releasestatic'&&$action_id=='index'):?> class="active"<?php endif;?>>
+    							<a href="<?php echo Yii::app()->baseUrl;?>/problem/releaseStatic">反馈汇总</a>
+    						</li>
+    						<li<?php if($module_id=='problem'&&$controller_id=='solvestatic'&&$action_id=='index'):?> class="active"<?php endif;?>>
+    							<a href="<?php echo Yii::app()->baseUrl;?>/problem/solveStatic">整改汇总</a>
+    						</li>
     						<li class="nav-header" style="font-size: 24px;">
     							用户管理
     						</li>
