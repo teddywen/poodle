@@ -107,23 +107,7 @@ class ProblemService extends Service
      */
     public function getProblemByPage($page = 1, $limit = 10 ,$condition = array(), $is_count = false)
     {
-        $criteria = new CDbCriteria();
-        
-        if(!empty($condition)){
-            foreach($condition as $key=>$cond){
-                if(is_array($cond)){
-                    foreach($cond as $k=>$val){
-                        if($k == 'between'){
-                            list($s_v, $e_v) = $val;
-                            $criteria->addBetweenCondition($key, $s_v, $e_v);
-                        }
-                    }
-                }
-                else{
-                    $criteria->compare($key, $cond);
-                }
-            }
-        }
+        $criteria = $this->getFindCond($condition);
         
         if($is_count){
             $count = Problem::model()->count($criteria);
@@ -132,7 +116,6 @@ class ProblemService extends Service
         $criteria->limit = $limit;
         $criteria->offset = ($page - 1) * $limit;
         $criteria->order = 'status asc,id asc';
-        
         $problems = Problem::model()->findAll($criteria);
         
         return $problems;
@@ -170,6 +153,7 @@ class ProblemService extends Service
             $problem->deal_username = $deal_user->username;
             $problem->deal_time = $deal_time;
             $problem->status = $cur_status;
+            $problem->assign_time = $cur_time;
             $problem->update_time = $cur_time;
             $problem->is_assistant = $need_assistant;
             $problem->assist_unit = json_encode($uint_uids);
@@ -350,6 +334,7 @@ class ProblemService extends Service
             $pre_pstatus = $problem->status;
             $cur_status = $solve_result==1?self::BE_QUALIFIED:self::BE_UNQUALIFIED;
             $problem->status = $cur_status;
+            $problem->check_time = $cur_time;
             $problem->update_time = $cur_time;
             $res1 = $problem->save();
             if(!$res1){

@@ -11,13 +11,7 @@ class CategoryService extends Service
      */
     public function getAllCatesByPage($page = 1, $limit = 10, $condition = array())
     {
-        $criteria = new CDbCriteria();
-        if(isset($condition['cate_name'])){
-            $criteria->compare('cate_name', $condition['cate_name'], true);
-        }
-        if(isset($condition['status'])){
-            $criteria->compare('status', $condition['status']);
-        }
+        $criteria = $this->getFindCond($condition);
         $count = GovCategory::model()->count($criteria);
         $criteria->limit = $limit;
         $criteria->offset = ($page - 1) * $limit;

@@ -12,19 +12,7 @@ class UserService extends Service
      */
     public function getAllUsersByPage($page = 1, $limit = 10, $condition = array())
     {
-        $criteria = new CDbCriteria();
-        if(isset($condition['username'])){
-            $criteria->compare('username', $condition['username'], true);
-        }
-        if(isset($condition['u_type'])){
-            $criteria->compare('u_type', $condition['u_type']);
-        }
-        if(isset($condition['gov_cate_id'])){
-            $criteria->compare('gov_cate_id', $condition['gov_cate_id']);
-        }
-        if(isset($condition['status'])){
-            $criteria->compare('status', $condition['status']);
-        }
+        $criteria = $this->getFindCond($condition);
         $criteria->addInCondition('u_type', array(1,2));
         $count = GovUser::model()->count($criteria);
         $criteria->limit = $limit;
@@ -42,10 +30,7 @@ class UserService extends Service
      */
     public function getAllManagersByPage($page = 1, $limit = 10, $condition = array())
     {
-        $criteria = new CDbCriteria();
-        if(isset($condition['username'])){
-            $criteria->compare('username', $condition['username'], true);
-        }
+        $criteria = $this->getFindCond($condition);
         $criteria->compare('u_type', 3);
         $count = GovUser::model()->count($criteria);
         $criteria->limit = $limit;

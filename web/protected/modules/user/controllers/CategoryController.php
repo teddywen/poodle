@@ -20,7 +20,7 @@ class CategoryController extends UserController
         $condition = array();
         $s_cate_name = isset($_REQUEST['s_cate_name'])?trim($_REQUEST['s_cate_name']):"";
         if(!empty($s_cate_name)){
-            $condition['cate_name'] = $s_cate_name;
+            $condition['cate_name'] = array('like' => $s_cate_name);
         }
         $s_status = isset($_REQUEST['s_status'])&&strlen(trim($_REQUEST['s_status']))>0?intval($_REQUEST['s_status']):"";
         if(strlen($s_status)){

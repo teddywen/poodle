@@ -170,7 +170,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     	<button type="submit" class="btn btn-primary">查找</button>
     	<?php if(Yii::app()->user->checkAccess('admin')):?>
-        <button type="submit" class="btn btn-success" name="explode_csv">导出订单</button>
+        <button type="submit" class="btn btn-success" name="explode_csv" value="1">导出订单</button>
         <?php endif;?>
     </div>
 </form>

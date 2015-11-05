@@ -19,6 +19,8 @@
  * @property integer $is_assistant
  * @property string $assist_unit
  * @property string $create_time
+ * @property integer $assign_time
+ * @property integer $check_time
  * @property string $update_time
  */
 class Problem extends CActiveRecord
@@ -39,13 +41,13 @@ class Problem extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('deal_cate_id, deal_time, status, is_delay, is_assistant', 'numerical', 'integerOnly'=>true),
+			array('deal_cate_id, deal_time, status, is_delay, is_assistant, assign_time, check_time', 'numerical', 'integerOnly'=>true),
 			array('release_uid, deal_uid, delay_time, create_time, update_time', 'length', 'max'=>10),
 			array('release_username, address, deal_username', 'length', 'max'=>150),
 			array('description, assist_unit', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, release_uid, release_username, address, description, deal_cate_id, deal_uid, deal_username, deal_time, status, is_delay, delay_time, is_assistant, assist_unit, create_time, update_time', 'safe', 'on'=>'search'),
+			array('id, release_uid, release_username, address, description, deal_cate_id, deal_uid, deal_username, deal_time, status, is_delay, delay_time, is_assistant, assist_unit, create_time, assign_time, check_time, update_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -81,6 +83,8 @@ class Problem extends CActiveRecord
 			'is_assistant' => 'Is Assistant',
 			'assist_unit' => 'Assist Unit',
 			'create_time' => 'Create Time',
+			'assign_time' => 'Assign Time',
+			'check_time' => 'Check Time',
 			'update_time' => 'Update Time',
 		);
 	}
@@ -118,6 +122,8 @@ class Problem extends CActiveRecord
 		$criteria->compare('is_assistant',$this->is_assistant);
 		$criteria->compare('assist_unit',$this->assist_unit,true);
 		$criteria->compare('create_time',$this->create_time,true);
+		$criteria->compare('assign_time',$this->assign_time);
+		$criteria->compare('check_time',$this->check_time);
 		$criteria->compare('update_time',$this->update_time,true);
 
 		return new CActiveDataProvider($this, array(

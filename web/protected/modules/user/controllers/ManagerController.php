@@ -19,7 +19,7 @@ class ManagerController extends SuperAdminController
         $condition = array();
         $s_username = isset($_REQUEST['s_username'])?trim($_REQUEST['s_username']):"";
         if(!empty($s_username)){
-            $condition['username'] = $s_username;
+            $condition['username'] = array('like' => $s_username);
         }
         $s_status = isset($_REQUEST['s_status'])&&strlen(trim($_REQUEST['s_status']))>0?intval($_REQUEST['s_status']):"";
         if(strlen($s_status) > 0){
