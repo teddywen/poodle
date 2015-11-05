@@ -25,7 +25,13 @@
 				是否联动
 			</th>
 			<th>
-				创建时间
+				发布时间
+			</th>
+			<th>
+				分配时间
+			</th>
+			<th>
+				审核时间
 			</th>
 			<th>
 				操作
@@ -56,6 +62,12 @@
 			</td>
 			<td>
 				<?php echo date('Y-m-d H:i:s', $problem->create_time) ;?>
+			</td>
+			<td>
+				<?php echo !empty($problem->assign_time)?date('Y-m-d H:i:s', $problem->assign_time):"" ;?>
+			</td>
+			<td>
+				<?php echo !empty($problem->check_time)?date('Y-m-d H:i:s', $problem->check_time):"" ;?>
 			</td>
 			<td>
 			    <a href="<?php echo Yii::app()->baseUrl?>/problem/index/view?id=<?php echo $problem->id;?>" class="btn btn-info">查看</a>
