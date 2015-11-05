@@ -5,6 +5,9 @@
     $end_num = $page * $this->PAGE_SIZE;
     $end_num = $end_num>$max_page_num?$max_page_num:$end_num;
 ?>
+<div>
+总共<?php echo $count;?>条/<?php echo $max_page_num;?>页，当前第<?php echo $page;?>页
+</div>
 <div class="pagination pagination-large">
 	<ul class="page_lists">
 		<li>

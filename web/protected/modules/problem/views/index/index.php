@@ -76,7 +76,7 @@
         <?php endforeach;?>
         <?php else:?>
 		<tr>
-			<td colspan="8">
+			<td colspan="10">
 				暂无数据...
 			</td>
 		</tr>
@@ -84,7 +84,8 @@
 	</tbody>
 </table>
 <?php
-    if(ceil($count / $this->PAGE_SIZE) > 1){
+    $total_page = ceil($count / $this->PAGE_SIZE);
+    if($total_page > 1){
         if(file_exists(Yii::app()->basePath.'/views/common/pager.php')){
             require_once(Yii::app()->basePath.'/views/common/pager.php');
         }

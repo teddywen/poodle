@@ -5,7 +5,7 @@
  */
 class Controller extends CController
 {
-    public $PAGE_SIZE = 10;
+    public $PAGE_SIZE = 1;
     
     public function init(){
         
