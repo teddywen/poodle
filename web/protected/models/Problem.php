@@ -9,18 +9,20 @@
  * @property string $release_username
  * @property string $address
  * @property string $description
- * @property integer $deal_cate_id
+ * @property string $deal_cate_id
  * @property string $deal_uid
  * @property string $deal_username
- * @property integer $deal_time
+ * @property string $deal_time
+ * @property string $accept_time
+ * @property integer $times_up
  * @property integer $status
  * @property integer $is_delay
  * @property string $delay_time
  * @property integer $is_assistant
  * @property string $assist_unit
  * @property string $create_time
- * @property integer $assign_time
- * @property integer $check_time
+ * @property string $assign_time
+ * @property string $check_time
  * @property string $update_time
  */
 class Problem extends CActiveRecord
@@ -41,13 +43,13 @@ class Problem extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('deal_cate_id, deal_time, status, is_delay, is_assistant, assign_time, check_time', 'numerical', 'integerOnly'=>true),
-			array('release_uid, deal_uid, delay_time, create_time, update_time', 'length', 'max'=>10),
+			array('times_up, status, is_delay, is_assistant', 'numerical', 'integerOnly'=>true),
+			array('release_uid, deal_cate_id, deal_uid, deal_time, accept_time, delay_time, create_time, assign_time, check_time, update_time', 'length', 'max'=>10),
 			array('release_username, address, deal_username', 'length', 'max'=>150),
 			array('description, assist_unit', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, release_uid, release_username, address, description, deal_cate_id, deal_uid, deal_username, deal_time, status, is_delay, delay_time, is_assistant, assist_unit, create_time, assign_time, check_time, update_time', 'safe', 'on'=>'search'),
+			array('id, release_uid, release_username, address, description, deal_cate_id, deal_uid, deal_username, deal_time, accept_time, times_up, status, is_delay, delay_time, is_assistant, assist_unit, create_time, assign_time, check_time, update_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -77,6 +79,8 @@ class Problem extends CActiveRecord
 			'deal_uid' => 'Deal Uid',
 			'deal_username' => 'Deal Username',
 			'deal_time' => 'Deal Time',
+			'accept_time' => 'Accept Time',
+			'times_up' => 'Times Up',
 			'status' => 'Status',
 			'is_delay' => 'Is Delay',
 			'delay_time' => 'Delay Time',
@@ -112,18 +116,20 @@ class Problem extends CActiveRecord
 		$criteria->compare('release_username',$this->release_username,true);
 		$criteria->compare('address',$this->address,true);
 		$criteria->compare('description',$this->description,true);
-		$criteria->compare('deal_cate_id',$this->deal_cate_id);
+		$criteria->compare('deal_cate_id',$this->deal_cate_id,true);
 		$criteria->compare('deal_uid',$this->deal_uid,true);
 		$criteria->compare('deal_username',$this->deal_username,true);
-		$criteria->compare('deal_time',$this->deal_time);
+		$criteria->compare('deal_time',$this->deal_time,true);
+		$criteria->compare('accept_time',$this->accept_time,true);
+		$criteria->compare('times_up',$this->times_up);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('is_delay',$this->is_delay);
 		$criteria->compare('delay_time',$this->delay_time,true);
 		$criteria->compare('is_assistant',$this->is_assistant);
 		$criteria->compare('assist_unit',$this->assist_unit,true);
 		$criteria->compare('create_time',$this->create_time,true);
-		$criteria->compare('assign_time',$this->assign_time);
-		$criteria->compare('check_time',$this->check_time);
+		$criteria->compare('assign_time',$this->assign_time,true);
+		$criteria->compare('check_time',$this->check_time,true);
 		$criteria->compare('update_time',$this->update_time,true);
 
 		return new CActiveDataProvider($this, array(

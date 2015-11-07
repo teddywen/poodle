@@ -1,11 +1,21 @@
 <?php
-class SolveStaticController extends AdminController
-{
-    public function actionIndex()
-    {
+class SolveStaticController extends AdminController {
+    public $statistics_service = NULL;
+
+    public function init() {
+        parent::init();
+        $this->statistics_service = new StatisticsService;
+    }
+
+    public function actionIndex() {
         $this->pageTitle = '整改汇总';
-        $data = array();
         
-        $this->render('index', $data);
+        $request = Yii::app()->getRequest();
+        $assign_start_date = $request->getParam("assign_start_date", date('Y-m-01'));
+        $assign_end_date = $request->getParam("assign_end_date", date('Y-m-d'));
+
+        $statistics = $this->statistics_service->getSolveStatistics($assign_start_date, $assign_end_date);
+
+        $this->render('index', compact("statistics", "assign_start_date", "assign_end_date"));
     }
 }
