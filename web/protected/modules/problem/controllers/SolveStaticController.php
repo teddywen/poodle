@@ -16,6 +16,10 @@ class SolveStaticController extends AdminController {
 
         $statistics = $this->statistics_service->getSolveStatistics($assign_start_date, $assign_end_date);
 
+        if ($request->getParam("export") !== null) {
+            $this->statistics_service->exportSolveStatistics($statistics, $assign_start_date, $assign_end_date);
+        }
+
         $this->render('index', compact("statistics", "assign_start_date", "assign_end_date"));
     }
 }

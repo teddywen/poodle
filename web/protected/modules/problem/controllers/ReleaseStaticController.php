@@ -15,6 +15,10 @@ class ReleaseStaticController extends AdminController {
         $assign_end_date = $request->getParam("assign_end_date", date('Y-m-d'));
 
         $statistics = $this->statistics_service->getReleaseStatistics($assign_start_date, $assign_end_date);
+
+        if ($request->getParam("export") !== null) {
+            $this->statistics_service->exportReleaseStatistics($statistics, $assign_start_date, $assign_end_date);
+        }
         
         $this->render('index', compact("statistics", "assign_start_date", "assign_end_date"));
     }

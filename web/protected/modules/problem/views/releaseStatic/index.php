@@ -43,8 +43,8 @@
             ));
         ?>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="submit" class="btn btn-info" name="preview">预览</button>
-        <button type="submit" class="btn btn-success" name="explode_csv" value="1">导出汇总</button>
+        <input type="submit" class="btn btn-info" name="preview" value="预览" />
+        <input type="submit" class="btn btn-success" name="export" value="导出汇总" />
     </div>
 </form>
 <?php foreach($statistics as $assign_date => $deal_username_rows): ?>
@@ -88,7 +88,7 @@
                             <td rowspan="<?php echo $count; ?>"><?php echo $count; ?></td>
                         <?php endif; ?>
                         <td><?php echo $key + 1;?></td>
-                        <td><?php echo $row["description"]?></td>
+                        <td><p class="text-left" style="margin:0px;"><?php echo $row["description"]?></p></td>
                         <td><?php echo $row["duration_lv"] == 1 ? "√" : "";?></td>
                         <td><?php echo $row["duration_lv"] == 2 ? "√" : "";?></td>
                         <td><?php echo $row["duration_lv"] == 3 ? "√" : "";?></td>

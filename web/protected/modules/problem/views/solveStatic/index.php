@@ -43,8 +43,8 @@
             ));
         ?>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="submit" class="btn btn-info" name="preview">预览</button>
-        <button type="submit" class="btn btn-success" name="explode_csv" value="1">导出汇总</button>
+        <input type="submit" class="btn btn-info" name="preview" value="预览" />
+        <input type="submit" class="btn btn-success" name="export" value="导出汇总" />
     </div>
 </form>
 <?php if(!empty($statistics)):?>
