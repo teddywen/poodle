@@ -38,7 +38,7 @@
                                 <input type="password" class="form-control" id="password" name="password" placeholder="密码">
                             </div>
                             <div class="checkbox">
-                                <label><input type="checkbox" id="remember_me" name="remember_me">下次直接登录</label>
+                                <label><input type="checkbox" id="remember_me" name="remember_me" checked="true">下次直接登录</label>
                             </div>
                             <div class="form-group"><button id="submit" class="btn btn-info">登录</button></div>
                             <p id="error" class="bg-warning site-error-padding hidden"></p>
@@ -66,7 +66,7 @@ $(function(){
             data: {
                 username: $("#username").val(), 
                 password: $("#password").val(),
-                remember_me: $("#remember_me").val()
+                remember_me: ($("#remember_me").is(':checked') ? "on" : "off")
             }, 
             success: function(ret) {
                 if (ret.ok) {

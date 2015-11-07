@@ -32,6 +32,7 @@ class SiteController extends Controller
         $error = "";
         $username = $request->getParam("username", "");
         $password = $request->getParam("password", "");
+        $remember_me = $request->getParam("remember_me", "on");
         
         if (trim($username) == "") {
             $error = "用户名不能为空";
@@ -40,8 +41,10 @@ class SiteController extends Controller
         } else {
             $identity = new UserIdentity($username, $password);
             if($identity->authenticate()) {
-                Yii::app()->user->login($identity, 3600*24*7);
-                echo CJSON::encode(array("ok"=>true, "msg"=>"登陆成功"));
+                $duration = $remember_me == "on" ? 3600*24*7 : 0;
+                Yii::app()->user->login($identity, $duration);
+                list($updated, $error) = Yii::app()->user->updateLastLoginTime();
+                echo $updated ? CJSON::encode(array("ok"=>true, "msg"=>"登陆成功")) : CJSON::encode(array("ok"=>true, "msg"=>$error));
                 Yii::app()->end();
             } else {
                 $error = $identity->errorMessage;

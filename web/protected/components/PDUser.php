@@ -15,4 +15,23 @@ class PDUser extends CWebUser {
         }
         return $this->_gov_user;
     }
+
+    /**
+     * @return array [<updated>, <error>]
+     */
+    public function updateLastLoginTime() {
+        $gov_user = $this->getGovUser();
+        if ($gov_user) {
+            $gov_user->last_login_time = Util::time();
+            $gov_user->update_time = Util::time();
+            if (!$gov_user->save(false)) {
+                $error = print_r($gov_user->getErrors(), true);
+                return array(false, $error);
+            } else {
+                return array(true, "");
+            }
+        } else {
+            return array(false, "用户ID不存在");
+        }
+    }
 }
