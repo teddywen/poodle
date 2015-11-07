@@ -74,12 +74,38 @@ class StatisticsService extends Service {
     }
 
     public function exportReleaseStatistics($statistics, $assign_start_date, $assign_end_date) {
+        Util::usePhpExcel();
+        $objExcel = new PHPExcel();
+        // set properties
+        $objProps = $objExcel->getProperties();
+        $objProps->setCreator("SCW"); 
+        $objProps->setLastModifiedBy("SCW");
+        $objProps->setTitle("Problem Statistics");
+        $objProps->setSubject("Release Statistics");
+        $objProps->setDescription("Release problem summary for every problem.");
+        $objProps->setKeywords("Problem Release Statistics");
+        $objProps->setCategory("Statistics");
 
+        // set sheet
+        $objExcel->setActiveSheetIndex(0);
+        $objActSheet = $objExcel->getActiveSheet();
+        // set sheet title
+        $objActSheet->setTitle("{$assign_start_date} ~ {$assign_end_date}");
+        // set default style
+        $objActSheet->getDefaultStyle()->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        // set cell
+        // set thead
+        $objActSheet->setCellValue('A1', '序号');
+        $objActSheet->setCellValue('B1', '单位');
+        $objActSheet->setCellValue('C1', '派单日期');
+        $objActSheet->setCellValue('D1', '发现问题数');
+
+        $this->_saveAndExport($objExcel);
     }
 
     public function exportSolveStatistics($statistics, $assign_start_date, $assign_end_date) {
         Util::usePhpExcel();
-        $objExcel = new PHPExcel(); 
+        $objExcel = new PHPExcel();
         // set properties
         $objProps = $objExcel->getProperties();
         $objProps->setCreator("SCW"); 
@@ -90,23 +116,29 @@ class StatisticsService extends Service {
         $objProps->setKeywords("Problem Solve Statistics");
         $objProps->setCategory("Statistics");
 
-        // set sheet and set cell content
+        // set sheet
         $objExcel->setActiveSheetIndex(0);
         $objActSheet = $objExcel->getActiveSheet();
+        // set sheet title
         $objActSheet->setTitle("{$assign_start_date} ~ {$assign_end_date}");
+        // set default style
+        $objActSheet->getDefaultStyle()->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        // set cell
+        // set ttitle
+        $objActSheet->setCellValue('A1', "相关部门问题清单整改情况汇总 ({$assign_start_date} ~ {$assign_end_date})");
         // set thead
-        $objActSheet->setCellValue('A1', '序号');
-        $objActSheet->setCellValue('B1', '单位');
-        $objActSheet->setCellValue('C1', '问题数');
-        $objActSheet->setCellValue('D1', '已整改');
-        $objActSheet->setCellValue('E1', '联动问题');
-        $objActSheet->setCellValue('F1', '申请延期');
-        $objActSheet->setCellValue('G1', '整改超时');
-        $objActSheet->setCellValue('H1', '未整改');
-        $objActSheet->setCellValue('I1', '备注');
+        $objActSheet->setCellValue('A2', '序号');
+        $objActSheet->setCellValue('B2', '单位');
+        $objActSheet->setCellValue('C2', '问题数');
+        $objActSheet->setCellValue('D2', '已整改');
+        $objActSheet->setCellValue('E2', '联动问题');
+        $objActSheet->setCellValue('F2', '申请延期');
+        $objActSheet->setCellValue('G2', '整改超时');
+        $objActSheet->setCellValue('H2', '未整改');
+        $objActSheet->setCellValue('I2', '备注');
         // set tbody
         foreach ($statistics as $key => $row) {
-            $cellRow = $key + 2;
+            $cellRow = $key + 3;
             $no = $key + 1;
             $objActSheet->setCellValue("A{$cellRow}", $no);
             $objActSheet->setCellValue("B{$cellRow}", $row["deal_username"]);
@@ -117,9 +149,9 @@ class StatisticsService extends Service {
             $objActSheet->setCellValue("G{$cellRow}", $row["problem_times_up_count"]);
             $objActSheet->setCellValue("H{$cellRow}", $row["problem_unqualified_count"]);
         }
-        $sumStartRow = 2;
-        $sumEndRow = count($statistics) + 1;
-        $lastRow = count($statistics) + 2;
+        $sumStartRow = 3;
+        $sumEndRow = count($statistics) + 2;
+        $lastRow = count($statistics) + 3;
         $objActSheet->setCellValue("A{$lastRow}", "合计");
         $objActSheet->setCellValue("C{$lastRow}", "=SUM(C{$sumStartRow}:C{$sumEndRow})");
         $objActSheet->setCellValue("D{$lastRow}", "=SUM(D{$sumStartRow}:D{$sumEndRow})");
@@ -127,12 +159,12 @@ class StatisticsService extends Service {
         $objActSheet->setCellValue("F{$lastRow}", "=SUM(F{$sumStartRow}:F{$sumEndRow})");
         $objActSheet->setCellValue("G{$lastRow}", "=SUM(G{$sumStartRow}:G{$sumEndRow})");
         $objActSheet->setCellValue("H{$lastRow}", "=SUM(H{$sumStartRow}:H{$sumEndRow})");
+
+        // set cell merge
+        $objActSheet->mergeCells("A1:I1");
         $objActSheet->mergeCells("A{$lastRow}:B{$lastRow}");
 
-        // set default style
-        $objActSheet->getDefaultStyle()->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-
-        // set specific style
+        // set cell border
         for ($row=1; $row<=$lastRow; ++$row) { 
             for ($col=ord('A'); $col<=ord('I'); ++$col) { 
                 $colChr = chr($col);
