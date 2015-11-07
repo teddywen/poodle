@@ -3,7 +3,7 @@
 class UserController extends AdminController
 {
     public function init(){
-        
+        parent::init();
     }
 }
 ?>

@@ -17,8 +17,8 @@ return array(
         '4' => '超级管理员',
     ),
     'gov_type_role' => array(
-        '1' => 'unit',
-        '2' => 'finder',
+        '1' => 'finder',
+        '2' => 'unit',
         '3' => 'admin', //
         '4' => 'superAdmin',
     ),
@@ -35,4 +35,8 @@ return array(
         '9' => '用户登录',
         '10' => '用户登出',
     ),
+    // all kinds of page size in the site
+    'page_size' => array(
+        'common' => 10, 
+    ), 
 );
