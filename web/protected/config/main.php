@@ -106,11 +106,11 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 				),
-				array(
-				 	'class'=>'CWebLogRoute',
-				 	'levels'=>'trace',     //级别为trace
-                    'categories'=>'system.db.*' //只显示关于数据库信息,包括数据库连接,数据库执行语句
-				),
+				// array(
+				//  	'class'=>'CWebLogRoute',
+				//  	'levels'=>'trace',     //级别为trace
+    //                 'categories'=>'system.db.*' //只显示关于数据库信息,包括数据库连接,数据库执行语句
+				// ),
 			),
 		),
 	),
