@@ -9,8 +9,9 @@
     $update_start_time = isset($_GET['update_start_time'])?$_GET['update_start_time']:"";
     $update_end_time = isset($_GET['update_end_time'])?$_GET['update_end_time']:"";
     //指派单位
+    $user_service = new UserService();
     if(Yii::app()->user->checkAccess('admin')){
-        $cate_service = new CategoryService(); $user_service = new UserService();
+        $cate_service = new CategoryService();
         $gov_cates = $cate_service->getAvailableCate();
         $s_gov_cate_id = isset($_REQUEST['s_gov_cate_id'])&&strlen($_REQUEST['s_gov_cate_id'])>0?intval($_REQUEST['s_gov_cate_id']):"";
         $s_deal_uid = isset($_REQUEST['s_deal_uid'])&&strlen($_REQUEST['s_deal_uid'])>0?intval($_REQUEST['s_deal_uid']):"";
