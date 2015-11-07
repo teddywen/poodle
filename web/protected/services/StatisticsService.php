@@ -18,10 +18,8 @@ class StatisticsService extends Service {
             }
             $statistics[$row["assign_date"]][$row["deal_username"]][] = $row;
         }
-        // print_r($statistics);
         return $statistics;
     }
-
 
     /**
      * @param string $assign_start_date - Y-m-d
@@ -29,7 +27,10 @@ class StatisticsService extends Service {
      * @return array - [[<column `problem`.*, `assign_date`, `duration_lv`>], ...]
      */
     private function _getReleaseRows($assign_start_date, $assign_end_date) {
-        $sql = "SELECT *, FROM_UNIXTIME(`assign_time`, '%y.%c.%e') AS `assign_date`, 
+        $assign_start_date = date("Y-m-d 00:00:00", strtotime($assign_start_date));
+        $assign_end_date = date("Y-m-d 23:59:59", strtotime($assign_end_date));
+
+        $sql = "SELECT *, FROM_UNIXTIME(`assign_time`, '%Y.%c.%e') AS `assign_date`, 
                     IF(`status`<>:status_qualified, 0, 
                         IF(`assign_time`+7*24*3600>`check_time`, 1, IF(
                             `assign_time`+14*24*3600>`check_time`, 2, IF(
@@ -46,6 +47,6 @@ class StatisticsService extends Service {
     }
 
     public function getSolveStatistics() {
-
+        
     }
 }
