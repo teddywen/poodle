@@ -213,6 +213,7 @@ class ProblemService extends Service
             $cur_status = self::BE_DEALING;
             $problem->status = $cur_status;
             $problem->update_time = $cur_time;
+            $problem->accept_time = $cur_time;
             $res1 = $problem->save();
             if(!$res1){
                 throw new Exception(print_r($problem->getErrors(), true));
@@ -336,6 +337,12 @@ class ProblemService extends Service
             $problem->status = $cur_status;
             $problem->check_time = $cur_time;
             $problem->update_time = $cur_time;
+
+            // Check whether times up.
+            if ($cur_status == self::BE_QUALIFIED && $problem->accept_time + $problem->deal_time * 3600 < $cur_time) {
+                $problem->times_up = 1;
+            }
+
             $res1 = $problem->save();
             if(!$res1){
                 throw new Exception(print_r($problem->getErrors(), true));
