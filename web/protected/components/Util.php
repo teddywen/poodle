@@ -31,4 +31,12 @@ class Util {
     public static function date2timestamp($date, $format_str) {
         return CDateTimeParser::parse($date, $format_str);
     }
+
+    /**
+     * It's necessary to call Util::usePhpExcel() before use phpexcel extension.
+     */
+    public static function usePhpExcel() {
+        Yii::$enableIncludePath = false;  
+        Yii::import('application.extensions.PHPExcel.PHPExcel', 1);
+    }
 }
