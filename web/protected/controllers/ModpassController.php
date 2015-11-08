@@ -70,7 +70,6 @@ class ModpassController extends Controller
                     throw new CHttpException(500, print_r($model->getErrors(), true));
             } while (false);
         }
-
         $this->render("index", compact("ok", "error", "old_pass", "new_pass", "new_pass_confirm"));
     }
 }
