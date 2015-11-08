@@ -10,7 +10,6 @@
 	<script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/bootstrap/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/jquery.form.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/bootstrap/bootstrap-paginator.min.js"></script>
-	
 </head>
 <body>
     <div class="container">
@@ -25,7 +24,7 @@
     			<div class="row">
     				<div class="span2">
     				    <?php
-    				        $module_id = strtolower($this->module->id);
+    				        $module_id = $this->module&&$this->module->id?strtolower($this->module->id):"";
     				        $controller_id = strtolower($this->id);
     				        $action_id = strtolower($this->action->id);
     				    ?>
