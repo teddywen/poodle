@@ -31,7 +31,7 @@ class StatisticsService extends Service {
         $assign_start_date = date("Y-m-d 00:00:00", strtotime($assign_start_date));
         $assign_end_date = date("Y-m-d 23:59:59", strtotime($assign_end_date));
 
-        $sql = "SELECT *, FROM_UNIXTIME(`assign_time`, '%Y.%c.%e') AS `assign_date`, 
+        $sql = "SELECT *, FROM_UNIXTIME(`assign_time`, '%Y-%m-%d') AS `assign_date`, 
                     IF(`status`<>:status_qualified, 0, 
                         IF(`assign_time`+7*24*3600>`check_time`, 1, IF(
                             `assign_time`+14*24*3600>`check_time`, 2, IF(
@@ -39,7 +39,7 @@ class StatisticsService extends Service {
                     FLOOR(`delay_time`/24) AS `delay_day`
                 FROM `problem` 
                 WHERE `assign_time` BETWEEN :assign_start_time AND :assign_end_time
-                ORDER BY `assign_date` ASC, `deal_uid` ASC";
+                ORDER BY `assign_time` ASC, `deal_uid` ASC";
         $params = array(
             ":assign_start_time" => strtotime($assign_start_date), 
             ":assign_end_time" => strtotime($assign_end_date), 
@@ -73,6 +73,10 @@ class StatisticsService extends Service {
         return Yii::app()->getDb()->createCommand($sql)->queryAll(true, $params);
     }
 
+
+    /**
+     * Export excel code was reference from http://blog.csdn.net/samxx8/article/details/8138072
+     */
     public function exportReleaseStatistics($statistics, $assign_start_date, $assign_end_date) {
         Util::usePhpExcel();
         $objExcel = new PHPExcel();
@@ -94,15 +98,103 @@ class StatisticsService extends Service {
         // set default style
         $objActSheet->getDefaultStyle()->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         // set cell
-        // set thead
-        $objActSheet->setCellValue('A1', '序号');
-        $objActSheet->setCellValue('B1', '单位');
-        $objActSheet->setCellValue('C1', '派单日期');
-        $objActSheet->setCellValue('D1', '发现问题数');
+        $offsetRow = 0;
+        foreach ($statistics as $assign_date => $deal_username_rows) {
+            $no = 0;
+            $totalRows = 0;
+            $ttitleRow = $offsetRow + 1;
+            $theadRow = $ttitleRow + 1;
+            $thead2Row = $theadRow + 1;
+            $thead3Row = $thead2Row + 1;
+            // set ttitle
+            $ynj = date('Y.n.j', strtotime($assign_date));
+            $objActSheet->setCellValue("A{$ttitleRow}", "{$assign_start_date} ~ {$assign_end_date} 堡政整改反馈汇总表 ($ynj)");
+            // set thead
+            $objActSheet->setCellValue("A{$theadRow}", '序号');
+            $objActSheet->setCellValue("B{$theadRow}", '单位');
+            $objActSheet->setCellValue("C{$theadRow}", '派单日期');
+            $objActSheet->setCellValue("D{$theadRow}", '发现问题数');
+            $objActSheet->setCellValue("E{$theadRow}", '存在问题');
+            $objActSheet->setCellValue("E{$thead2Row}", '序号');
+            $objActSheet->setCellValue("F{$thead2Row}", '具体问题');
+            $objActSheet->setCellValue("G{$theadRow}", '整改计划');
+            $objActSheet->setCellValue("G{$thead2Row}", '7天内完成');
+            $objActSheet->setCellValue("H{$thead2Row}", '14天内完成');
+            $objActSheet->setCellValue("I{$thead2Row}", '一个月完成');
+            $objActSheet->setCellValue("G{$thead3Row}", date("Y.n.j", strtotime($assign_date) + 7 * 24 * 3600));
+            $objActSheet->setCellValue("H{$thead3Row}", date("Y.n.j", strtotime($assign_date) + 14 * 24 * 3600));
+            $objActSheet->setCellValue("I{$thead3Row}", date("Y.n.j", strtotime($assign_date) + 30 * 24 * 3600));
+            $objActSheet->setCellValue("J{$theadRow}", '需要县镇联动');
+            $objActSheet->setCellValue("K{$theadRow}", '申请延时');
+            $objActSheet->setCellValue("L{$theadRow}", '完成情况');
+            $objActSheet->setCellValue("M{$theadRow}", '备注');
+            // set tbody
+            $offsetCellRow = $thead3Row + 1;
+            foreach ($deal_username_rows as $deal_username => $rows) {
+                ++$no;
+                $rowsCount = count($rows);
+                $totalRows += $rowsCount;
+                $objActSheet->setCellValue("A{$offsetCellRow}", $no);
+                $objActSheet->setCellValue("B{$offsetCellRow}", $deal_username);
+                $objActSheet->setCellValue("C{$offsetCellRow}", date("Y.n.j", strtotime($assign_date)));
+                $objActSheet->setCellValue("D{$offsetCellRow}", $rowsCount);
+                foreach ($rows as $key => $row) {
+                    $currentRow = $offsetCellRow + $key;
+                    $objActSheet->setCellValue("E{$currentRow}", $key + 1);
+                    $objActSheet->setCellValue("F{$currentRow}", $row["description"]);
+                    $objActSheet->setCellValue("G{$currentRow}", $row["duration_lv"] == 1 ? "√" : "");
+                    $objActSheet->setCellValue("H{$currentRow}", $row["duration_lv"] == 2 ? "√" : "");
+                    $objActSheet->setCellValue("I{$currentRow}", $row["duration_lv"] == 3 ? "√" : "");
+                    $objActSheet->setCellValue("J{$currentRow}", $row["is_assistant"] ? "√": "");
+                    $objActSheet->setCellValue("K{$currentRow}", $row["is_delay"] ? ("{$row["delay_day"]}天完成"): "");
+                    $objActSheet->setCellValue("L{$currentRow}", $row["status"] == ProblemService::BE_QUALIFIED ? "完成": "");
+                    $objActSheet->setCellValue("M{$currentRow}", "");
+                }
+
+                // set cell merge
+                $offsetCellEndRow = $offsetCellRow + $rowsCount - 1;
+                $objActSheet->mergeCells("A{$offsetCellRow}:A{$offsetCellEndRow}");
+                $objActSheet->mergeCells("B{$offsetCellRow}:B{$offsetCellEndRow}");
+                $objActSheet->mergeCells("C{$offsetCellRow}:C{$offsetCellEndRow}");
+                $objActSheet->mergeCells("D{$offsetCellRow}:D{$offsetCellEndRow}");
+
+                $offsetCellRow += $rowsCount;
+            }
+            // set cell merge
+            $objActSheet->mergeCells("A{$ttitleRow}:M{$ttitleRow}");
+            $objActSheet->mergeCells("A{$theadRow}:A{$thead3Row}");
+            $objActSheet->mergeCells("B{$theadRow}:B{$thead3Row}");
+            $objActSheet->mergeCells("C{$theadRow}:C{$thead3Row}");
+            $objActSheet->mergeCells("D{$theadRow}:D{$thead3Row}");
+            $objActSheet->mergeCells("E{$theadRow}:F{$theadRow}");
+            $objActSheet->mergeCells("E{$thead2Row}:E{$thead3Row}");
+            $objActSheet->mergeCells("F{$thead2Row}:F{$thead3Row}");
+            $objActSheet->mergeCells("G{$theadRow}:I{$theadRow}");
+            $objActSheet->mergeCells("J{$theadRow}:J{$thead3Row}");
+            $objActSheet->mergeCells("K{$theadRow}:K{$thead3Row}");
+            $objActSheet->mergeCells("L{$theadRow}:L{$thead3Row}");
+            $objActSheet->mergeCells("M{$theadRow}:M{$thead3Row}");
+
+            // set cell border
+            for ($row=$offsetRow+1; $row<=$offsetRow+$totalRows+3+1; ++$row) { 
+                for ($col=ord('A'); $col<=ord('M'); ++$col) { 
+                    $colChr = chr($col);
+                    $this->_setBorder($objActSheet, "{$colChr}{$row}");
+                }
+            }
+
+            // set toffset
+            $offsetRow += $totalRows + 3 + 1; // rows + 3个thread + 1个ttitle
+            $offsetRow += 2; // 表格之间空开2行
+        }
+        
 
         $this->_saveAndExport($objExcel);
     }
 
+    /**
+     * Export excel code was reference from http://blog.csdn.net/samxx8/article/details/8138072
+     */
     public function exportSolveStatistics($statistics, $assign_start_date, $assign_end_date) {
         Util::usePhpExcel();
         $objExcel = new PHPExcel();
@@ -125,7 +217,7 @@ class StatisticsService extends Service {
         $objActSheet->getDefaultStyle()->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         // set cell
         // set ttitle
-        $objActSheet->setCellValue('A1', "相关部门问题清单整改情况汇总 ({$assign_start_date} ~ {$assign_end_date})");
+        $objActSheet->setCellValue('A1', "{$assign_start_date} ~ {$assign_end_date} 相关部门问题清单整改情况汇总");
         // set thead
         $objActSheet->setCellValue('A2', '序号');
         $objActSheet->setCellValue('B2', '单位');

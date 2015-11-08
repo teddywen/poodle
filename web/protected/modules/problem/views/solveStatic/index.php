@@ -45,6 +45,8 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <input type="submit" class="btn btn-info" name="preview" value="预览" />
         <input type="submit" class="btn btn-success" name="export" value="导出汇总" />
+        <input type="hidden" name="preview_assign_start_date" value="<?php echo $assign_start_date; ?>">
+        <input type="hidden" name="preview_assign_end_date" value="<?php echo $assign_end_date; ?>">
     </div>
 </form>
 <?php if(!empty($statistics)):?>

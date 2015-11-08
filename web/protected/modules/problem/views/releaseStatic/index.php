@@ -45,6 +45,8 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <input type="submit" class="btn btn-info" name="preview" value="预览" />
         <input type="submit" class="btn btn-success" name="export" value="导出汇总" />
+        <input type="hidden" name="preview_assign_start_date" value="<?php echo $assign_start_date; ?>">
+        <input type="hidden" name="preview_assign_end_date" value="<?php echo $assign_end_date; ?>">
     </div>
 </form>
 <?php foreach($statistics as $assign_date => $deal_username_rows): ?>
@@ -71,9 +73,9 @@
                 <th>1个月完成</th>
             </tr>
             <tr>
-                <th>9.23</th>
-                <th>9.30</th>
-                <th>10.16</th>
+                <th><?php echo date("Y.n.j", strtotime($assign_date) + 7 * 24 * 3600); ?></th>
+                <th><?php echo date("Y.n.j", strtotime($assign_date) + 14 * 24 * 3600); ?></th>
+                <th><?php echo date("Y.n.j", strtotime($assign_date) + 30 * 24 * 3600); ?></th>
             </tr>
         </thead>
         <tbody>
@@ -84,7 +86,7 @@
                         <?php if($key == 0): ?>
                             <td rowspan="<?php echo $count; ?>"><?php echo $no++; ?></td>
                             <td rowspan="<?php echo $count; ?>"><?php echo $deal_username; ?></td>
-                            <td rowspan="<?php echo $count; ?>"><?php echo $assign_date; ?></td>
+                            <td rowspan="<?php echo $count; ?>"><?php echo date("Y.n.j", strtotime($assign_date)); ?></td>
                             <td rowspan="<?php echo $count; ?>"><?php echo $count; ?></td>
                         <?php endif; ?>
                         <td><?php echo $key + 1;?></td>
