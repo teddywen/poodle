@@ -267,18 +267,18 @@
         <?php if(Yii::app()->user->checkAccess('unit')):?>
 		<div class="controls">
             <?php if(in_array($problem->status, array(ProblemService::BE_ASSIGNED))):?>
-            <!-- <button type="button" class="btn btn-success btn_submit_form">接受</button>
-            <button type="button" class="btn btn-danger btn_go_back_problem">退单</button> -->
+            <button type="button" class="btn btn-success btn_submit_form">接受</button>
+            <button type="button" class="btn btn-danger btn_go_back_problem">退单</button>
             <?php endif;?>
             <?php if(in_array($problem->status, array(ProblemService::BE_DEALING, ProblemService::BE_UNQUALIFIED))):?>
             <a href="<?php ?>/problem/solve?pid=<?php echo $problem->id;?>" class="btn btn-primary">上传处理结果</a>
             <?php endif;?>
             <?php if(in_array($problem->status, array(ProblemService::BE_ASSIGNED, ProblemService::BE_DEALING, ProblemService::APPLY_DELAYING, ProblemService::APPLY_ASSISTING))):?>
             <?php if($problem->is_assistant == 0):?>
-            <button type="button" class="btn btn-warning btn_go_assisted_problem">申请联动</button>
+            <!-- <button type="button" class="btn btn-warning btn_go_assisted_problem">申请联动</button> -->
             <?php endif;?>
             <?php if($problem->is_delay == 0):?>
-            <button type="button" class="btn btn-inverse btn_go_delay_problem">申请延时</button>
+            <!-- <button type="button" class="btn btn-inverse btn_go_delay_problem">申请延时</button> -->
             <?php endif;?>
             <?php endif;?>
 		</div>
