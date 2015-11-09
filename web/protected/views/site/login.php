@@ -57,7 +57,7 @@
                             <div class="checkbox">
                                 <label><input type="checkbox" id="remember_me" name="remember_me" checked="true">下次直接登录</label>
                             </div>
-                            <div class="form-group"><button id="submit" class="btn btn-info">登录</button></div>
+                            <div class="form-group"><button id="submit" class="btn btn-primary">登录</button></div>
                             <p id="error" class="bg-warning text-danger login-error hidden"></p>
                         </form>
                     </div>
