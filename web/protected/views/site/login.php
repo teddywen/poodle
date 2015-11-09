@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><img src="<?php echo Yii::app()->params->image_url;?>/logo.jpg" class="img-rounded logo"></div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><img src="<?php echo Yii::app()->params->image_url;?>/logo.png" class="logo"></div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <p></p>
         <p class="text-right">审核时间: 工作日10:00 ~ 15:00</p>
@@ -10,8 +10,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="site-center-block center-block">
             <h2 class="text-center">问题管理中心</h2>
-            <p class="lead text-center">敌军还有三十秒到达战场 碾碎他们...</p>
-            <p class="lead text-center">项目不完成我李总理就倒过来念!!!</p>
+            <p class="lead text-center">欢迎使用堡镇问题管理中心</p>
             <div class="text-center"><button type="button" class="site-center-block-btn btn btn-info btn-lg" data-toggle="modal" data-target="#loginModal">马上登录</button></div>
         </div>
     </div>
