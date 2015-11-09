@@ -1,18 +1,36 @@
-<div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><img src="<?php echo Yii::app()->params->image_url;?>/logo.png" class="logo"></div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-        <p></p>
-        <p class="text-right">审核时间: 工作日10:00 ~ 15:00</p>
-        <p class="text-right">TEL: 012-6229-3361</p>
+<div class="container-fluid">
+    <div class="row">
+        <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><img src="<?php echo Yii::app()->params->image_url;?>/logo.png" class="logo"></div> -->
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <p><h1>上海 · 崇明 <small>建设美好家园</small></h1></p>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <p></p>
+            <dl class="dl-horizontal pull-right">
+                <dt>审核时间 :</dt><dd><mark>工作日 10:00 ~ 15:00</mark></dd>
+                <dt>联系方式 :</dt><dd><mark>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;012-6229-3361</mark></dd>
+            </dl>
+        </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="site-center-block center-block">
-            <h2 class="text-center">问题管理中心</h2>
-            <p class="lead text-center">欢迎使用堡镇问题管理中心</p>
-            <div class="text-center"><button type="button" class="site-center-block-btn btn btn-info btn-lg" data-toggle="modal" data-target="#loginModal">马上登录</button></div>
+
+<div class="jumbotron login-center-block">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-md-offset-4">
+                <h1>问题管理中心</h1>
+                <p>欢迎使用堡镇问题管理中心</p>
+                <p><a class="btn btn-primary btn-lg login-center-btn" href="#" role="button" data-toggle="modal" data-target="#loginModal">马上登录</a></p>
+            </div>
         </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row footer">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <p class="text-center">Powered by scw team<br/>Ver 1.0.0</p>
+            </div>    
     </div>
 </div>
 
@@ -40,17 +58,12 @@
                                 <label><input type="checkbox" id="remember_me" name="remember_me" checked="true">下次直接登录</label>
                             </div>
                             <div class="form-group"><button id="submit" class="btn btn-info">登录</button></div>
-                            <p id="error" class="bg-warning site-error-padding hidden"></p>
+                            <p id="error" class="bg-warning text-danger login-error hidden"></p>
                         </form>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
                 </div>
             </div>
-            <!--
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>-->
         </div>
     </div>
 </div>
@@ -72,7 +85,7 @@ $(function(){
                     $("#error").removeClass("show").addClass("hidden");
                     window.location.href = "<?php echo Yii::app()->createUrl("site/index"); ?>";
                 } else {
-                    $("#error").html(ret.msg).removeClass("hidden").addClass("show");
+                    $("#error").html("* " + ret.msg).removeClass("hidden").addClass("show");
                 }
             }
         });
