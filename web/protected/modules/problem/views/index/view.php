@@ -267,8 +267,8 @@
         <?php if(Yii::app()->user->checkAccess('unit')):?>
 		<div class="controls">
             <?php if(in_array($problem->status, array(ProblemService::BE_ASSIGNED))):?>
-            <button type="button" class="btn btn-success btn_submit_form">接受</button>
-            <button type="button" class="btn btn-danger btn_go_back_problem">退单</button>
+            <!-- <button type="button" class="btn btn-success btn_submit_form">接受</button>
+            <button type="button" class="btn btn-danger btn_go_back_problem">退单</button> -->
             <?php endif;?>
             <?php if(in_array($problem->status, array(ProblemService::BE_DEALING, ProblemService::BE_UNQUALIFIED))):?>
             <a href="<?php ?>/problem/solve?pid=<?php echo $problem->id;?>" class="btn btn-primary">上传处理结果</a>
