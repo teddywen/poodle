@@ -275,10 +275,10 @@
             <?php endif;?>
             <?php if(in_array($problem->status, array(ProblemService::BE_ASSIGNED, ProblemService::BE_DEALING, ProblemService::APPLY_DELAYING, ProblemService::APPLY_ASSISTING))):?>
             <?php if($problem->is_assistant == 0):?>
-            <!-- <button type="button" class="btn btn-warning btn_go_assisted_problem">申请联动</button> -->
+            <button type="button" class="btn btn-warning btn_go_assisted_problem">申请联动</button>
             <?php endif;?>
             <?php if($problem->is_delay == 0):?>
-            <!-- <button type="button" class="btn btn-inverse btn_go_delay_problem">申请延时</button> -->
+            <button type="button" class="btn btn-inverse btn_go_delay_problem">申请延时</button>
             <?php endif;?>
             <?php endif;?>
 		</div>
@@ -288,21 +288,13 @@
 </form>
 <?php
     //申请延时form
-    if($problem->is_delay == 0 && in_array($problem->status, array(ProblemService::BE_ASSIGNED, ProblemService::BE_DEALING)) && file_exists(dirname(__FILE__).'/_apply_delay_problem.php')){
+    if($problem->is_delay == 0 && in_array($problem->status, array(ProblemService::BE_ASSIGNED, ProblemService::BE_DEALING, ProblemService::APPLY_ASSISTING)) && file_exists(dirname(__FILE__).'/_apply_delay_problem.php')){
         require_once(dirname(__FILE__).'/_apply_delay_problem.php');
     }
     //申请联动form
-    if($problem->is_assistant == 0 && in_array($problem->status, array(ProblemService::BE_ASSIGNED, ProblemService::BE_DEALING)) && file_exists(dirname(__FILE__).'/_apply_assisted_problem.php')){
+    if($problem->is_assistant == 0 && in_array($problem->status, array(ProblemService::BE_ASSIGNED, ProblemService::BE_DEALING, ProblemService::APPLY_DELAYING)) && file_exists(dirname(__FILE__).'/_apply_assisted_problem.php')){
         require_once(dirname(__FILE__).'/_apply_assisted_problem.php');
     }
-//     //检查延时申请form
-//     if($problem->is_delay != 0 && file_exists(dirname(__FILE__).'/_check_delayapply_problem.php')){
-//         require_once(dirname(__FILE__).'/_check_delayapply_problem.php');
-//     }
-//     //检查联动申请form
-//     if($problem->is_assistant != 0 && file_exists(dirname(__FILE__).'/_check_assistedapply_problem.php')){
-//         require_once(dirname(__FILE__).'/_check_assistedapply_problem.php');
-//     }
     //退单form
     if(in_array($problem->status, array(ProblemService::BE_ASSIGNED)) && file_exists(dirname(__FILE__).'/_back_problem.php')){
         require_once(dirname(__FILE__).'/_back_problem.php');

@@ -46,7 +46,7 @@
                         		<?php endif;?>
                         	</div>
                             <div>
-                                <button id="button" class="btn btn-info btn_assited_problem">确定</button>
+                                <button id="button" class="btn btn-info btn_assisted_problem">确定</button>
                                 <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
                             </div>
                         </form>

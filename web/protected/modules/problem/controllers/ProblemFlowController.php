@@ -103,8 +103,8 @@ class ProblemFlowController extends ProblemController
         }
         $pid = isset($_POST['pid'])?intval($_POST['pid']):0;
         $problem_log_remark = isset($_POST['problem_log_remark'])?trim($_POST['problem_log_remark']):"";
-        $delay_month = isset($data['delay_month'])?intval($data['delay_month']):0;
-        $delay_day = isset($data['delay_day'])?intval($data['delay_day']):1;
+        $delay_month = isset($_POST['delay_month'])?intval($_POST['delay_month']):0;
+        $delay_day = isset($_POST['delay_day'])?intval($_POST['delay_day']):1;
         $delay_time = $delay_month * 30 *24 + $delay_day * 24;
         $res = $this->problem_service->delayProblem($pid, $problem_log_remark, $delay_time);
         $data['code'] = 1; $data['msg'] = '延时申请成功';
