@@ -10,6 +10,9 @@
 				编号
 			</th>
 			<th>
+				描述
+			</th>
+			<th>
 				发布人
 			</th>
 			<th>
@@ -44,6 +47,9 @@
 		<tr>
 			<td>
 				<?php echo $problem->id;?>
+			</td>
+			<td>
+				<?php echo $problem->description;?>
 			</td>
 			<td>
 				<?php echo $problem->release_username;?>
