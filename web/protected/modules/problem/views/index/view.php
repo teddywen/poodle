@@ -274,10 +274,10 @@
             <a href="<?php ?>/problem/solve?pid=<?php echo $problem->id;?>" class="btn btn-primary">上传处理结果</a>
             <?php endif;?>
             <?php if(in_array($problem->status, array(ProblemService::BE_ASSIGNED, ProblemService::BE_DEALING, ProblemService::APPLY_DELAYING, ProblemService::APPLY_ASSISTING))):?>
-            <?php if($problem->is_assistant == 0):?>
+            <?php if($problem->is_assistant == 0 && $problem->status != ProblemService::APPLY_ASSISTING):?>
             <button type="button" class="btn btn-warning btn_go_assisted_problem">申请联动</button>
             <?php endif;?>
-            <?php if($problem->is_delay == 0):?>
+            <?php if($problem->is_delay == 0 && $problem->status != ProblemService::APPLY_DELAYING):?>
             <button type="button" class="btn btn-inverse btn_go_delay_problem">申请延时</button>
             <?php endif;?>
             <?php endif;?>
