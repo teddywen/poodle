@@ -121,7 +121,8 @@
 	<?php endif;?>
 	<?php if($problem->is_delay != 0):?>
     <?php
-        $delayapply_log = end($problem_log_service->getProblemStatusLog($problem->id, ProblemService::APPLY_DELAYING));
+        $delayapply_logs = $problem_log_service->getProblemStatusLog($problem->id, ProblemService::APPLY_DELAYING);
+        $delayapply_log = end($delayapply_logs);
         $delay_month = floor($problem->delay_time / (30 * 24));
         $delay_day = ($problem->delay_time - ($deal_month * 30 * 24)) / 24;
     ?>
@@ -140,7 +141,8 @@
 	<?php endif;?>
 	<?php if($problem->is_assistant != 0):?>
     <?php
-        $assistedapply_log = end($problem_log_service->getProblemStatusLog($problem->id, ProblemService::APPLY_ASSISTING));
+        $assistedapply_logs = $problem_log_service->getProblemStatusLog($problem->id, ProblemService::APPLY_ASSISTING);
+        $assistedapply_log = end($assistedapply_logs);
     ?>
 	<div class="control-group">
         <label class="control-label" for="inputPassword">申请联动：</label>

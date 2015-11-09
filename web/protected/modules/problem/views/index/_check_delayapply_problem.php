@@ -1,6 +1,7 @@
 <!-- Modal -->
 <?php
-    $delayapply_log = end($problem_log_service->getProblemStatusLog($problem->id, ProblemService::APPLY_DELAYING));
+    $delayapply_logs = $problem_log_service->getProblemStatusLog($problem->id, ProblemService::APPLY_DELAYING)
+    $delayapply_log = end($delayapply_logs);
 ?>
 <div class="modal fade" id="check_delay_modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
     <div class="modal-dialog" role="document">
