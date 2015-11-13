@@ -81,8 +81,8 @@
     			    <!-- 内容开始 -->
     			    <div class="span10">
     			    <?php echo $content;?>
-    			    <!-- 内容结束 -->
                     </div>
+    			    <!-- 内容结束 -->
     			</div>
     		</div>
     	</div>
