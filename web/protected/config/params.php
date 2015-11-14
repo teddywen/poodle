@@ -37,6 +37,6 @@ return array(
     ),
     // all kinds of page size in the site
     'page_size' => array(
-        'common' => 1, 
+        'common' => 10, 
     ), 
 );

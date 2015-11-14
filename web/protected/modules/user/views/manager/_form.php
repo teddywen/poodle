@@ -30,8 +30,7 @@
             <div class="form-group">
                 <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 col-lg-11 col-md-11 col-sm-11 col-xs-11">
                     <button type="submit" class="btn btn-primary">确定</button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="javascript:void(0);" class="btn btn-danger btn_reset_pwd" data-uid="<?php echo $model->id;?>">重置密码</a>
+                    <a href="javascript:void(0);" class="btn btn-danger btn_reset_pwd second-btn" data-uid="<?php echo $model->id;?>">重置密码</a>
                 </div>
             </div>
         </form>
