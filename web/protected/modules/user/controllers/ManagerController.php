@@ -14,6 +14,7 @@ class ManagerController extends SuperAdminController
     public function actionIndex()
     {
         $this->pageTitle = '管理员列表';
+        $this->breadcrumbs = array("管理员列表");
         
         $page = !empty($_REQUEST['page'])?intval($_REQUEST['page']):1;
         $condition = array();
@@ -31,7 +32,7 @@ class ManagerController extends SuperAdminController
         $data['lists'] = $lists;
         $data['count'] = $count;
         $data['page'] = $page;
-        $this->render('index', $data);
+        $this->render('index', compact("s_username", "s_status", "lists", "count", "page"));
     }
     
     /**
@@ -40,6 +41,8 @@ class ManagerController extends SuperAdminController
     public function actionCreate()
     {
         $this->pageTitle = '添加管理员';
+        $this->breadcrumbs = array("添加管理员");
+
         $model = new GovUser();
         $result_key = 'create_manager_result';
         if(isset($_POST) && $_POST){
@@ -65,9 +68,11 @@ class ManagerController extends SuperAdminController
      * 更新用户
      * @param int $id 用户ID
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $back_url = "#")
     {
         $this->pageTitle = '修改管理员';
+        $this->breadcrumbs = array("管理员列表"=>urldecode($back_url), "修改管理员");
+
         $model = $this->user_service->getGovUserById($id);
         $result_key = 'create_manager_result';
         if(isset($_POST) && $_POST){

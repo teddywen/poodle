@@ -14,6 +14,7 @@ class IndexController extends ProblemController
     public function actionIndex()
     {
         $this->pageTitle = '问题列表';
+        $this->breadcrumbs = array("问题列表");
         
         $page = isset($_REQUEST['page'])?intval($_REQUEST['page']):1;
         $condition = $this->setSearchCond();

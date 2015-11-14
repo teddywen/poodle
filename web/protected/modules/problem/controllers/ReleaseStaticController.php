@@ -9,6 +9,7 @@ class ReleaseStaticController extends AdminController {
 
     public function actionIndex() {
         $this->pageTitle = '反馈汇总';
+        $this->breadcrumbs = array("反馈汇总");
 
         $request = Yii::app()->getRequest();
         $assign_start_date = $request->getParam("assign_start_date", date('Y-m-01'));

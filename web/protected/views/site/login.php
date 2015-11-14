@@ -27,7 +27,7 @@
 </div>
 
 <div class="container-fluid">
-    <div class="row footer">
+    <div class="row login-footer">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <p class="text-center">Powered by scw team<br/>Ver 1.0.0</p>
             </div>    

@@ -1,4 +1,4 @@
-/*------------------BLOGIN BEGIN---------------------------*/
+/*------------------BLOGIN---------------------------*/
 body {
     background-color: #fafbff;
 }
@@ -17,10 +17,42 @@ body {
 .login-error {
     padding: 7px;
 }
-.footer {
+.login-footer {
     border-top: 1px solid #d7d7d7;
     margin: 100px 50px 0px;
     padding: 50px 20px 50px;
     color: #777;
 }
 /*------------------LOGIN END---------------------------*/
+
+
+/*------------------MAIN LAYOUT---------------------------*/
+.main-header {
+    margin-top: 10px;
+}
+.main-menu {
+    margin-top: 20px;
+}
+.main-breadcrumbs {
+    margin-top: 15px;
+}
+.main-body {
+    margin-top: 0px;
+}
+.main-footer {
+    border-top: 1px solid #d7d7d7;
+    margin: 100px 50px 0px;
+    padding: 50px 20px 50px;
+    color: #777;
+}
+.breadcrumb>li+li:before {
+    content: ">\00a0";
+}
+/*------------------MAIN LAYOUT END---------------------------*/
+
+.alert-p {
+    padding: 15px;
+}
+.paginator-text {
+    margin-bottom: 0px;
+}
