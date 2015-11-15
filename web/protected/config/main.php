@@ -21,6 +21,7 @@ return array(
 		'application.services.*',
         'application.modules.srbac.controllers.SBaseController', 
         'application.extensions.PHPExcel.PHPExcel', 
+        'application.widgets.*', 
 	),
 
 	'defaultController'=>'site',

@@ -39,4 +39,8 @@ class Util {
         Yii::$enableIncludePath = false;  
         Yii::import('application.extensions.PHPExcel.PHPExcel', 1);
     }
+
+    public static function getCurrentUrl() {
+        return Yii::app()->getRequest()->getHostInfo() . Yii::app()->getRequest()->getUrl();
+    }
 }

@@ -13,7 +13,7 @@ return array(
     'gov_user_type' => array(
         '1' => '上传问题人员',
         '2' => '处理问题单位',
-        '3' => '管理员', //
+        '3' => '管理员', 
         '4' => '超级管理员',
     ),
     'gov_type_role' => array(

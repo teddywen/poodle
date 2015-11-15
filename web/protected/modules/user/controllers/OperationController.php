@@ -18,8 +18,8 @@ class OperationController extends UserController
 
     public function actionIndex()
     {
-        $this->pageTitle = '用户操作列表';
-
+        $this->pageTitle = '日志列表';
+        $this->breadcrumbs = array("日志列表");
 
         $page = filter_input(INPUT_GET, 'page');
         $page = (isset($page) && $page > 0) ? $page : 1;
@@ -32,14 +32,14 @@ class OperationController extends UserController
         $u_cate_value = (isset($u_cate_value) && $u_cate_value) ? $u_cate_value : '';
         $u_name_value = filter_input(INPUT_GET, 'u_name_value');
         $u_name_value = (isset($u_name_value) && $u_name_value) ? $u_name_value : '';
-        $date_from = filter_input(INPUT_GET, 'date_from');
-        $date_from = (isset($date_from) && $date_from) ? $date_from : '';
-        $date_to = filter_input(INPUT_GET, 'date_to');
-        $date_to = (isset($date_to) && $date_to) ? $date_to : '';
+        $u_date_from = filter_input(INPUT_GET, 'u_date_from');
+        $u_date_from = (isset($u_date_from) && $u_date_from) ? $u_date_from : '';
+        $u_date_to = filter_input(INPUT_GET, 'u_date_to');
+        $u_date_to = (isset($u_date_to) && $u_date_to) ? $u_date_to : '';
 
         //Convert date_from and date_to type from date to timestamp and add them hour, minute and second
-        $date_from_timestamp = $this->_format_date($date_from, 'day_begin');
-        $date_to_timestamp = $this->_format_date($date_to, 'day_end');
+        $date_from_timestamp = $this->_format_date($u_date_from, 'day_begin');
+        $date_to_timestamp = $this->_format_date($u_date_to, 'day_end');
 
         /** @var OperationLogService $op_service */
         $op_service = $this->op_service;
@@ -57,10 +57,10 @@ class OperationController extends UserController
             $option['u_name_value'] = $u_name_value;
         }
         if($date_from_timestamp) {
-            $option['date_from'] = $date_from_timestamp;
+            $option['u_date_from'] = $date_from_timestamp;
         }
         if($date_to_timestamp) {
-            $option['date_to'] = $date_to_timestamp;
+            $option['u_date_to'] = $date_to_timestamp;
         }
 
 
@@ -82,8 +82,8 @@ class OperationController extends UserController
         $data['u_type_value'] = $u_type_value;
         $data['u_cate_value'] = $u_cate_value;
         $data['u_name_value'] = $u_name_value;
-        $data['date_from'] = $date_from;
-        $data['date_to'] = $date_to;
+        $data['u_date_from'] = $u_date_from;
+        $data['u_date_to'] = $u_date_to;
         $this->render('index', $data);
     }
 

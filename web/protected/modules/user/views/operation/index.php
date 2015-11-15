@@ -1,154 +1,166 @@
-<?php
-/* @var $this OperationController */
-?>
-<!--<h1>--><?php //echo $this->id . '/' . $this->action->id; ?><!--</h1>-->
-
-<div class="op-log container-fluid">
+<?php $calendar_icon = Yii::app()->params->image_url.'/calendar.gif'; ?>
 <div class="row">
-	<div class="col-md-12">
-		<h3 class="text-info">
-			用户操作列表
-		</h3>
-
-        <form class="form-search form-inline">
-            <div class="text-center">
-            用户名：<input type="text" name="u_name_value" class="form-control input-small" <?php if($u_name_value):?>value="<?php echo $u_name_value?>"<?php endif;?>>
-            用户所属单位：<select name="u_cate_value" class="form-control input-small">
-                <option value="" <?php if($u_cate_value == ""):?>selected="selected"<?php endif;?>>全部</option>
-                <?php foreach($cates as $cat):?>
-                    <option value="<?php echo $cat->id;?>" <?php if($u_cate_value == $cat->id):?>selected="selected"<?php endif;?>>
-                        <?php echo $cat->cate_name;?>
-                    </option>
-                <?php endforeach;?>
-            </select>
-            用户类型：<select name="u_type_value" class="form-control input-medium">
-                <option value="" <?php if($u_type_value == ""):?>selected="selected"<?php endif;?>>全部</option>
-                <?php foreach($u_types as $u_id => $u_type):?>
-                    <option value="<?php echo $u_id;?>" <?php if($u_type_value == $u_id):?>selected="selected"<?php endif;?>>
-                        <?php echo $u_type;?>
-                    </option>
-                <?php endforeach;?>
-            </select>
-            操作类型：<select name="op_type_value" class="form-control input-medium">
-                <option value="" <?php if($op_type_value == ""):?>selected="selected"<?php endif;?>>全部</option>
-                <?php foreach($op_type_list as $op_id => $op_type):?>
-                    <option value="<?php echo $op_id;?>" <?php if($op_type_value == $op_id):?>selected="selected"<?php endif;?>>
-                        <?php echo $op_type;?>
-                    </option>
-                <?php endforeach;?>
-            </select>
-            <div>
-            <div class="div-margin-top-10 text-center">
-                <span>操作日期：</span>
-                <?php
-                $this->widget('zii.widgets.jui.CJuiDatePicker', array(
-                    'name' => 'date_from',
-                    'value' => (isset($date_from) && $date_from) ? $date_from : '',
-                    'language' => 'zh',
-                    'htmlOptions' => array(
-                        'size' => '10',         // textField size
-                        'maxlength' => '10',    // textField maxlength
-                        'class' => 'input-small',
-                        'id' => 'date_from',
-                    ),
-                ));
-                ?>
-                <span class="icon-calendar"></span>
-                <span>-</span>
-                <?php
-                $this->widget('zii.widgets.jui.CJuiDatePicker', array(
-                    'name' => 'date_to',
-                    'value' => (isset($date_to) && $date_to) ? $date_to : '',
-                    'language' => 'zh',
-                    'htmlOptions' => array(
-                        'size' => '10',         // textField size
-                        'maxlength' => '10',    // textField maxlength
-                        'class' => 'input-small',
-                        'id' => 'date_to',
-                    ),
-                ));
-                ?>
-                <span class="icon-calendar"></span>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">搜索</h3>
             </div>
-            <div class="div-margin-top-10 col-md-12">
-                <div class="text-center">
-                    <a class="btn btn-danger" href="<?php echo Yii::app()->baseUrl;?>/user/operation">重置</a>
-                    <input type="submit" id="filter-submit" class="btn btn-primary"  onclick="return false" value="查找">
+            <div class="panel-body">
+                <div class="row operation-log-customer-alert hidden">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-danger"><strong>提示!</strong>结束日期需大于等于起始日期！</li>
+                        </ul>
+                    </div>
                 </div>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="u_name_value" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">用户名: </label>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <input class="form-control" id="u_name_value" name="u_name_value" value="<?php echo $u_name_value ? $u_name_value : "";?>" type="text" placeholder="用户名"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="u_cate_value" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">用户所属单位: </label>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                           <select name="u_cate_value" class="form-control">
+                                <option value="" <?php if($u_cate_value == ""):?>selected="selected"<?php endif;?>>全部</option>
+                                <?php foreach($cates as $cat):?>
+                                    <option value="<?php echo $cat->id;?>" <?php if($u_cate_value == $cat->id):?>selected="selected"<?php endif;?>>
+                                        <?php echo $cat->cate_name;?>
+                                    </option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="op_type_value" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">操作类型: </label>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <select name="op_type_value" class="form-control">
+                                <option value="" <?php if($op_type_value == ""):?>selected="selected"<?php endif;?>>全部</option>
+                                <?php foreach($op_type_list as $op_id => $op_type):?>
+                                    <option value="<?php echo $op_id;?>" <?php if($op_type_value == $op_id):?>selected="selected"<?php endif;?>>
+                                        <?php echo $op_type;?>
+                                    </option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">操作日期: </label>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <div class="form-control-static">
+                                <?php
+                                    $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                                        'attribute' => 'visit_time',
+                                        'language' => 'zh_cn',
+                                        'name' => 'u_date_from',
+                                        'value' => (isset($u_date_from) && $u_date_from) ? $u_date_from : '',
+                                        'options' => array(
+                                            'showOn' => 'both',
+                                            'buttonImage' => $calendar_icon,
+                                            'buttonImageOnly' => true,
+                                            'maxDate' => 'new Date()',
+                                            'dateFormat' => 'yy-mm-dd',
+                                        ),
+                                        'htmlOptions' => array(
+                                            'style' => 'width: 120px',
+                                        ),
+                                    ));
+                                ?>
+                                -
+                                <?php
+                                    $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                                        'attribute' => 'visit_time',
+                                        'language' => 'zh_cn',
+                                        'name' => 'u_date_to',
+                                        'value' => (isset($u_date_to) && $u_date_to) ? $u_date_to : '',
+                                        'options' => array(
+                                            'showOn' => 'both',
+                                            'buttonImage' => $calendar_icon,
+                                            'buttonImageOnly' => true,
+                                            'maxDate' => 'new Date()',
+                                            'dateFormat' => 'yy-mm-dd',
+                                        ),
+                                        'htmlOptions' => array(
+                                            'style' => 'width: 120px',
+                                        ),
+                                    ));
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <button id="filter-submit" onclick="return false" type="submit" class="btn btn-primary">查找</button>
+                            <a class="btn btn-danger second-btn" href="<?php echo $this->createUrl("/user/operation");?>">重置</a>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
-        <ul class="nav nav-list">
-            <li class="divider"></li>
-        </ul>
-        <div class="operation-log-customer-alert alert alert-danger alert-dismissible fade in" role="alert">
-<!--            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>-->
-            <strong>结束日期需大于等于起始日期！</strong>
         </div>
-		<table class="table table-hover table-bordered">
-			<thead>
-			<tr>
-				<th>
-					用户名
-				</th>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr>
+                <th>
+                    用户名
+                </th>
                 <th>
                     所属单位分类
                 </th>
                 <th>
                     用户类型
                 </th>
-				<th>
-					操作类型
-				</th>
-				<th>
-					操作时间
-				</th>
+                <th>
+                    操作类型
+                </th>
+                <th>
+                    操作时间
+                </th>
                 <th>
                     其他
                 </th>
-			</tr>
-			</thead>
-			<tbody>
+            </tr>
+            </thead>
+            <tbody>
             <?php if(!empty($op_log_list)):?>
             <?php foreach($op_log_list as $list):?>
-			<tr>
-				<td>
+            <tr>
+                <td>
                     <?php echo $list->users->username;?>
-				</td>
+                </td>
                 <td>
                     <?php echo $list->users->gov_cate_name;?>
                 </td>
                 <td>
                     <?php echo $u_types[$list->users->u_type];?>
                 </td>
-				<td>
+                <td>
                     <?php echo $op_type_list[$list->op_type];?>
-				</td>
-				<td>
+                </td>
+                <td>
                     <?php echo $list->op_time;?>
-				</td>
+                </td>
                 <td>
                     <?php echo $list->op_markup;?>
                 </td>
-			</tr>
+            </tr>
             <?php endforeach;?>
             <?php else:?>
                 <tr>
-                    <td colspan="6">
+                    <td colspan="6" class="text-center">
                         暂无数据...
                     </td>
                 </tr>
             <?php endif;?>
-			</tbody>
-		</table>
-		<?php
-		if(ceil($count / $this->PAGE_SIZE) > 1){
-			if(file_exists(Yii::app()->basePath.'/views/common/pager.php')){
-				require_once(Yii::app()->basePath.'/views/common/pager.php');
-			}
-		}
-		?>
-	</div>
-</div>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -156,11 +168,11 @@
         //validate date_from and date_to
         $("#filter-submit").click(function() {
             var _dateFrom, _dateTo;
-            _dateFrom = $("#date_from").val();
-            _dateTo = $("#date_to").val();
+            _dateFrom = $("#u_date_from").val();
+            _dateTo = $("#u_date_to").val();
 
             if(_dateFromGreatorThanDateTo(_dateFrom, _dateTo)) {
-                $('.operation-log-customer-alert').show();
+                $('.operation-log-customer-alert').removeClass("hidden");
                 return false;
             }
             $('form').submit();

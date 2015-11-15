@@ -27,6 +27,8 @@ class ModpassController extends Controller
 
     public function actionIndex() {
         $this->pageTitle = '修改密码';
+        $this->breadcrumbs = array("修改密码");
+        
         $ok = false;
         $error = "";
         $request = Yii::app()->getRequest();

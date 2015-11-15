@@ -4,15 +4,17 @@ class ProblemService extends Service
     //问题状态
     const BE_CREATED = 0;//未分配
     const BE_ASSIGNED = 1;//已经分配
-    const APPLY_DELAYING = 2;//申请延时
-    const APPLY_ASSISTING = 3;//申请联动
-    const BE_BACKING = 4;//退单
-    const BE_DEALING = 5;//处理中
     const WAIT_CHECKING = 6;//待审核
     const BE_UNQUALIFIED = 7;//打回
     const BE_QUALIFIED = 8;//审核通过
     const BE_CLOSED = 9;//关闭
-    const BE_CANCELED = 10;//关闭
+    const BE_CANCELED = 10;//撤销
+
+    // Deprecated
+    const APPLY_DELAYING = 2;//申请延时
+    const APPLY_ASSISTING = 3;//申请联动
+    const BE_BACKING = 4;//退单
+    const BE_DEALING = 5;//处理中
     
     public static $status = array(
         self::BE_CREATED => '未分配',
