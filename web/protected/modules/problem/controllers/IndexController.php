@@ -105,7 +105,7 @@ class IndexController extends ProblemController
         $data['problem_images'] = $problem_images;
         $data['pimg_service'] = $pimg_service;
 
-        $this->render('view', $data);
+        $this->render('view', compact("back_url", "problem", "problem_images", "pimg_service"));
     }
 }
 ?>

@@ -9,7 +9,10 @@ class SolveController extends UnitController
     
     public function actionIndex()
     {
+        $back_url_top = Yii::app()->getRequest()->getParam("back_url_top", "#");
+        $back_url = Yii::app()->getRequest()->getParam("back_url", "#");
         $this->pageTitle = '提交解决问题凭证';
+        $this->breadcrumbs = array("问题列表"=>urldecode($back_url_top), "问题详情"=>urldecode($back_url), "提交解决问题凭证");
         
         $pid = isset($_REQUEST['pid'])?intval($_REQUEST['pid']):0;
         $result_key = 'solve_problem_result';

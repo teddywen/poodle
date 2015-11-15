@@ -259,8 +259,9 @@
                                     <button type="button" class="btn btn-success btn_submit_form">接受</button>
                                     <button type="button" class="btn btn-danger btn_go_back_problem">退单</button>-->
                                 <?php endif; ?>
-                                <?php if(in_array($problem->status, array(ProblemService::BE_DEALING, ProblemService::BE_UNQUALIFIED))): ?>
-                                    <a href="<?php echo $this->createUrl("/problem/solve", array("pid"=>$problem->id)); ?>" class="btn btn-primary">上传处理结果</a>
+                                <?php if(in_array($problem->status, array(ProblemService::BE_ASSIGNED, ProblemService::WAIT_CHECKING, ProblemService::BE_BACKING))): ?>
+                                    <a href="<?php echo $this->createUrl("/problem/solve", array("pid"=>$problem->id, "back_url_top"=>$back_url, "back_url"=>urlencode(Util::getCurrentUrl()))); ?>" 
+                                        class="btn btn-primary">上传处理结果</a>
                                 <?php endif; ?>
                                 <?php if(in_array($problem->status, array(ProblemService::BE_ASSIGNED, ProblemService::BE_DEALING, ProblemService::APPLY_DELAYING, ProblemService::APPLY_ASSISTING))): ?>
                                     <?php if($problem->is_assistant == 0 && $problem->status != ProblemService::APPLY_ASSISTING): ?>
