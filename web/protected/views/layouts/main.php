@@ -9,6 +9,7 @@
     <script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/bootstrap/bootstrap.min.js"></script>
     <script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/bootstrap/bootstrap-paginator.min.js"></script>
+    <script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/jquery.form.js"></script>
 </head>
 <body>
     <div class="container">
@@ -32,20 +33,19 @@
         <?php $action_id = strtolower($this->action->id); ?>
         
         <?php $subnav_release_active = $module_id == 'problem' && $controller_id == 'release' && $action_id == 'index'; ?>
-        <?php $subnav_problem_active = $module_id == 'problem' && $controller_id == 'index' && $action_id == 'index'; ?>
+        <?php $subnav_problem_active = $module_id == 'problem' && $controller_id == 'index' && in_array($action_id, array("index", "view")); ?>
         <?php $subnav_static_release_active = $module_id == 'problem' && $controller_id == 'releasestatic' && $action_id == 'index'; ?>
         <?php $subnav_static_solve_active = $module_id == 'problem' && $controller_id == 'solvestatic' && $action_id == 'index'; ?>
         <?php $subnav_user_active = $module_id == 'user' && $controller_id == 'index' && $action_id == 'index'; ?>
         <?php $subnav_category_active = $module_id == 'user' && $controller_id == 'category' && $action_id == 'index'; ?>
-        <?php $subnav_admin_active = $module_id == 'user' && $controller_id == 'manager' && $action_id == 'index'; ?>
-        <?php $subnav_update_admin_active = $module_id == 'user' && $controller_id == 'manager' && $action_id == 'update'; ?>
+        <?php $subnav_admin_active = $module_id == 'user' && $controller_id == 'manager' && in_array($action_id, array("index", "update")); ?>
         <?php $subnav_create_admin_active = $module_id == 'user' && $controller_id == 'manager' && $action_id == 'create'; ?>
         <?php $subnav_operation_active = $module_id == 'user' && $controller_id == 'operation' && $action_id == 'index'; ?>
         <?php $subnav_modpass_active = $module_id == '' && $controller_id == 'modpass' && $action_id == 'index'; ?>
         
         <?php $nav_problem_active = $subnav_release_active || $subnav_problem_active || $subnav_static_release_active || $subnav_static_solve_active; ?>
         <?php $nav_user_active = $subnav_user_active || $subnav_category_active; ?>
-        <?php $nav_admin_active = $subnav_admin_active || $subnav_create_admin_active || $subnav_update_admin_active; ?>
+        <?php $nav_admin_active = $subnav_admin_active || $subnav_create_admin_active; ?>
         <?php $nav_operation_active = $subnav_operation_active; ?>
         <?php $nav_profile_active = $subnav_modpass_active; ?>
         <div class="row main-menu">

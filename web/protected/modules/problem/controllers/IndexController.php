@@ -88,9 +88,10 @@ class IndexController extends ProblemController
      * 查看问题详情
      * @param int $id 问题ID
      */
-    public function actionView($id)
+    public function actionView($id, $back_url = "#")
     {
         $this->pageTitle = '问题详情';
+        $this->breadcrumbs = array("问题列表"=>urldecode($back_url), "问题详情");
         
         $problem = $this->problem_service->getProlemById($id);
         //如果不是当前发布人的发布问题则跳回到列表

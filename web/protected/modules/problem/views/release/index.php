@@ -1,43 +1,47 @@
-<h3 class="text-left">发布新问题</h3>
+
 <?php if(Yii::app()->user->hasFlash($result_key)):?>
-<div class="alert alert-error">
-	<h4>提示!</h4>
-	<?php echo Yii::app()->user->getFlash($result_key);?>
-</div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-danger"><strong>提示!</strong><?php echo Yii::app()->user->getFlash($result_key);?></li>
+            </ul>
+        </div>
+    </div>
 <?php endif;?>
+
 <form class="form-horizontal" method="post">
     <div class="imgname_lists" style="display: none;"></div>
-	<div class="control-group">
-        <label class="control-label" for="inputEmail">地址：</label>
-		<div class="controls">
-			<input class="input-xxlarge" name="address" type="text" value="<?php echo isset($post_data['address'])?$post_data['address']:"";?>" required />
-		</div>
-	</div>
-	<div class="control-group">
-        <label class="control-label" for="inputPassword">问题描述：</label>
-		<div class="controls">
-			<textarea name="description" class="input-xxlarge" rows="5" style="resize: none;" maxlength="255" required><?php echo isset($post_data['description'])?$post_data['description']:"";?></textarea>
-		</div>
-	</div>
-	<div class="control-group">
-        <label class="control-label" for="inputPassword">问题图片：</label>
-		<div class="controls up_file_div">
-			<input type="file" id="f_image" name="problem_image" />
-            <label class="help-inline" style="color: red;">最大文件不能超过8M</label>
-		</div>
-	</div>
-	<div class="control-group">
-		<div class="controls">
-            <ul class="unstyled inline img_lists">
-            </ul>
-		</div>
-	</div>
-	<div class="control-group">
-		<div class="controls">
-			 <button type="submit" class="btn btn-info">发布</button>
-		</div>
-	</div>
+    <div class="form-group">
+        <label for="address" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">地址: </label>
+        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+            <input class="form-control" id="address" name="address" type="text" value="<?php echo isset($post_data['address'])?$post_data['address']:"";?>" required />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="description" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">问题描述: </label>
+        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+            <textarea class="form-control" id="description" name="description" rows="5" maxlength="255" required><?php echo isset($post_data['description']) ? CHtml::encode($post_data['description']) : "";?></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="f_image" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">问题图片: </label>
+        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 up_file_div">
+            <input type="file" id="f_image" name="problem_image" />
+            <label class="help-inline text-danger">最大文件不能超过8M</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            <ul class="form-control-static list-unstyled list-inline hidden img_lists"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            <button type="submit" class="btn btn-primary">发布</button>
+        </div>
+    </div>
 </form>
+
 <script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/file/ajaxfileupload.js"></script>
 <script type="text/javascript">
     $(function(){
@@ -85,6 +89,9 @@
             + '<a class="close remove_img" style="color: red;" title="删除">×</a>'
             + img_str + '</i>';
         $(".imgname_lists").append('<input type="hidden" name="img_names[]" value="'+r_img_path+","+t_width+","+t_height+'" />');
+        if ($(".img_lists").hasClass("hidden")) {
+            $(".img_lists").removeClass("hidden")
+        }
         $(".img_lists").append(li_str);
     }
     //删除照片
@@ -93,5 +100,8 @@
         var img_name = $(li_obj).attr("data-imgname");
         $(".imgname_lists").find("input[value='"+img_name+"']").remove();
         $(li_obj).remove();
+        if ($(".img_lists").html()=="") {
+            $(".img_lists").addClass("hidden");
+        }
     }
 </script>

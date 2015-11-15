@@ -79,7 +79,7 @@
 						<?php echo !empty($problem->check_time)?date('Y-m-d H:i:s', $problem->check_time):"" ;?>
 					</td>
 					<td>
-					    <a href="<?php echo Yii::app()->baseUrl?>/problem/index/view?id=<?php echo $problem->id;?>" class="btn btn-primary">查看</a>
+					    <a href="<?php echo $this->createUrl("/problem/index/view", array("id"=>$problem->id, "back_url"=>urlencode(Util::getCurrentUrl())));?>" class="btn btn-primary">查看</a>
 					</td>
 				</tr>
 		        <?php endforeach;?>
