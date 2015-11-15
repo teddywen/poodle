@@ -36,15 +36,17 @@
         <?php $subnav_problem_active = $module_id == 'problem' && $controller_id == 'index' && in_array($action_id, array("index", "view")); ?>
         <?php $subnav_static_release_active = $module_id == 'problem' && $controller_id == 'releasestatic' && $action_id == 'index'; ?>
         <?php $subnav_static_solve_active = $module_id == 'problem' && $controller_id == 'solvestatic' && $action_id == 'index'; ?>
-        <?php $subnav_user_active = $module_id == 'user' && $controller_id == 'index' && $action_id == 'index'; ?>
+        <?php $subnav_user_active = $module_id == 'user' && $controller_id == 'index' && in_array($action_id, array("index", "update")); ?>
+        <?php $subnav_create_user_active = $module_id == 'user' && $controller_id == 'index' && $action_id == 'create'; ?>
         <?php $subnav_category_active = $module_id == 'user' && $controller_id == 'category' && $action_id == 'index'; ?>
+        <?php $subnav_create_category_active = $module_id == 'user' && $controller_id == 'category' && $action_id == 'create'; ?>
         <?php $subnav_admin_active = $module_id == 'user' && $controller_id == 'manager' && in_array($action_id, array("index", "update")); ?>
         <?php $subnav_create_admin_active = $module_id == 'user' && $controller_id == 'manager' && $action_id == 'create'; ?>
         <?php $subnav_operation_active = $module_id == 'user' && $controller_id == 'operation' && $action_id == 'index'; ?>
         <?php $subnav_modpass_active = $module_id == '' && $controller_id == 'modpass' && $action_id == 'index'; ?>
         
         <?php $nav_problem_active = $subnav_release_active || $subnav_problem_active || $subnav_static_release_active || $subnav_static_solve_active; ?>
-        <?php $nav_user_active = $subnav_user_active || $subnav_category_active; ?>
+        <?php $nav_user_active = $subnav_user_active || $subnav_create_user_active || $subnav_category_active || $subnav_create_category_active; ?>
         <?php $nav_admin_active = $subnav_admin_active || $subnav_create_admin_active; ?>
         <?php $nav_operation_active = $subnav_operation_active; ?>
         <?php $nav_profile_active = $subnav_modpass_active; ?>
@@ -108,8 +110,14 @@
                         <?php if(Yii::app()->user->checkAccess('list_user')): ?>
                             <li role="presentation" <?php if($subnav_user_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/user/index");?>">用户列表</a></li>
                         <?php endif; ?>
+                        <?php if(Yii::app()->user->checkAccess('create_user')): ?>
+                            <li role="presentation" <?php if($subnav_create_user_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/user/index/create");?>">添加用户 <strong>+</strong></a></li>
+                        <?php endif; ?>
                         <?php if(Yii::app()->user->checkAccess('list_category')): ?>
                             <li role="presentation" <?php if($subnav_category_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/user/category");?>">单位分类</a></li>
+                        <?php endif; ?>
+                        <?php if(Yii::app()->user->checkAccess('create_category')): ?>
+                            <li role="presentation" <?php if($subnav_create_category_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/user/category/create");?>">添加单位分类 <strong>+</strong></a></li>
                         <?php endif; ?>
                     <?php endif; ?>
                     <?php if($nav_admin_active): ?>

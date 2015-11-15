@@ -9,7 +9,7 @@
 <?php endif;?>
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <form class="form-horizontal" method="post">
+        <form class="form-horizontal validate" method="post">
             <div class="form-group">
                 <label for="username" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 control-label">用户名: </label>
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">

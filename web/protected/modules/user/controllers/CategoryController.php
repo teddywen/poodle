@@ -15,6 +15,7 @@ class CategoryController extends UserController
     public function actionIndex()
     {
         $this->pageTitle = '分类列表';
+        $this->breadcrumbs = array("分类列表");
         
         $page = !empty($_REQUEST['page'])?intval($_REQUEST['page']):1;
         $condition = array();
@@ -40,6 +41,8 @@ class CategoryController extends UserController
     public function actionCreate()
     {
         $this->pageTitle = '添加分类';
+        $this->breadcrumbs = array("添加分类");
+
         $model = new GovCategory();
         $result_key = 'create_cate_result';
         if(isset($_POST) && $_POST){
@@ -62,8 +65,11 @@ class CategoryController extends UserController
      * 修改分类
      * @param int $id 分类ID
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $back_url = "#")
     {
+        $this->pageTitle = '修改分类';
+        $this->breadcrumbs = array("分类列表"=>urldecode($back_url), "修改分类");
+
         $model = $this->cate_service->getGovCateById($id);
         $result_key = 'create_cate_result';
         if(isset($_POST) && $_POST){

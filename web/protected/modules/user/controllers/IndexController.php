@@ -14,6 +14,7 @@ class IndexController extends UserController
     public function actionIndex()
     {
         $this->pageTitle = '用户列表';
+        $this->breadcrumbs = array("用户列表");
         
         $page = !empty($_REQUEST['page'])?intval($_REQUEST['page']):1;
         $condition = array();
@@ -50,6 +51,8 @@ class IndexController extends UserController
     public function actionCreate()
     {
         $this->pageTitle = '添加用户';
+        $this->breadcrumbs = array("添加用户");
+
         $model = new GovUser();
         $result_key = 'create_user_result';
         if(isset($_POST) && $_POST){
@@ -75,8 +78,11 @@ class IndexController extends UserController
      * 更新用户
      * @param int $id 用户ID
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $back_url = "#")
     {
+        $this->pageTitle = '修改用户';
+        $this->breadcrumbs = array("用户列表"=>urldecode($back_url), "修改用户");
+
         $model = $this->user_service->getGovUserById($id);
         $result_key = 'create_user_result';
         if(isset($_POST) && $_POST){
