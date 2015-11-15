@@ -123,8 +123,7 @@
             <?php if($problem->is_delay != 0):?>
                 <?php $delayapply_logs = $problem_log_service->getProblemStatusLog($problem->id, ProblemService::APPLY_DELAYING); ?>
                 <?php $delayapply_log = end($delayapply_logs); ?>
-                <?php $delay_month = floor($problem->delay_time / (30 * 24)); ?>
-                <?php $delay_day = ($problem->delay_time - ($deal_month * 30 * 24)) / 24; ?>
+                <?php $delay_day = floor($problem->delay_time / 24); ?>
                 <div class="form-group">
                     <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">申请延时: </label>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
