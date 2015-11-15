@@ -1,5 +1,6 @@
-<?php ?>
 <?php
+    //关键字
+    $s_keyword = isset($_GET['s_keyword'])?$_GET['s_keyword']:'';
     $calendar_icon = Yii::app()->params->image_url.'/calendar.gif';
     $start_time = date('Y-m-01'); $end_time = date('Y-m-d');
     //创建时间
@@ -44,6 +45,16 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
+                                <label for="s_status" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">关键字: </label>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" name="s_keyword" value="<?php echo $s_keyword;?>" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
                                 <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">发布时间: </label>
                                 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                     <div class="form-control-static">
@@ -58,11 +69,11 @@
                                                     'buttonImage' => $calendar_icon,
                                                     'buttonImageOnly' => true,
                                                     'maxDate' => 'new Date()',
-                                                    'dateFormat' => 'yy-mm-dd',
+                                                    'dateFormat' => 'yy-mm-dd'
                                                 ),
                                                 'htmlOptions' => array(
-                                                    'style' => 'width: 120px',
-                                                ),
+                                                    'style' => 'width: 120px'
+                                                )
                                             ));
                                         ?>
                                         -
@@ -77,11 +88,11 @@
                                                     'buttonImage' => $calendar_icon,
                                                     'buttonImageOnly' => true,
                                                     'maxDate' => 'new Date()',
-                                                    'dateFormat' => 'yy-mm-dd',
+                                                    'dateFormat' => 'yy-mm-dd'
                                                 ),
                                                 'htmlOptions' => array(
-                                                    'style' => 'width: 120px',
-                                                ),
+                                                    'style' => 'width: 120px'
+                                                )
                                             ));
                                         ?>
                                     </div>                                    
@@ -102,11 +113,11 @@
                                                     'buttonImage' => $calendar_icon,
                                                     'buttonImageOnly' => true,
                                                     'maxDate' => 'new Date()',
-                                                    'dateFormat' => 'yy-mm-dd',
+                                                    'dateFormat' => 'yy-mm-dd'
                                                 ),
                                                 'htmlOptions' => array(
-                                                    'style' => 'width: 120px',
-                                                ),
+                                                    'style' => 'width: 120px'
+                                                )
                                             ));
                                         ?>
                                         -
@@ -121,11 +132,11 @@
                                                     'buttonImage' => $calendar_icon,
                                                     'buttonImageOnly' => true,
                                                     'maxDate' => 'new Date()',
-                                                    'dateFormat' => 'yy-mm-dd',
+                                                    'dateFormat' => 'yy-mm-dd'
                                                 ),
                                                 'htmlOptions' => array(
-                                                    'style' => 'width: 120px',
-                                                ),
+                                                    'style' => 'width: 120px'
+                                                )
                                             ));
                                         ?>
                                     </div>

@@ -27,7 +27,7 @@ class ProblemService extends Service
         self::BE_UNQUALIFIED => '打回',
         self::BE_QUALIFIED => '审核通过',
         self::BE_CLOSED => '关闭',
-        self::BE_CANCELED => '撤销'
+        self::BE_CANCELED => '取销'
     );
     
     /**

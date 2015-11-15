@@ -53,6 +53,10 @@ class IndexController extends ProblemController
                 $condition['deal_uid'] = $s_deal_uid;
             }
         }
+        $s_keyword = isset($_REQUEST['s_keyword'])&&strlen($_REQUEST['s_keyword'])>0?trim($_REQUEST['s_keyword']):"";
+        if(strlen($s_keyword)){
+            $condition['description'] = array('like' => $s_keyword);
+        }
         $s_status = isset($_REQUEST['s_status'])&&strlen($_REQUEST['s_status'])>0?intval($_REQUEST['s_status']):"";
         if(strlen($s_status)){
             $condition['status'] = $s_status;

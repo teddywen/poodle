@@ -62,3 +62,14 @@ body {
 .modal-textarea {
     resize: none;
 }
+
+/*------------------MAIN SUBNAV START---------------------------*/
+li.sub_nav_li>a.sub_nav_a{
+    color: #fff !important;
+    background-color: #2f96b4 !important;
+}
+a.sub_nav_a{
+	margin: 5px 0px;
+	padding: 5px !important;
+}
+/*------------------MAIN SUBNAV END---------------------------*/

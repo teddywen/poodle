@@ -97,7 +97,17 @@
                             <li role="presentation" <?php if($subnav_release_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/problem/release");?>">发布问题</a></li>
                         <?php endif; ?>
                         <?php if(Yii::app()->user->checkAccess('list_problem')): ?>
-                            <li role="presentation" <?php if($subnav_problem_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/problem/index");?>">问题列表</a></li>
+                            <li role="presentation" <?php if($subnav_problem_active): ?>class="active"<?php endif; ?>>
+                                <a href="javascript:void(0);">问题列表</a>
+                                <ul class="nav nav-pills nav-stacked" style="padding-left: 20px;">
+                                    <li class="active sub_nav_li"><a href="<?php echo $this->createUrl("/problem/index?nav_status=0");?>" class="sub_nav_a">未分配</a></li>
+                                    <li><a href="<?php echo $this->createUrl("/problem/index");?>" class="sub_nav_a">已分配</a></li>
+                                    <li><a href="<?php echo $this->createUrl("/problem/index");?>" class="sub_nav_a">申请延时</a></li>
+                                    <li><a href="<?php echo $this->createUrl("/problem/index");?>" class="sub_nav_a">打回</a></li>
+                                    <li><a href="<?php echo $this->createUrl("/problem/index");?>" class="sub_nav_a">审核通过</a></li>
+                                    <li><a href="<?php echo $this->createUrl("/problem/index");?>" class="sub_nav_a">全部</a></li>
+                                </ul>
+                            </li>
                         <?php endif; ?>
                         <?php if(Yii::app()->user->checkAccess('export_release_problem')): ?>
                             <li role="presentation" <?php if($subnav_static_release_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/problem/releaseStatic");?>">反馈汇总</a></li>

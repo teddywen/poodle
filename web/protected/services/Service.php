@@ -31,7 +31,7 @@ class Service
                         }
 
                         if($k == 'like'){
-                            $criteria->compare($val, true);
+                            $criteria->compare($key, $val, true);
                         }
                     }
                 }
