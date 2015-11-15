@@ -35,172 +35,6 @@
                     </div>
                 </div>
             <?php endif;?>
-<<<<<<< HEAD
-            </select>
-		</div>
-	</div>
-	<div class="control-group set_deal_time" style="<?php echo $gov_users_display;?>">
-		<label class="control-label" for="inputEmail">完成时间：</label>
-		<div class="controls deal_user_container">
-            <?php
-                $deal_month = floor($problem->deal_time / (30 * 24));
-                $deal_day = ($problem->deal_time - ($deal_month * 30 * 24)) / 24;
-            ?>
-            <select id="deal_month" name="deal_month" <?php echo $assign_control_disabled;?> class="input-large">
-                <?php for($i=0;$i<=12;$i++):?>
-                <option value="<?php echo $i;?>"<?php if($i==$deal_month):?> selected="selected"<?php endif;?>><?php echo $i;?></option>
-                <?php endfor;?>
-            </select>&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;
-            <select id="deal_day" name="deal_day" <?php echo $assign_control_disabled;?> class="input-large">
-                <?php for($i=1;$i<=30;$i++):?>
-                <option value="<?php echo $i;?>"<?php if($i==$deal_day):?> selected="selected"<?php endif;?>><?php echo $i;?></option>
-                <?php endfor;?>
-            </select>&nbsp;&nbsp;日
-		</div>
-	</div>
-	<?php elseif(!in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_CANCELED))):?>
-	<div class="control-group">
-		<label class="control-label" for="inputEmail">指派单位：</label>
-		<div class="controls">
-            <label class="control-label" style="text-align: left;"><?php echo $problem->deal_username;?></label>
-		</div>
-	</div>
-	<div class="control-group set_deal_time">
-		<label class="control-label" for="inputEmail">完成用时：</label>
-		<div class="controls deal_user_container">
-            <?php
-                $deal_month = floor($problem->deal_time / (30 * 24));
-                $deal_day = ($problem->deal_time - ($deal_month * 30 * 24)) / 24;
-            ?>
-            <label class="control-label" style="text-align: left;"><?php echo $deal_month;?>&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $deal_day;?>&nbsp;&nbsp;日</label>
-		</div>
-	</div>
-	<?php endif;?>
-	<?php if($problem->is_delay != 0):?>
-    <?php
-        $delayapply_logs = $problem_log_service->getProblemStatusLog($problem->id, ProblemService::APPLY_DELAYING);
-        $delayapply_log = end($delayapply_logs);
-        $delay_month = floor($problem->delay_time / (30 * 24));
-        $delay_day = ($problem->delay_time - ($deal_month * 30 * 24)) / 24;
-    ?>
-	<div class="control-group">
-        <label class="control-label" for="inputPassword">申请延时：</label>
-		<div class="controls">
-            <label class="control-label" style="text-align: left;"><?php echo $delay_month;?>&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $delay_day;?>&nbsp;&nbsp;日</label>
-		</div>
-	</div>
-	<div class="control-group">
-        <label class="control-label" for="inputPassword">延时理由：</label>
-		<div class="controls">
-            <label class="control-label" style="text-align: left;width: 100%;"><?php echo empty($delayapply_log)?"":$delayapply_log->remark;?></label>
-		</div>
-	</div>
-	<?php endif;?>
-	<?php if($problem->is_assistant != 0):?>
-    <?php
-        $assistedapply_logs = $problem_log_service->getProblemStatusLog($problem->id, ProblemService::APPLY_ASSISTING);
-        $assistedapply_log = end($assistedapply_logs);
-    ?>
-	<div class="control-group">
-        <label class="control-label" for="inputPassword">申请联动：</label>
-		<div class="controls">
-            <?php
-                $unit_uids = json_decode($problem->assist_unit, true);
-                $unit_users = $user_service->getGovUserByIds($unit_uids);
-                $users_str = '';
-                foreach($unit_users as $unit_user){
-                    $users_str .= ','.$unit_user->username;
-                }
-                if(!empty($users_str)){
-                    $users_str = substr($users_str, 1);
-                }
-            ?>
-            <label class="control-label" style="text-align: left;width: 100%;"><?php echo $users_str;?></label>
-            <?php if(Yii::app()->user->checkAccess('admin')):?>
-            <button type="button" class="btn btn-info btn_reset_assisted">重新分配</button>
-            <?php endif;?>
-		</div>
-	</div>
-	<div class="control-group">
-        <label class="control-label" for="inputPassword">联动理由：</label>
-		<div class="controls">
-            <label class="control-label" style="text-align: left;width: 100%;"><?php echo empty($assistedapply_log)?"":$assistedapply_log->remark;?></label>
-		</div>
-	</div>
-	<div class="control-group reset_assisted_units" style="display: none;">
-		<label class="control-label">需要联动：</label>
-		<div class="controls">
-			<label class="radio inline">
-				<input type="radio" class="rdi_need_assistant" name="need_assistant" value="1" checked="checked" /> 是
-			</label>
-			<label class="radio inline">
-				<input type="radio" class="rdi_need_assistant" name="need_assistant" value="0" /> 否
-			</label>
-		</div>
-	</div>
-	<div class="control-group reset_assisted_units assisted_units_lists" style="display: none;">
-        <label class="control-label" for="inputPassword">联动单位：</label>
-		<div class="controls">
-            <label for="inputEmail">联动单位：</label>
-    		<?php
-                $users = $user_service->getAvailableUsers();
-                $line_num = 5; $own_user_key = -1;
-    		?>
-    		<?php if(!empty($users)):?>
-    		<table class="table">
-    		<?php foreach($users as $key=>$user):?>
-    		<?php if($user->id == $problem->deal_uid):?>
-    		<?php $own_user_key = $key;?>
-    		<?php else:?>
-    		<?php if($own_user_key > 0 &&$key > $own_user_key):?>
-    		<?php $key = $key - 1;?>
-    		<?php endif;?>
-    		<?php if($key == 0 || (($key % $line_num) == 0)):?>
-    		<tr>
-    		<?php endif;?>
-                <td>
-                    <label class="checkbox">
-                        <input type="checkbox" name="user_ids[]" value="<?php echo $user->id;?>" <?php if(in_array($user->id, $unit_uids)):?> checked="checked"<?php endif;?> /> <?php echo $user->username;?>
-                    </label>
-                </td>
-    		<?php if((($key % $line_num) == 4)):?>
-    		</tr>
-    		<?php endif;?>
-    		<?php endif;?>
-    		<?php endforeach;?>
-    		</table>
-    		<?php endif;?>
-		</div>
-	</div>
-	<?php endif;?>
-	<?php if(!isset($problem_images) || !empty($problem_images)):?>
-	<div class="control-group">
-        <label class="control-label" for="inputPassword">问题图片：</label>
-		<div class="controls">
-            <ul class="unstyled inline img_lists">
-                <?php foreach($problem_images as $problem_image):?>
-                <?php
-                    $img_path = $problem_image->img_path;
-                    $img_radio = round($problem_image->img_width / $problem_image->img_height, 2);
-                    $img_height = 190; $img_width = $img_height * $img_radio;
-                ?>
-                <li style="margin-bottom: 15px;"><img src="<?php echo $img_path;?>" width="<?php echo $img_width;?>" height="<?php echo $img_height;?>" class="img-rounded" /></li>
-            <?php endforeach;?>
-            </ul>
-		</div>
-	</div>
-	<?php endif;?>
-	<?php if(in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_QUALIFIED, ProblemService::BE_UNQUALIFIED, ProblemService::BE_CLOSED))):?>
-    <?php
-        $solve_images = $pimg_service->getImagesByPid($problem->id, 2);
-    ?>
-    <?php if(!empty($solve_images)):?>
-    <div class="control-group">
-        <label class="control-label" for="inputPassword">解决图片：</label>
-		<div class="controls">
-            <ul class="unstyled inline img_lists">
-                <?php foreach($solve_images as $solve_image):?>
-=======
             <?php if($problem->status == ProblemService::BE_UNQUALIFIED):?>
                 <?php $unqualified_infos = $problem_log_service->getProblemStatusLog($problem->id, ProblemService::BE_UNQUALIFIED); ?>
                 <?php $unqualified_info = end($unqualified_infos); ?>
@@ -246,54 +80,12 @@
                         </select>
                     </div>
                 </div>
->>>>>>> 56dd1074706f5cbcfcea1f571181e316eef8ac2f
                 <?php
                     $gov_users_display = "display: none;";
                     if(isset($select_gov_users) && !empty($select_gov_users)){
                         $gov_users_display = "";
                     }
                 ?>
-<<<<<<< HEAD
-                <li style="margin-bottom: 15px;"><img src="<?php echo $img_path;?>" width="<?php echo $img_width;?>" height="<?php echo $img_height;?>" class="img-rounded" /></li>
-            <?php endforeach;?>
-            </ul>
-		</div>
-	</div>
-	<?php endif;?>
-	<?php endif;?>
-	<?php if(Yii::app()->user->checkAccess('finder') && $problem->status == ProblemService::BE_CREATED):?>
-	<div class="controls">
-	   <button type="button" name="solve_unqualified" class="btn btn-danger btn_submit_form">撤单</button>
-	</div>
-	<?php endif;?>
-	<?php if(!Yii::app()->user->checkAccess('finder')):?><!-- 是发布人员，本页面只能观看信息，不能再进行操作 -->
-	<div class="control-group">
-        <?php if(Yii::app()->user->checkAccess('admin')):?>
-        <?php if(in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_BACKING, ProblemService::APPLY_DELAYING, ProblemService::APPLY_ASSISTING))):?>
-		<div class="controls">
-            <button type="button" class="btn btn-info btn_submit_form">分配</button>
-		</div>
-		<?php endif;?>
-		<?php if(in_array($problem->status, array(ProblemService::WAIT_CHECKING))):?>
-		<div class="controls">
-            <button type="button" name="solve_qualified" class="btn btn-success btn_solve_qualified">通过</button>
-            <button type="button" name="solve_unqualified" class="btn btn-danger btn_go_solve_unqualified">打回</button>
-		</div>
-		<?php endif;?>
-		<?php endif;?>
-        <?php if(Yii::app()->user->checkAccess('unit')):?>
-		<div class="controls">
-            <?php if(in_array($problem->status, array(ProblemService::BE_ASSIGNED))):?>
-            <button type="button" class="btn btn-success btn_submit_form">接受</button>
-            <button type="button" class="btn btn-danger btn_go_back_problem">退单</button>
-            <?php endif;?>
-            <?php if(in_array($problem->status, array(ProblemService::BE_DEALING, ProblemService::BE_UNQUALIFIED))):?>
-            <a href="<?php ?>/problem/solve?pid=<?php echo $problem->id;?>" class="btn btn-primary">上传处理结果</a>
-            <?php endif;?>
-            <?php if(in_array($problem->status, array(ProblemService::BE_ASSIGNED, ProblemService::BE_DEALING, ProblemService::APPLY_DELAYING, ProblemService::APPLY_ASSISTING))):?>
-            <?php if($problem->is_assistant == 0 && $problem->status != ProblemService::APPLY_ASSISTING):?>
-            <button type="button" class="btn btn-warning btn_go_assisted_problem">申请联动</button>
-=======
                 <div class="form-group">
                     <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-7 col-md-7 col-sm-7 col-xs-7">
                         <select id="gov_users" name="deal_uid" class="form-control" <?php echo $assign_control_disabled;?> style="<?php echo $gov_users_display;?>">
@@ -316,7 +108,7 @@
                         </select>
                     </div>
                 </div>
-            <?php elseif($problem->status != ProblemService::BE_CREATED):?>
+            <?php elseif(!in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_CANCELED))):?>
                 <div class="form-group">
                     <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">指派单位: </label>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -329,7 +121,6 @@
                         <p class="form-control-static"><?php $deal_day;?>天</p>
                     </div>
                 </div>
->>>>>>> 56dd1074706f5cbcfcea1f571181e316eef8ac2f
             <?php endif;?>
 
             <?php if($problem->is_delay != 0):?>
@@ -426,7 +217,7 @@
                     </div>
                 </div>
             <?php endif;?> -->
-
+            <?php if(!(isset($problem_images) && empty($problem_images))):?>
             <div class="form-group">
                 <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">问题图片: </label>
                 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
@@ -440,7 +231,7 @@
                     </ul>
                 </div>
             </div>
-
+            <?php endif;?>
             <?php if(in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_QUALIFIED, ProblemService::BE_UNQUALIFIED, ProblemService::BE_CLOSED))): ?>
                 <div class="form-group">
                     <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">解决图片: </label>
@@ -458,11 +249,14 @@
                 </div>
             <?php endif;?>
 
-            <!-- 是发布人员，本页面只能观看信息，不能再进行操作 -->
-            <?php if(!Yii::app()->user->checkAccess('finder')): ?>
-                <div class="form-group">
-                    <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                        <div class="form-control-static">
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                    <div class="form-control-static">
+                        <?php if(Yii::app()->user->checkAccess('finder') && $problem->status == ProblemService::BE_CREATED):?>
+                        <button type="button" name="solve_unqualified" class="btn btn-danger btn_submit_form">撤销</button>
+                        <?php endif;?>
+                        <!-- 是发布人员，本页面只能观看信息，不能再进行操作 -->
+                        <?php if(!Yii::app()->user->checkAccess('finder')): ?>
                             <?php if(Yii::app()->user->checkAccess('admin')): ?>
                                 <?php if(in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_BACKING, ProblemService::APPLY_DELAYING, ProblemService::APPLY_ASSISTING))): ?>
                                     <button type="button" class="btn btn-primary btn_submit_form">分配</button>
@@ -493,10 +287,10 @@
                                     <?php endif; ?>
                                 <?php endif;?>
                             <?php endif; ?>
-                        </div>
+                        <?php endif;?>
                     </div>
                 </div>
-            <?php endif;?> 
+            </div>
         </form>
     </div>
 </div>
