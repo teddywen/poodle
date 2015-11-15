@@ -46,85 +46,89 @@
                             <div class="form-group">
                                 <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">发布时间: </label>
                                 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                    <?php
-                                        $this->widget('zii.widgets.jui.CJuiDatePicker',array(
-                                            'attribute' => 'visit_time',
-                                            'language' => 'zh_cn',
-                                            'name' => 'create_start_time',
-                                            'value' => $create_start_time,
-                                            'options' => array(
-                                                'showOn' => 'both',
-                                                'buttonImage' => $calendar_icon,
-                                                'buttonImageOnly' => true,
-                                                'maxDate' => 'new Date()',
-                                                'dateFormat' => 'yy-mm-dd',
-                                            ),
-                                            'htmlOptions' => array(
-                                                'style' => 'width: 120px',
-                                            ),
-                                        ));
-                                    ?>
-                                    -
-                                    <?php
-                                        $this->widget('zii.widgets.jui.CJuiDatePicker',array(
-                                            'attribute' => 'visit_time',
-                                            'language' => 'zh_cn',
-                                            'name' => 'create_end_time',
-                                            'value' => $create_end_time,
-                                            'options' => array(
-                                                'showOn' => 'both',
-                                                'buttonImage' => $calendar_icon,
-                                                'buttonImageOnly' => true,
-                                                'maxDate' => 'new Date()',
-                                                'dateFormat' => 'yy-mm-dd',
-                                            ),
-                                            'htmlOptions' => array(
-                                                'style' => 'width: 120px',
-                                            ),
-                                        ));
-                                    ?>
+                                    <div class="form-control-static">
+                                        <?php
+                                            $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                                                'attribute' => 'visit_time',
+                                                'language' => 'zh_cn',
+                                                'name' => 'create_start_time',
+                                                'value' => $create_start_time,
+                                                'options' => array(
+                                                    'showOn' => 'both',
+                                                    'buttonImage' => $calendar_icon,
+                                                    'buttonImageOnly' => true,
+                                                    'maxDate' => 'new Date()',
+                                                    'dateFormat' => 'yy-mm-dd',
+                                                ),
+                                                'htmlOptions' => array(
+                                                    'style' => 'width: 120px',
+                                                ),
+                                            ));
+                                        ?>
+                                        -
+                                        <?php
+                                            $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                                                'attribute' => 'visit_time',
+                                                'language' => 'zh_cn',
+                                                'name' => 'create_end_time',
+                                                'value' => $create_end_time,
+                                                'options' => array(
+                                                    'showOn' => 'both',
+                                                    'buttonImage' => $calendar_icon,
+                                                    'buttonImageOnly' => true,
+                                                    'maxDate' => 'new Date()',
+                                                    'dateFormat' => 'yy-mm-dd',
+                                                ),
+                                                'htmlOptions' => array(
+                                                    'style' => 'width: 120px',
+                                                ),
+                                            ));
+                                        ?>
+                                    </div>                                    
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">更新时间: </label>
                                 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                    <?php
-                                        $this->widget('zii.widgets.jui.CJuiDatePicker',array(
-                                            'attribute' => 'visit_time',
-                                            'language' => 'zh_cn',
-                                            'name' => 'update_start_time',
-                                            'value' => $update_start_time,
-                                            'options' => array(
-                                                'showOn' => 'both',
-                                                'buttonImage' => $calendar_icon,
-                                                'buttonImageOnly' => true,
-                                                'maxDate' => 'new Date()',
-                                                'dateFormat' => 'yy-mm-dd',
-                                            ),
-                                            'htmlOptions' => array(
-                                                'style' => 'width: 120px',
-                                            ),
-                                        ));
-                                    ?>
-                                    -
-                                    <?php
-                                        $this->widget('zii.widgets.jui.CJuiDatePicker',array(
-                                            'attribute' => 'visit_time',
-                                            'language' => 'zh_cn',
-                                            'name' => 'update_end_time',
-                                            'value' => $update_end_time,
-                                            'options' => array(
-                                                'showOn' => 'both',
-                                                'buttonImage' => $calendar_icon,
-                                                'buttonImageOnly' => true,
-                                                'maxDate' => 'new Date()',
-                                                'dateFormat' => 'yy-mm-dd',
-                                            ),
-                                            'htmlOptions' => array(
-                                                'style' => 'width: 120px',
-                                            ),
-                                        ));
-                                    ?>
+                                    <div class="form-control-static">
+                                        <?php
+                                            $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                                                'attribute' => 'visit_time',
+                                                'language' => 'zh_cn',
+                                                'name' => 'update_start_time',
+                                                'value' => $update_start_time,
+                                                'options' => array(
+                                                    'showOn' => 'both',
+                                                    'buttonImage' => $calendar_icon,
+                                                    'buttonImageOnly' => true,
+                                                    'maxDate' => 'new Date()',
+                                                    'dateFormat' => 'yy-mm-dd',
+                                                ),
+                                                'htmlOptions' => array(
+                                                    'style' => 'width: 120px',
+                                                ),
+                                            ));
+                                        ?>
+                                        -
+                                        <?php
+                                            $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                                                'attribute' => 'visit_time',
+                                                'language' => 'zh_cn',
+                                                'name' => 'update_end_time',
+                                                'value' => $update_end_time,
+                                                'options' => array(
+                                                    'showOn' => 'both',
+                                                    'buttonImage' => $calendar_icon,
+                                                    'buttonImageOnly' => true,
+                                                    'maxDate' => 'new Date()',
+                                                    'dateFormat' => 'yy-mm-dd',
+                                                ),
+                                                'htmlOptions' => array(
+                                                    'style' => 'width: 120px',
+                                                ),
+                                            ));
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
