@@ -35,6 +35,18 @@
 		</div>
 	</div>
 	<?php endif;?>
+	<?php if($problem->status == ProblemService::BE_UNQUALIFIED):?>
+	<div class="control-group">
+        <label class="control-label" for="inputEmail">打回理由：</label>
+		<div class="controls">
+        <?php
+            $unqualified_infos = $problem_log_service->getProblemStatusLog($problem->id, ProblemService::BE_UNQUALIFIED);
+            $unqualified_info = end($unqualified_infos);
+		?>
+			<label class="control-label" style="text-align: left; width: 100%;"><?php echo !empty($unqualified_info)?$unqualified_info->remark:"";?></label>
+		</div>
+	</div>
+	<?php endif;?>
 	<div class="control-group">
         <label class="control-label" for="address">地址：</label>
 		<div class="controls">
