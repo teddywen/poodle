@@ -1,22 +1,64 @@
-/*------------------BLOGIN BEGIN---------------------------*/
+/*------------------BLOGIN---------------------------*/
+body {
+    background-color: #fafbff;
+}
 .logo {
     width: 120px;
     height: 80px;
 }
-.site-center-block {
+.login-center-block {
     padding: 80px;
-    background-color: #5bc0de;
+    background-color: #337ab7;
     color: #fff;
 }
-.site-center-block-btn {
+.login-center-btn {
     border: 1px white solid;
-    background-color: transparent;
 }
-.site-error-padding {
+.login-error {
     padding: 7px;
 }
-.footer {
-    margin-top: 20px;
+.login-footer {
+    border-top: 1px solid #d7d7d7;
+    margin: 100px 50px 0px;
+    padding: 50px 20px 50px;
     color: #777;
 }
 /*------------------LOGIN END---------------------------*/
+
+
+/*------------------MAIN LAYOUT---------------------------*/
+.main-header {
+    margin-top: 10px;
+}
+.main-menu {
+    margin-top: 20px;
+}
+.main-breadcrumbs {
+    margin-top: 15px;
+}
+.main-body {
+    margin-top: 0px;
+}
+.main-footer {
+    border-top: 1px solid #d7d7d7;
+    margin: 100px 50px 0px;
+    padding: 50px 20px 50px;
+    color: #777;
+}
+.breadcrumb>li+li:before {
+    content: ">\00a0";
+}
+/*------------------MAIN LAYOUT END---------------------------*/
+
+.alert-p {
+    padding: 15px;
+}
+.paginator-text {
+    margin-bottom: 0px;
+}
+.second-btn {
+    margin-left: 30px;
+}
+.modal-textarea {
+    resize: none;
+}

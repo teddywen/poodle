@@ -14,6 +14,7 @@ class IndexController extends ProblemController
     public function actionIndex()
     {
         $this->pageTitle = '问题列表';
+        $this->breadcrumbs = array("问题列表");
         
         $page = isset($_REQUEST['page'])?intval($_REQUEST['page']):1;
         $condition = $this->setSearchCond();
@@ -87,9 +88,10 @@ class IndexController extends ProblemController
      * 查看问题详情
      * @param int $id 问题ID
      */
-    public function actionView($id)
+    public function actionView($id, $back_url = "#")
     {
         $this->pageTitle = '问题详情';
+        $this->breadcrumbs = array("问题列表"=>urldecode($back_url), "问题详情");
         
         $problem = $this->problem_service->getProlemById($id);
         //如果不是当前发布人的发布问题则跳回到列表
@@ -103,7 +105,7 @@ class IndexController extends ProblemController
         $data['problem_images'] = $problem_images;
         $data['pimg_service'] = $pimg_service;
 
-        $this->render('view', $data);
+        $this->render('view', compact("back_url", "problem", "problem_images", "pimg_service"));
     }
 }
 ?>

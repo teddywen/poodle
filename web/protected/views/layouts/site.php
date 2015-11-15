@@ -11,14 +11,6 @@
 	<script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/bootstrap/bootstrap-paginator.min.js"></script>
 </head>
 <body>
-    <div class="container-fluid">
-    	<?php echo $content;?>
-
-        <div class="row footer">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <p class="text-center">Powered by scw team<br/>Ver 1.0.0</p>
-            </div>            
-        </div>
-    </div>
+    <?php echo $content;?>
 </body>
 </html>

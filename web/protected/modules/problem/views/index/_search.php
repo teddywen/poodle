@@ -33,145 +33,193 @@
     $s_delay = isset($_REQUEST['s_delay'])&&strlen($_REQUEST['s_delay'])>0?intval($_REQUEST['s_delay']):"";
     $s_assisted = isset($_REQUEST['s_assisted'])&&strlen($_REQUEST['s_assisted'])>0?intval($_REQUEST['s_assisted']):"";
 ?>
-<form class="form-search form-inline">
-    <div style="margin-bottom: 10px;">
-    	发布时间：
-    	<?php
-            $this->widget('zii.widgets.jui.CJuiDatePicker',array(
-                'attribute' => 'visit_time',
-                'language' => 'zh_cn',
-                'name' => 'create_start_time',
-                'value' => $create_start_time,
-                'options' => array(
-                    'showOn' => 'both',
-                    'buttonImage' => $calendar_icon,
-                    'buttonImageOnly' => true,
-                    'maxDate' => 'new Date()',
-                    'dateFormat' => 'yy-mm-dd',
-                ),
-                'htmlOptions' => array(
-                    'style' => 'width: 120px',
-                ),
-            ));
-        ?>
-        -
-        <?php
-            $this->widget('zii.widgets.jui.CJuiDatePicker',array(
-                'attribute' => 'visit_time',
-                'language' => 'zh_cn',
-                'name' => 'create_end_time',
-                'value' => $create_end_time,
-                'options' => array(
-                    'showOn' => 'both',
-                    'buttonImage' => $calendar_icon,
-                    'buttonImageOnly' => true,
-                    'maxDate' => 'new Date()',
-                    'dateFormat' => 'yy-mm-dd',
-                ),
-                'htmlOptions' => array(
-                    'style' => 'width: 120px',
-                ),
-            ));
-        ?>
-        &nbsp;&nbsp;
-                        状态：
-        <select name="s_status" class="form-control input-medium">
-            <option value="">全部</option>
-            <?php $all_status = ProblemService::$status;?>
-            <?php foreach($all_status as $key=>$status):?>
-            <option value="<?php echo $key;?>"<?php if(strlen($s_status)>0&&$key==$s_status):?> selected="selected"<?php endif;?>><?php echo $status;?></option>
-            <?php endforeach;?>
-        </select>
-        <?php if(Yii::app()->user->checkAccess('admin')):?>
-        &nbsp;&nbsp;
-                        发布人：
-        <select name="s_release_uid" class="form-control input-medium">
-            <option value="">全部</option>
-            <?php if(!empty($release_users)):?>
-            <?php foreach($release_users as $release_user):?>
-            <option value="<?php echo $release_user->id;?>"<?php if($s_release_uid==$release_user->id):?> selected="selected"<?php endif;?>><?php echo $release_user->username;?></option>
-            <?php endforeach;?>
-            <?php endif;?>
-        </select>
-        <?php endif;?>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">搜索</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">发布时间: </label>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <div class="form-control-static">
+                                        <?php
+                                            $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                                                'attribute' => 'visit_time',
+                                                'language' => 'zh_cn',
+                                                'name' => 'create_start_time',
+                                                'value' => $create_start_time,
+                                                'options' => array(
+                                                    'showOn' => 'both',
+                                                    'buttonImage' => $calendar_icon,
+                                                    'buttonImageOnly' => true,
+                                                    'maxDate' => 'new Date()',
+                                                    'dateFormat' => 'yy-mm-dd',
+                                                ),
+                                                'htmlOptions' => array(
+                                                    'style' => 'width: 120px',
+                                                ),
+                                            ));
+                                        ?>
+                                        -
+                                        <?php
+                                            $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                                                'attribute' => 'visit_time',
+                                                'language' => 'zh_cn',
+                                                'name' => 'create_end_time',
+                                                'value' => $create_end_time,
+                                                'options' => array(
+                                                    'showOn' => 'both',
+                                                    'buttonImage' => $calendar_icon,
+                                                    'buttonImageOnly' => true,
+                                                    'maxDate' => 'new Date()',
+                                                    'dateFormat' => 'yy-mm-dd',
+                                                ),
+                                                'htmlOptions' => array(
+                                                    'style' => 'width: 120px',
+                                                ),
+                                            ));
+                                        ?>
+                                    </div>                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">更新时间: </label>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <div class="form-control-static">
+                                        <?php
+                                            $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                                                'attribute' => 'visit_time',
+                                                'language' => 'zh_cn',
+                                                'name' => 'update_start_time',
+                                                'value' => $update_start_time,
+                                                'options' => array(
+                                                    'showOn' => 'both',
+                                                    'buttonImage' => $calendar_icon,
+                                                    'buttonImageOnly' => true,
+                                                    'maxDate' => 'new Date()',
+                                                    'dateFormat' => 'yy-mm-dd',
+                                                ),
+                                                'htmlOptions' => array(
+                                                    'style' => 'width: 120px',
+                                                ),
+                                            ));
+                                        ?>
+                                        -
+                                        <?php
+                                            $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                                                'attribute' => 'visit_time',
+                                                'language' => 'zh_cn',
+                                                'name' => 'update_end_time',
+                                                'value' => $update_end_time,
+                                                'options' => array(
+                                                    'showOn' => 'both',
+                                                    'buttonImage' => $calendar_icon,
+                                                    'buttonImageOnly' => true,
+                                                    'maxDate' => 'new Date()',
+                                                    'dateFormat' => 'yy-mm-dd',
+                                                ),
+                                                'htmlOptions' => array(
+                                                    'style' => 'width: 120px',
+                                                ),
+                                            ));
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php if(Yii::app()->user->checkAccess('admin')): ?>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="form-group">
+                                    <label for="s_release_uid" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 control-label">发布人: </label>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <select name="s_release_uid" class="form-control">
+                                            <option value="">全部</option>
+                                            <?php if(!empty($release_users)):?>
+                                                <?php foreach($release_users as $release_user):?>
+                                                    <option value="<?php echo $release_user->id;?>"<?php if($s_release_uid==$release_user->id):?> selected="selected"<?php endif;?>><?php echo $release_user->username;?></option>
+                                                <?php endforeach;?>
+                                            <?php endif;?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="form-group">
+                                    <label for="gov_cate_id" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">指派给: </label>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <select id="gov_cate_id" name="s_gov_cate_id" class="form-control">
+                                            <option value="">全部</option>
+                                            <?php if(!empty($gov_cates)):?>
+                                                <?php foreach($gov_cates as $gov_cate):?>
+                                                    <option value="<?php echo $gov_cate->id;?>"<?php if($s_gov_cate_id==$gov_cate->id):?> selected="selected"<?php endif;?>><?php echo $gov_cate->cate_name;?></option>
+                                                <?php endforeach;?>
+                                            <?php endif;?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif;?>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-group">
+                                <label for="s_delay" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 control-label">延时: </label>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <select name="s_delay" class="form-control">
+                                        <option value="">全部</option>
+                                        <option value="1"<?php if($s_delay===1):?> selected="selected"<?php endif;?>>是</option>
+                                        <option value="0"<?php if($s_delay===0):?> selected="selected"<?php endif;?>>否</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-group">
+                                <label for="s_assisted" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">联动: </label>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <select name="s_assisted" class="form-control">
+                                        <option value="">全部</option>
+                                        <option value="1"<?php if($s_assisted===1):?> selected="selected"<?php endif;?>>是</option>
+                                        <option value="0"<?php if($s_assisted===0):?> selected="selected"<?php endif;?>>否</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-group">
+                                <label for="s_status" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 control-label">状态: </label>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <select name="s_status" class="form-control">
+                                        <option value="">全部</option>
+                                        <?php $all_status = ProblemService::$status;?>
+                                        <?php foreach($all_status as $key=>$status):?>
+                                            <option value="<?php echo $key;?>"<?php if(strlen($s_status)>0&&$key==$s_status):?> selected="selected"<?php endif;?>><?php echo $status;?></option>
+                                        <?php endforeach;?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <button type="submit" class="btn btn-primary">查找</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <div style="margin-bottom: 10px;">
-    	更新时间：
-    	<?php
-            $this->widget('zii.widgets.jui.CJuiDatePicker',array(
-                'attribute' => 'visit_time',
-                'language' => 'zh_cn',
-                'name' => 'update_start_time',
-                'value' => $update_start_time,
-                'options' => array(
-                    'showOn' => 'both',
-                    'buttonImage' => $calendar_icon,
-                    'buttonImageOnly' => true,
-                    'maxDate' => 'new Date()',
-                    'dateFormat' => 'yy-mm-dd',
-                ),
-                'htmlOptions' => array(
-                    'style' => 'width: 120px',
-                ),
-            ));
-        ?>
-        -
-        <?php
-            $this->widget('zii.widgets.jui.CJuiDatePicker',array(
-                'attribute' => 'visit_time',
-                'language' => 'zh_cn',
-                'name' => 'update_end_time',
-                'value' => $update_end_time,
-                'options' => array(
-                    'showOn' => 'both',
-                    'buttonImage' => $calendar_icon,
-                    'buttonImageOnly' => true,
-                    'maxDate' => 'new Date()',
-                    'dateFormat' => 'yy-mm-dd',
-                ),
-                'htmlOptions' => array(
-                    'style' => 'width: 120px',
-                ),
-            ));
-        ?>
-        <?php if(Yii::app()->user->checkAccess('admin')):?>
-        &nbsp;&nbsp;
-                        指派给：
-    	<select id="gov_cate_id" name="s_gov_cate_id" class="form-control input-medium">
-            <option value="">全部</option>
-            <?php if(!empty($gov_cates)):?>
-            <?php foreach($gov_cates as $gov_cate):?>
-            <option value="<?php echo $gov_cate->id;?>"<?php if($s_gov_cate_id==$gov_cate->id):?> selected="selected"<?php endif;?>><?php echo $gov_cate->cate_name;?></option>
-            <?php endforeach;?>
-            <?php endif;?>
-        </select>
-        <select id="gov_users" name="s_deal_uid" class="form-control input-medium" style="<?php echo $gov_users_display;?>">
-            <?php if(empty($gov_users_display)):?>
-            <?php foreach($select_gov_users as $select_gov_user):?>
-            <option value="<?php echo $select_gov_user->id;?>"<?php if($select_gov_user->id==$s_deal_uid):?> selected="selected"<?php endif;?>><?php echo $select_gov_user->username;?></option>
-            <?php endforeach;?>
-            <?php endif;?>
-        </select>
-        <?php endif;?>
-    </div>
-    <div style="margin-bottom: 10px;">
-                        延时：
-        <select name="s_delay" class="form-control input-medium">
-            <option value="">全部</option>
-            <option value="1"<?php if($s_delay===1):?> selected="selected"<?php endif;?>>是</option>
-            <option value="0"<?php if($s_delay===0):?> selected="selected"<?php endif;?>>否</option>
-        </select>
-        &nbsp;&nbsp;
-                        联动：
-        <select name="s_assisted" class="form-control input-medium">
-            <option value="">全部</option>
-            <option value="1"<?php if($s_assisted===1):?> selected="selected"<?php endif;?>>是</option>
-            <option value="0"<?php if($s_assisted===0):?> selected="selected"<?php endif;?>>否</option>
-        </select>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    	<button type="submit" class="btn btn-primary">查找</button>
-    </div>
-</form>
+</div>
+
 <script type="text/javascript">
     $(function(){
     	//联动选择单位
