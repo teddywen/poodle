@@ -249,8 +249,7 @@
             <!-- 是发布人员，本页面只能观看信息，不能再进行操作 -->
             <?php if(!Yii::app()->user->checkAccess('finder')): ?>
                 <div class="form-group">
-                    <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">操作: </label>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                    <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-10 col-md-10 col-sm-10 col-xs-10">
                         <div class="form-control-static">
                             <?php if(Yii::app()->user->checkAccess('admin')): ?>
                                 <?php if(in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_BACKING, ProblemService::APPLY_DELAYING, ProblemService::APPLY_ASSISTING))): ?>
