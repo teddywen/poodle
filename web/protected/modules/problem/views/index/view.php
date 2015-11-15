@@ -1,5 +1,8 @@
 <?php
     $opetate_url = ''; $assign_control_disabled = 'disabled="disabled"';
+    if(Yii::app()->user->checkAccess('finder') && $problem->status == ProblemService::BE_CREATED){
+        $opetate_url = '/problem/problemFlow/cancelProblem';
+    }
     if(Yii::app()->user->checkAccess('admin') && in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_BACKING, ProblemService::APPLY_DELAYING, ProblemService::APPLY_ASSISTING))){
         $opetate_url = '/problem/problemFlow/assignDealUser';
         $assign_control_disabled = '';
@@ -113,7 +116,7 @@
             </select>&nbsp;&nbsp;日
 		</div>
 	</div>
-	<?php elseif($problem->status != ProblemService::BE_CREATED):?>
+	<?php elseif(!in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_CANCELED))):?>
 	<div class="control-group">
 		<label class="control-label" for="inputEmail">指派单位：</label>
 		<div class="controls">
@@ -228,6 +231,7 @@
 		</div>
 	</div>
 	<?php endif;?>
+	<?php if(!isset($problem_images) || !empty($problem_images)):?>
 	<div class="control-group">
         <label class="control-label" for="inputPassword">问题图片：</label>
 		<div class="controls">
@@ -243,14 +247,16 @@
             </ul>
 		</div>
 	</div>
+	<?php endif;?>
 	<?php if(in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_QUALIFIED, ProblemService::BE_UNQUALIFIED, ProblemService::BE_CLOSED))):?>
-	<div class="control-group">
+    <?php
+        $solve_images = $pimg_service->getImagesByPid($problem->id, 2);
+    ?>
+    <?php if(!empty($solve_images)):?>
+    <div class="control-group">
         <label class="control-label" for="inputPassword">解决图片：</label>
 		<div class="controls">
             <ul class="unstyled inline img_lists">
-                <?php
-                    $solve_images = $pimg_service->getImagesByPid($problem->id, 2);
-                ?>
                 <?php foreach($solve_images as $solve_image):?>
                 <?php
                     $img_path = $solve_image->img_path;
@@ -261,6 +267,12 @@
             <?php endforeach;?>
             </ul>
 		</div>
+	</div>
+	<?php endif;?>
+	<?php endif;?>
+	<?php if(Yii::app()->user->checkAccess('finder') && $problem->status == ProblemService::BE_CREATED):?>
+	<div class="controls">
+	   <button type="button" name="solve_unqualified" class="btn btn-danger btn_submit_form">撤单</button>
 	</div>
 	<?php endif;?>
 	<?php if(!Yii::app()->user->checkAccess('finder')):?><!-- 是发布人员，本页面只能观看信息，不能再进行操作 -->

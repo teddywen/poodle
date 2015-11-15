@@ -12,6 +12,7 @@ class ProblemService extends Service
     const BE_UNQUALIFIED = 7;//打回
     const BE_QUALIFIED = 8;//审核通过
     const BE_CLOSED = 9;//关闭
+    const BE_CANCELED = 10;//关闭
     
     public static $status = array(
         self::BE_CREATED => '未分配',
@@ -23,7 +24,8 @@ class ProblemService extends Service
         self::WAIT_CHECKING => '待审核',
         self::BE_UNQUALIFIED => '打回',
         self::BE_QUALIFIED => '审核通过',
-        self::BE_CLOSED => '关闭'
+        self::BE_CLOSED => '关闭',
+        self::BE_CANCELED => '撤销'
     );
     
     /**
@@ -51,8 +53,11 @@ class ProblemService extends Service
                 throw new Exception(print_r($model->getErrors(), true));
             }
             
-            $pimg_service = new ProblemImageService();
-            $res2 = $pimg_service->addNewProblemImage($p_imgs, $model->id);
+            $res2 = true;
+            if(!empty($p_imgs)){
+                $pimg_service = new ProblemImageService();
+                $res2 = $pimg_service->addNewProblemImage($p_imgs, $model->id);
+            }
             if(!$res2){
                 throw new Exception($pimg_service->getLastErrMsg());
             }
@@ -515,7 +520,6 @@ class ProblemService extends Service
      */
     public function assitedProblem($pid = 0, $problem_log_remark = '', $unit_users = array(), $is_assistant = 1)
     {
-
         if(empty($pid) && strlen($problem_log_remark) == 0){
             self::$errorMsg = '联动请求信息缺失';
             return false;
@@ -547,6 +551,63 @@ class ProblemService extends Service
                 'oper_user' => Yii::app()->user->name,
                 'log_desc' => Yii::app()->user->name.'申请联动APPLYASSITED['.json_encode($unit_users).']APPLYASSITED个小时',
                 'remark' => $problem_log_remark,
+                'create_time' => $cur_time
+            );
+        
+            $res2 = $plog_service->addNewProblemLog($log_data);
+            if(!$res2){
+                throw new Exception(self::getLastErrMsg());
+            }
+            $res = true;
+        }
+        catch(Exception $e){
+            self::$errorMsg = $e->getMessage();
+            $res = false;
+        }
+        
+        if($res){
+            $transaction->commit();
+        }
+        else{
+            $transaction->rollback();
+        }
+        return $res;
+    }
+    
+    /**
+     * 发布者撤销问题
+     * @param int $pid 问题ID
+     * @throws Exception 错误信息
+     * @return boolean 撤销结果
+     */
+    public function cancelProblem($pid = 0)
+    {
+        if(empty($pid)){
+            self::$errorMsg = '撤销请求信息缺失';
+            return false;
+        }
+        
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            $cur_time = $_SERVER['REQUEST_TIME'];
+            $problem = $this->getProlemById($pid);
+            $pre_pstatus = $problem->status;
+            $cur_status = self::BE_CANCELED;
+            $problem->status = $cur_status;
+            $problem->update_time = $cur_time;
+            $res1 = $problem->save();
+            if(!$res1){
+                throw new Exception(print_r($problem->getErrors(), true));
+            }
+        
+            $plog_service = new ProblemLogService();
+            $log_data = array(
+                'pid' => $pid,
+                'pre_status' => $pre_pstatus,
+                'cur_status' => $cur_status,
+                'oper_uid' => Yii::app()->user->id,
+                'oper_user' => Yii::app()->user->name,
+                'log_desc' => Yii::app()->user->name.'撤销问题',
                 'create_time' => $cur_time
             );
         

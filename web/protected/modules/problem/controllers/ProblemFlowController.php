@@ -120,7 +120,6 @@ class ProblemFlowController extends ProblemController
      */
     public function actionApplyAssitedProblem()
     {
-
         if(!Yii::app()->user->checkAccess('unit')){
             $data['code'] = 0; $data['msg'] = '没有权限';
             exit(json_encode($data));
@@ -134,6 +133,25 @@ class ProblemFlowController extends ProblemController
             exit(json_encode($data));
         }
         $data['code'] = 0; $data['msg'] = '联动申请失败';
+        exit(json_encode($data));
+    }
+    
+    /**
+     * 发布者关闭自己发布的问题
+     */
+    public function actionCancelProblem()
+    {
+        if(!Yii::app()->user->checkAccess('finder')){
+            $data['code'] = 0; $data['msg'] = '没有权限';
+            exit(json_encode($data));
+        }
+        $pid = isset($_POST['pid'])?intval($_POST['pid']):0;
+        $res = $this->problem_service->cancelProblem($pid, '');
+        $data['code'] = 1; $data['msg'] = '撤销成功';
+        if($res){
+            exit(json_encode($data));
+        }
+        $data['code'] = 0; $data['msg'] = '撤销失败';
         exit(json_encode($data));
     }
 }
