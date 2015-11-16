@@ -1,4 +1,5 @@
 <?php
+    $nav_status = isset($_GET['nav_status'])?intval($_GET['nav_status']):0;
     //关键字
     $s_keyword = isset($_GET['s_keyword'])?$_GET['s_keyword']:'';
     $calendar_icon = Yii::app()->params->image_url.'/calendar.gif';
@@ -204,6 +205,7 @@
                             </div>
                         </div>
                     </div>
+                    <?php if($nav_status == 999):?>
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                             <div class="form-group">
@@ -220,6 +222,7 @@
                             </div>
                         </div>
                     </div>
+                    <?php endif;?>
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-10 col-md-10 col-sm-10 col-xs-10">
                             <button type="submit" class="btn btn-primary">查找</button>
