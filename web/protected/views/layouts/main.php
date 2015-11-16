@@ -34,6 +34,7 @@
         
         <?php $subnav_release_active = $module_id == 'problem' && $controller_id == 'release' && $action_id == 'index'; ?>
         <?php $subnav_problem_active = $module_id == 'problem' && $controller_id == 'index' && in_array($action_id, array("index", "view")); ?>
+        <?php $subnav_delay_active = $module_id == 'problem' && $controller_id == 'delay' && $action_id == 'index'; ?>
         <?php $subnav_static_release_active = $module_id == 'problem' && $controller_id == 'releasestatic' && $action_id == 'index'; ?>
         <?php $subnav_static_solve_active = $module_id == 'problem' && $controller_id == 'solvestatic' && $action_id == 'index'; ?>
         <?php $subnav_user_active = $module_id == 'user' && $controller_id == 'index' && in_array($action_id, array("index", "update")); ?>
@@ -45,7 +46,7 @@
         <?php $subnav_operation_active = $module_id == 'user' && $controller_id == 'operation' && $action_id == 'index'; ?>
         <?php $subnav_modpass_active = $module_id == '' && $controller_id == 'modpass' && $action_id == 'index'; ?>
         
-        <?php $nav_problem_active = $subnav_release_active || $subnav_problem_active || $subnav_static_release_active || $subnav_static_solve_active; ?>
+        <?php $nav_problem_active = $subnav_release_active || $subnav_problem_active || $subnav_delay_active || $subnav_static_release_active || $subnav_static_solve_active; ?>
         <?php $nav_user_active = $subnav_user_active || $subnav_create_user_active || $subnav_category_active || $subnav_create_category_active; ?>
         <?php $nav_admin_active = $subnav_admin_active || $subnav_create_admin_active; ?>
         <?php $nav_operation_active = $subnav_operation_active; ?>
@@ -110,6 +111,9 @@
                                     <li <?php if($nav_status==999):?>class="sub_nav_li"<?php endif;?>><a href="<?php echo $this->createUrl("/problem/index?nav_status=999");?>" class="sub_nav_a">全部</a></li>
                                 </ul>
                             </li>
+                        <?php endif; ?>
+                        <?php if(Yii::app()->user->checkAccess('delay_approval_problem')): ?>
+                            <li role="presentation" <?php if($subnav_delay_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/problem/delay");?>">延时申请</a></li>
                         <?php endif; ?>
                         <?php if(Yii::app()->user->checkAccess('export_release_problem')): ?>
                             <li role="presentation" <?php if($subnav_static_release_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/problem/releaseStatic");?>">反馈汇总</a></li>

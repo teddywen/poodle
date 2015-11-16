@@ -103,6 +103,10 @@ class IndexController extends ProblemController
      */
     public function actionView($id, $back_url = "#")
     {
+        if ($back_url == "#") {
+            $back_url = $this->createUrl("/problem/index");
+        }
+
         $this->pageTitle = '问题详情';
         $this->breadcrumbs = array("问题列表"=>urldecode($back_url), "问题详情");
         

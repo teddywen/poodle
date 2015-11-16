@@ -103,9 +103,10 @@ class ProblemFlowController extends ProblemController
         }
         $pid = isset($_POST['pid'])?intval($_POST['pid']):0;
         $problem_log_remark = isset($_POST['problem_log_remark'])?trim($_POST['problem_log_remark']):"";
-        $delay_month = isset($_POST['delay_month'])?intval($_POST['delay_month']):0;
+        // $delay_month = isset($_POST['delay_month'])?intval($_POST['delay_month']):0;
         $delay_day = isset($_POST['delay_day'])?intval($_POST['delay_day']):1;
-        $delay_time = $delay_month * 30 *24 + $delay_day * 24;
+        // $delay_time = $delay_month * 30 *24 + $delay_day * 24;
+        $delay_time = $delay_day * 24;
         $res = $this->problem_service->delayProblem($pid, $problem_log_remark, $delay_time);
         $data['code'] = 1; $data['msg'] = '延时申请成功';
         if($res){
@@ -153,5 +154,30 @@ class ProblemFlowController extends ProblemController
         }
         $data['code'] = 0; $data['msg'] = '撤销失败';
         exit(json_encode($data));
+    }
+
+    public function actionApprovalDelayApply() {
+        $request = Yii::app()->getRequest();
+        if (!$request->getIsAjaxRequest()) {
+            throw new CHttpException(403, "非法访问");
+        }
+
+        $id = $request->getPost("id", 0);
+        $log_id = $request->getPost("log_id", 0);
+
+        $result = array("code"=>0, "msg"=>"操作失败");
+        if ($request->getPost("agree", null) !== null && $this->problem_service->agreeDelay($id, $log_id)) {
+            $result["code"] = 1;
+            $result["msg"] = "操作成功";
+        } else if ($request->getPost("refuse", null) !== null && $this->problem_service->refuseDelay($id, $log_id)) {
+            $result["code"] = 1;
+            $result["msg"] = "操作成功";
+        }
+
+        $errMsg = $this->problem_service->getLastErrMsg();
+        if ($result["code"] == 0 && $errMsg != "") {
+            $result["msg"] = $errMsg;
+        }
+        echo CJSON::encode($result);
     }
 }

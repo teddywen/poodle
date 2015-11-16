@@ -3,18 +3,16 @@ class ProblemService extends Service
 {
     //问题状态
     const BE_CREATED = 0;//未分配
-    const BE_ASSIGNED = 1;//已经分配
+    const BE_ASSIGNED = 1;//已经分配(现已废除, 管理员分配问题后直接置为处理中)
+    const APPLY_DELAYING = 2;//申请延时
+    const APPLY_ASSISTING = 3;//申请联动
+    const BE_BACKING = 4;//退单
+    const BE_DEALING = 5;//处理中
     const WAIT_CHECKING = 6;//待审核
     const BE_UNQUALIFIED = 7;//打回
     const BE_QUALIFIED = 8;//审核通过
     const BE_CLOSED = 9;//关闭
     const BE_CANCELED = 10;//撤销
-
-    // Deprecated
-    const APPLY_DELAYING = 2;//申请延时
-    const APPLY_ASSISTING = 3;//申请联动
-    const BE_BACKING = 4;//退单
-    const BE_DEALING = 5;//处理中
     
     public static $status = array(
         self::BE_CREATED => '未分配',
@@ -154,11 +152,14 @@ class ProblemService extends Service
             $deal_user = $user_service->getGovUserById($deal_uid);
             $problem = $this->getProlemById($pid);
             $pre_status = $problem->status;
-            $cur_status = self::BE_ASSIGNED;
+            $cur_status = self::BE_DEALING;
             $problem->deal_cate_id = $deal_user->gov_cate_id;
             $problem->deal_uid = $deal_uid;
             $problem->deal_username = $deal_user->username;
             $problem->deal_time = $deal_time;
+            $problem->is_delay = 0;
+            $problem->delay_count = 0;
+            $problem->delay_time = 0;
             $problem->status = $cur_status;
             $problem->assign_time = $cur_time;
             $problem->update_time = $cur_time;
@@ -450,7 +451,7 @@ class ProblemService extends Service
      * 设置问题延时信息
      * @param int $pid 问题ID
      * @param string $problem_log_remark 延时理由
-     * @param int $delay_time 延时时间
+     * @param int $delay_time 延时时间(小时)
      * @param int $delay_status 延时状态
      * @throws Exception 错误信息
      * @return boolean 申请结果
@@ -469,10 +470,6 @@ class ProblemService extends Service
             $pre_pstatus = $problem->status;
             $cur_status = self::APPLY_DELAYING;
             $problem->status = $cur_status;
-            $problem->is_delay = $delay_status;
-            if($delay_time > 0){
-                $problem->delay_time = $delay_time;
-            }
             $problem->update_time = $cur_time;
             $res1 = $problem->save();
             if(!$res1){
@@ -488,6 +485,7 @@ class ProblemService extends Service
                 'oper_user' => Yii::app()->user->name,
                 'log_desc' => Yii::app()->user->name.'申请延时'.$delay_time.'个小时',
                 'remark' => $problem_log_remark,
+                'data' => CJSON::encode(array("hour"=>$delay_time)), 
                 'create_time' => $cur_time
             );
         
@@ -631,5 +629,98 @@ class ProblemService extends Service
             $transaction->rollback();
         }
         return $res;
+    }
+
+    /**
+     * 获取延时申请 获取还没有审核通过同时又提出延时申请的记录
+     * @param int $deal_uid 处理问题人员ID
+     * @return array [{`id`, `description`, `remark`, `data`, `log_id`}, ...]
+     */
+    public function getWaitingDelayApplies() {
+        $sql = "SELECT `p`.`id`, `p`.`description`, `pl`.`remark`, `pl`.`data`, `pl`.`id` AS `log_id` 
+                FROM `problem` AS `p` 
+                INNER JOIN `problem_log` AS `pl` ON `p`.`id`=`pl`.`pid`
+                WHERE `p`.`status`=:status_dealing AND `pl`.`status`=:status_delay_waiting
+                ORDER BY `pl`.`create_time` DESC";
+        $params = array(":status_dealing"=>self::APPLY_DELAYING, ":status_delay_waiting"=>ProblemLogService::STATUS_DELAY_WAIT);
+
+        return Yii::app()->getDb()->createCommand($sql)->queryAll(true, $params);
+    }
+
+    /**
+     * 同意延时申请
+     * @param int $id 问题ID
+     * @param int $log_id 延时申请ID
+     * @return boolean 操作是否成功
+     */
+    public function agreeDelay($id, $log_id) {
+        $transaction = Yii::app()->db->beginTransaction();
+        $res = false;
+
+        try {
+            // Get delay hour.
+            $sql = "SELECT `data` FROM `problem_log` WHERE `id`=:log_id";
+            $params = array(":log_id"=>$log_id);
+            $data = Yii::app()->getDb()->createCommand($sql)->queryScalar($params);
+            $data = CJSON::decode($data);
+            $delay_time = isset($data["hour"]) ? $data["hour"] : 0;
+
+            // Add delay hour to problem.
+            $sql = "UPDATE `problem` 
+                    SET `is_delay`=:is_delay, `delay_count`=`delay_count`+1, `delay_time`=`delay_time`+:delay_time, `update_time`=:update_time 
+                    WHERE `id`=:id";
+            $params = array(
+                ":is_delay" => 1, 
+                ":delay_time" => $delay_time, 
+                ":update_time" => Util::time(), 
+                ":id" => $id, 
+            );
+            $affacted = Yii::app()->getDb()->createCommand($sql)->execute($params);
+            if ($affacted == 0) {
+                throw new CHttpException(500, "更新问题失败");
+            }
+
+            // Update delay apply status. If apply has approvaled by other admin, the update will not success and rollback transaction.
+            $sql = "UPDATE `problem_log`
+                    INNER JOIN `problem` ON `problem_log`.`pid`=`problem`.`id`
+                    SET `problem_log`.`status`=:status_delay_agree, `problem_log`.`update_time`=:update_time
+                    WHERE `problem_log`.`id`=:log_id AND `problem`.`id`=:id AND 
+                        `problem`.`status`=:status_apply_delaying AND `problem_log`.`status`=:status_delay_wait";
+            $params = array(
+                ":id" => $id, 
+                ":log_id" => $log_id, 
+                ":status_apply_delaying" => self::APPLY_DELAYING, 
+                ":status_delay_wait" => ProblemLogService::STATUS_DELAY_WAIT, 
+                ":status_delay_agree" => ProblemLogService::STATUS_DELAY_AGREE, 
+                ":update_time" => Util::time(), 
+            );
+            $affacted = Yii::app()->getDb()->createCommand($sql)->execute($params);
+            if ($affacted == 0) {
+                throw new CHttpException(500, "更新延时申请失败");
+            }
+
+            $res = true;
+        } catch(Exception $e){
+            self::$errorMsg = $e->getMessage();
+            $res = false;
+        }
+        
+        if ($res) {
+            $transaction->commit();
+        } else {
+            $transaction->rollback();
+        }
+
+        return $res;
+    }
+
+    /**
+     * 拒绝延时申请
+     * @param int $id 问题ID
+     * @param int $log_id 延时申请ID
+     * @return boolean 操作是否成功
+     */
+    public function refuseDelay($id, $log_id) {
+        return true;
     }
 }

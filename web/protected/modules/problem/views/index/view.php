@@ -123,10 +123,11 @@
                 </div>
             <?php endif;?>
 
-            <?php if($problem->is_delay != 0):?>
+            <?php if($problem->status == ProblemService::APPLY_DELAYING):?>
                 <?php $delayapply_logs = $problem_log_service->getProblemStatusLog($problem->id, ProblemService::APPLY_DELAYING); ?>
                 <?php $delayapply_log = end($delayapply_logs); ?>
-                <?php $delay_day = floor($problem->delay_time / 24); ?>
+                <?php $delayapply_log_data = CJSON::decode($delayapply_log->data); ?>
+                <?php $delay_day = floor($delayapply_log_data->hour / 24); ?>
                 <div class="form-group">
                     <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">申请延时: </label>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -282,7 +283,7 @@
                                         <!--
                                         <button type="button" class="btn btn-warning btn_go_assisted_problem">申请联动</button>-->
                                     <?php endif; ?>
-                                    <?php if($problem->is_delay == 0 && $problem->status != ProblemService::APPLY_DELAYING): ?>
+                                    <?php if($problem->status != ProblemService::APPLY_DELAYING): ?>
                                         <button type="button" class="btn btn-warning btn_go_delay_problem">申请延时</button>
                                     <?php endif; ?>
                                 <?php endif;?>

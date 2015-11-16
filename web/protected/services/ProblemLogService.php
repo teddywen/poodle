@@ -1,6 +1,11 @@
 <?php
 class ProblemLogService extends Service
 {
+    const STATUS_DELAY_WAIT = 2;
+    const STATUS_DELAY_AGREE = 3;
+    const STATUS_DELAY_REFUSE = 4;
+    const STATUS_DELAY_CANCEL = 5;
+
     /**
      * 添加问题进度日志
      * @param array $data 日志信息
@@ -10,7 +15,7 @@ class ProblemLogService extends Service
     {
         $problem_log = new ProblemLog();
         $problem_log->attributes = $data;
-        $problem_log->status = 1;
+        $problem_log->status = self::STATUS_DELAY_WAIT;
         $res = $problem_log->save();
         if($res){
             return true;

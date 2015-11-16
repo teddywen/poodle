@@ -17,6 +17,7 @@
  * @property integer $times_up
  * @property integer $status
  * @property integer $is_delay
+ * @property string $delay_count
  * @property string $delay_time
  * @property integer $is_assistant
  * @property string $assist_unit
@@ -44,12 +45,12 @@ class Problem extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('times_up, status, is_delay, is_assistant', 'numerical', 'integerOnly'=>true),
-			array('release_uid, deal_cate_id, deal_uid, deal_time, accept_time, delay_time, create_time, assign_time, check_time, update_time', 'length', 'max'=>10),
+			array('release_uid, deal_cate_id, deal_uid, deal_time, accept_time, delay_count, delay_time, create_time, assign_time, check_time, update_time', 'length', 'max'=>10),
 			array('release_username, address, deal_username', 'length', 'max'=>150),
 			array('description, assist_unit', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, release_uid, release_username, address, description, deal_cate_id, deal_uid, deal_username, deal_time, accept_time, times_up, status, is_delay, delay_time, is_assistant, assist_unit, create_time, assign_time, check_time, update_time', 'safe', 'on'=>'search'),
+			array('id, release_uid, release_username, address, description, deal_cate_id, deal_uid, deal_username, deal_time, accept_time, times_up, status, is_delay, delay_count, delay_time, is_assistant, assist_unit, create_time, assign_time, check_time, update_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -83,6 +84,7 @@ class Problem extends CActiveRecord
 			'times_up' => 'Times Up',
 			'status' => 'Status',
 			'is_delay' => 'Is Delay',
+			'delay_count' => 'Delay Count',
 			'delay_time' => 'Delay Time',
 			'is_assistant' => 'Is Assistant',
 			'assist_unit' => 'Assist Unit',
@@ -124,6 +126,7 @@ class Problem extends CActiveRecord
 		$criteria->compare('times_up',$this->times_up);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('is_delay',$this->is_delay);
+		$criteria->compare('delay_count',$this->delay_count,true);
 		$criteria->compare('delay_time',$this->delay_time,true);
 		$criteria->compare('is_assistant',$this->is_assistant);
 		$criteria->compare('assist_unit',$this->assist_unit,true);
