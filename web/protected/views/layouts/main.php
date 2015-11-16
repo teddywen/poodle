@@ -50,6 +50,7 @@
         <?php $nav_admin_active = $subnav_admin_active || $subnav_create_admin_active; ?>
         <?php $nav_operation_active = $subnav_operation_active; ?>
         <?php $nav_profile_active = $subnav_modpass_active; ?>
+        <?php $nav_status = isset($_GET['nav_status'])?intval($_GET['nav_status']):0;?>
         <div class="row main-menu">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <ul class="nav nav-tabs">
@@ -100,12 +101,13 @@
                             <li role="presentation" <?php if($subnav_problem_active): ?>class="active"<?php endif; ?>>
                                 <a href="javascript:void(0);">问题列表</a>
                                 <ul class="nav nav-pills nav-stacked" style="padding-left: 20px;">
-                                    <li class="active sub_nav_li"><a href="<?php echo $this->createUrl("/problem/index?nav_status=0");?>" class="sub_nav_a">未分配</a></li>
-                                    <li><a href="<?php echo $this->createUrl("/problem/index");?>" class="sub_nav_a">已分配</a></li>
-                                    <li><a href="<?php echo $this->createUrl("/problem/index");?>" class="sub_nav_a">申请延时</a></li>
-                                    <li><a href="<?php echo $this->createUrl("/problem/index");?>" class="sub_nav_a">打回</a></li>
-                                    <li><a href="<?php echo $this->createUrl("/problem/index");?>" class="sub_nav_a">审核通过</a></li>
-                                    <li><a href="<?php echo $this->createUrl("/problem/index");?>" class="sub_nav_a">全部</a></li>
+                                    <li <?php if($nav_status==ProblemService::BE_CREATED):?>class="sub_nav_li"<?php endif;?>><a href="<?php echo $this->createUrl("/problem/index?nav_status=".ProblemService::BE_CREATED);?>" class="sub_nav_a">未分配</a></li>
+                                    <li <?php if($nav_status==ProblemService::BE_DEALING):?>class="sub_nav_li"<?php endif;?>><a href="<?php echo $this->createUrl("/problem/index?nav_status=".ProblemService::BE_DEALING);?>" class="sub_nav_a">已分配</a></li>
+                                    <li <?php if($nav_status==ProblemService::WAIT_CHECKING):?>class="sub_nav_li"<?php endif;?>><a href="<?php echo $this->createUrl("/problem/index?nav_status=".ProblemService::WAIT_CHECKING);?>" class="sub_nav_a">待审核</a></li>
+                                    <li <?php if($nav_status==ProblemService::APPLY_DELAYING):?>class="sub_nav_li"<?php endif;?>><a href="<?php echo $this->createUrl("/problem/index?nav_status=".ProblemService::APPLY_DELAYING);?>" class="sub_nav_a">申请延时</a></li>
+                                    <li <?php if($nav_status==ProblemService::BE_UNQUALIFIED):?>class="sub_nav_li"<?php endif;?>><a href="<?php echo $this->createUrl("/problem/index?nav_status=".ProblemService::BE_UNQUALIFIED);?>" class="sub_nav_a">打回</a></li>
+                                    <li <?php if($nav_status==ProblemService::BE_QUALIFIED):?>class="sub_nav_li"<?php endif;?>><a href="<?php echo $this->createUrl("/problem/index?nav_status=".ProblemService::BE_QUALIFIED);?>" class="sub_nav_a">审核通过</a></li>
+                                    <li <?php if($nav_status==999):?>class="sub_nav_li"<?php endif;?>><a href="<?php echo $this->createUrl("/problem/index?nav_status=999");?>" class="sub_nav_a">全部</a></li>
                                 </ul>
                             </li>
                         <?php endif; ?>

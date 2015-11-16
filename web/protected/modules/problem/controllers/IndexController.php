@@ -35,6 +35,8 @@ class IndexController extends ProblemController
     private function setSearchCond()
     {
         $condition = array();
+        //全部都看不到发布者自己取消的问题
+        $condition['status'] = array('neq' => ProblemService::BE_CANCELED);
         //发布者只能看到自己发布的问题
         if(Yii::app()->user->checkAccess('finder')){
             $condition['release_uid'] = Yii::app()->user->id;
@@ -57,9 +59,16 @@ class IndexController extends ProblemController
         if(strlen($s_keyword)){
             $condition['description'] = array('like' => $s_keyword);
         }
-        $s_status = isset($_REQUEST['s_status'])&&strlen($_REQUEST['s_status'])>0?intval($_REQUEST['s_status']):"";
-        if(strlen($s_status)){
-            $condition['status'] = $s_status;
+        $nav_status = isset($_GET['nav_status'])?intval($_GET['nav_status']):0;
+        //全部问题列表才可以根据状态搜索问题
+        if($nav_status == 999){
+            $s_status = isset($_REQUEST['s_status'])&&strlen($_REQUEST['s_status'])>0?intval($_REQUEST['s_status']):"";
+            if(strlen($s_status)){
+                $condition['status'] = $s_status;
+            }
+        }
+        else{
+            $condition['status'] = $nav_status;
         }
         $s_delay = isset($_REQUEST['s_delay'])&&strlen($_REQUEST['s_delay'])>0?intval($_REQUEST['s_delay']):"";
         if(strlen($s_delay)){

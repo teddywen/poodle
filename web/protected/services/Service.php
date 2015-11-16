@@ -29,9 +29,12 @@ class Service
                             list($s_v, $e_v) = $val;
                             $criteria->addBetweenCondition($key, $s_v, $e_v);
                         }
-
                         if($k == 'like'){
                             $criteria->compare($key, $val, true);
+                        }
+
+                        if($k == 'neq'){
+                            $criteria->addCondition($key.'<>'.$val);
                         }
                     }
                 }
