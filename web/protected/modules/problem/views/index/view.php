@@ -297,7 +297,7 @@
 </div>
 <?php
     //申请延时form
-    if($problem->is_delay == 0 && in_array($problem->status, array(ProblemService::BE_ASSIGNED, ProblemService::BE_DEALING, ProblemService::APPLY_ASSISTING)) && file_exists(dirname(__FILE__).'/_apply_delay_problem.php')){
+    if($problem->status == ProblemService::BE_DEALING && file_exists(dirname(__FILE__).'/_apply_delay_problem.php')){
         require_once(dirname(__FILE__).'/_apply_delay_problem.php');
     }
     //申请联动form

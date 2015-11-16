@@ -486,6 +486,7 @@ class ProblemService extends Service
                 'log_desc' => Yii::app()->user->name.'申请延时'.$delay_time.'个小时',
                 'remark' => $problem_log_remark,
                 'data' => CJSON::encode(array("hour"=>$delay_time)), 
+                'update_time' => $cur_time, 
                 'create_time' => $cur_time
             );
         
@@ -665,31 +666,38 @@ class ProblemService extends Service
             $data = CJSON::decode($data);
             $delay_time = isset($data["hour"]) ? $data["hour"] : 0;
 
-            // Add delay hour to problem.
+            // Update problem. If apply has approvaled by other admin, the update will not success and rollback transaction.
             $sql = "UPDATE `problem` 
-                    SET `is_delay`=:is_delay, `delay_count`=`delay_count`+1, `delay_time`=`delay_time`+:delay_time, `update_time`=:update_time 
-                    WHERE `id`=:id";
+                    INNER JOIN `problem_log` ON `problem_log`.`pid`=`problem`.`id`
+                    SET `problem`.`status`=:status_be_dealing, `problem`.`is_delay`=:is_delay, 
+                        `problem`.`delay_count`=`problem`.`delay_count`+1, `problem`.`delay_time`=`problem`.`delay_time`+:delay_time, 
+                        `problem`.`update_time`=:update_time 
+                    WHERE `problem`.`id`=:id AND `problem_log`.`id`=:log_id AND 
+                        `problem`.`status`=:status_apply_delaying AND `problem_log`.`status`=:status_delay_wait";
             $params = array(
                 ":is_delay" => 1, 
                 ":delay_time" => $delay_time, 
                 ":update_time" => Util::time(), 
                 ":id" => $id, 
+                ":log_id" => $log_id, 
+                ":status_be_dealing" => self::BE_DEALING, 
+                ":status_apply_delaying" => self::APPLY_DELAYING, 
+                ":status_delay_wait" => ProblemLogService::STATUS_DELAY_WAIT, 
             );
             $affacted = Yii::app()->getDb()->createCommand($sql)->execute($params);
             if ($affacted == 0) {
                 throw new CHttpException(500, "更新问题失败");
             }
 
-            // Update delay apply status. If apply has approvaled by other admin, the update will not success and rollback transaction.
+            // Update problem log. If apply has approvaled by other admin, the update will not success and rollback transaction.
             $sql = "UPDATE `problem_log`
                     INNER JOIN `problem` ON `problem_log`.`pid`=`problem`.`id`
                     SET `problem_log`.`status`=:status_delay_agree, `problem_log`.`update_time`=:update_time
                     WHERE `problem_log`.`id`=:log_id AND `problem`.`id`=:id AND 
-                        `problem`.`status`=:status_apply_delaying AND `problem_log`.`status`=:status_delay_wait";
+                        `problem_log`.`status`=:status_delay_wait";
             $params = array(
                 ":id" => $id, 
                 ":log_id" => $log_id, 
-                ":status_apply_delaying" => self::APPLY_DELAYING, 
                 ":status_delay_wait" => ProblemLogService::STATUS_DELAY_WAIT, 
                 ":status_delay_agree" => ProblemLogService::STATUS_DELAY_AGREE, 
                 ":update_time" => Util::time(), 
