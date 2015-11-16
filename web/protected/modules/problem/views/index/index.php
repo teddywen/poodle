@@ -49,7 +49,7 @@
 		        <?php foreach($problems as $problem):?>
 				<tr>
 					<td>
-						<?php echo $problem->id;?>
+						<mark><strong>#<?php echo $problem->id;?></strong></mark>
 					</td>
 					<td>
 						<?php echo $problem->description;?>
