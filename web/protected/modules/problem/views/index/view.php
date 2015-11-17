@@ -3,7 +3,7 @@
     if(Yii::app()->user->checkAccess('finder') && $problem->status == ProblemService::BE_CREATED){
         $opetate_url = '/problem/problemFlow/cancelProblem';
     }
-    if(Yii::app()->user->checkAccess('admin') && !in_array($problem->status, array(ProblemService::BE_QUALIFIED, ProblemService::BE_CANCELED))){
+    if(Yii::app()->user->checkAccess('admin') && !in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_QUALIFIED, ProblemService::BE_CANCELED))){
         $opetate_url = '/problem/problemFlow/assignDealUser';
         $assign_control_disabled = '';
     }
@@ -261,7 +261,7 @@
                                     <button type="button" name="solve_unqualified" class="btn btn-danger btn_submit_form">撤销</button>
                                 <?php endif;?>
                                 <?php if(Yii::app()->user->checkAccess('dispatch_problem') && 
-                                            !in_array($problem->status, array(ProblemService::BE_QUALIFIED, ProblemService::BE_CANCELED))): ?>
+                                            !in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_QUALIFIED, ProblemService::BE_CANCELED))): ?>
                                     <button type="button" class="btn btn-primary btn_submit_form">分配</button>
                                 <?php endif; ?>
                                 <?php if(Yii::app()->user->checkAccess('approval_problem') && 
