@@ -729,6 +729,60 @@ class ProblemService extends Service
      * @return boolean 操作是否成功
      */
     public function refuseDelay($id, $log_id) {
+        $transaction = Yii::app()->db->beginTransaction();
+        $res = false;
+
+        try {
+            // Update problem. If apply has approvaled by other admin, the update will not success and rollback transaction.
+            $sql = "UPDATE `problem` 
+                    INNER JOIN `problem_log` ON `problem_log`.`pid`=`problem`.`id`
+                    SET `problem`.`status`=:status_be_dealing, `problem`.`update_time`=:update_time
+                    WHERE `problem`.`id`=:id AND `problem_log`.`id`=:log_id AND 
+                        `problem`.`status`=:status_apply_delaying AND `problem_log`.`status`=:status_delay_wait";
+            $params = array(
+                ":update_time" => Util::time(), 
+                ":id" => $id, 
+                ":log_id" => $log_id, 
+                ":status_be_dealing" => self::BE_DEALING, 
+                ":status_apply_delaying" => self::APPLY_DELAYING, 
+                ":status_delay_wait" => ProblemLogService::STATUS_DELAY_WAIT, 
+            );
+            $affacted = Yii::app()->getDb()->createCommand($sql)->execute($params);
+            if ($affacted == 0) {
+                throw new CHttpException(500, "更新问题失败");
+            }
+
+            // Update problem log. If apply has approvaled by other admin, the update will not success and rollback transaction.
+            $sql = "UPDATE `problem_log`
+                    INNER JOIN `problem` ON `problem_log`.`pid`=`problem`.`id`
+                    SET `problem_log`.`status`=:status_delay_refuse, `problem_log`.`update_time`=:update_time
+                    WHERE `problem_log`.`id`=:log_id AND `problem`.`id`=:id AND
+                        `problem_log`.`status`=:status_delay_wait";
+            $params = array(
+                ":id" => $id, 
+                ":log_id" => $log_id, 
+                ":status_delay_wait" => ProblemLogService::STATUS_DELAY_WAIT, 
+                ":status_delay_refuse" => ProblemLogService::STATUS_DELAY_REFUSE, 
+                ":update_time" => Util::time(), 
+            );
+            $affacted = Yii::app()->getDb()->createCommand($sql)->execute($params);
+            if ($affacted == 0) {
+                throw new CHttpException(500, "更新延时申请失败");
+            }
+
+            $res = true;
+        } catch(Exception $e){
+            self::$errorMsg = $e->getMessage();
+            $res = false;
+        }
+        
+        if ($res) {
+            $transaction->commit();
+        } else {
+            $transaction->rollback();
+        }
+
+        return $res;
         return true;
     }
 }

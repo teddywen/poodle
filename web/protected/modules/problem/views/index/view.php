@@ -118,26 +118,8 @@
                 <div class="form-group set_deal_time">
                     <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">完成用时: </label>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                        <p class="form-control-static"><?php $deal_day;?>天</p>
-                    </div>
-                </div>
-            <?php endif;?>
-
-            <?php if($problem->status == ProblemService::APPLY_DELAYING):?>
-                <?php $delayapply_logs = $problem_log_service->getProblemStatusLog($problem->id, ProblemService::APPLY_DELAYING); ?>
-                <?php $delayapply_log = end($delayapply_logs); ?>
-                <?php $delayapply_log_data = CJSON::decode($delayapply_log->data); ?>
-                <?php $delay_day = floor($delayapply_log_data->hour / 24); ?>
-                <div class="form-group">
-                    <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">申请延时: </label>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                        <p class="form-control-static"><?php echo $delay_day;?>天</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">延时理由: </label>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                        <p class="form-control-static"><?php echo empty($delayapply_log) ? "" : $delayapply_log->remark;?></p>
+                        <?php $deal_day = floor($problem->deal_time / 24); ?>
+                        <p class="form-control-static"><?php echo $deal_day;?>天</p>
                     </div>
                 </div>
             <?php endif;?>
