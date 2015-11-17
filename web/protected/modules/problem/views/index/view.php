@@ -3,7 +3,7 @@
     if(Yii::app()->user->checkAccess('finder') && $problem->status == ProblemService::BE_CREATED){
         $opetate_url = '/problem/problemFlow/cancelProblem';
     }
-    if(Yii::app()->user->checkAccess('admin') && in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_BACKING, ProblemService::APPLY_DELAYING, ProblemService::APPLY_ASSISTING))){
+    if(Yii::app()->user->checkAccess('admin') && !in_array($problem->status, array(ProblemService::BE_QUALIFIED, ProblemService::BE_CANCELED))){
         $opetate_url = '/problem/problemFlow/assignDealUser';
         $assign_control_disabled = '';
     }
@@ -257,7 +257,7 @@
                         <!-- 是发布人员，本页面只能观看信息，不能再进行操作 -->
                         <?php if(!Yii::app()->user->checkAccess('finder')): ?>
                             <?php if(Yii::app()->user->checkAccess('admin')): ?>
-                                <?php if(in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_BACKING, ProblemService::APPLY_DELAYING, ProblemService::APPLY_ASSISTING))): ?>
+                                <?php if(!in_array($problem->status, array(ProblemService::BE_QUALIFIED, ProblemService::BE_CANCELED))): ?>
                                     <button type="button" class="btn btn-primary btn_submit_form">分配</button>
                                 <?php endif; ?>
                                 <?php if(in_array($problem->status, array(ProblemService::WAIT_CHECKING))): ?>

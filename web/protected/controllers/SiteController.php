@@ -10,7 +10,9 @@ class SiteController extends Controller
         $this->op_log_service = new OperationLogService();
     }
 
-    public function actionIndex() {
+    public function actionIndex()
+    {
+        $this->pageTitle = '登录';
         $this->actionLogin();
     }
 

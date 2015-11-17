@@ -26,7 +26,7 @@
         <label for="f_image" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">问题图片: </label>
         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 up_file_div">
             <input type="file" id="f_image" name="problem_image" />
-            <label class="help-inline text-danger">最大文件不能超过8M</label>
+            <label class="help-inline text-danger">最大文件不能超过12M</label>
         </div>
     </div>
     <div class="form-group">
