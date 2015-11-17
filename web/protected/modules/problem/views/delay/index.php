@@ -25,7 +25,8 @@
 									<a href="<?php echo $this->createUrl("/problem/index/view", array("id"=>$delayApply["id"])); ?>" target="_blank" class="btn btn-primary">查看</a>
 									<?php if(Yii::app()->user->checkAccess("delay_approval_problem")): ?>
 										<input type="submit" class="btn btn-success" name="agree" value="同意" />
-										<input type="submit" class="btn btn-danger" name="refuse" value="拒绝" />
+										<a name="refuse" class="btn btn-danger" data-toggle="modal" data-target="#delay_refuse_modal_<?php echo $delayApply["id"]; ?>" href="javascript:void(0);">拒绝</a>
+										<?php echo $this->renderPartial("_delay_refuse", array("modal_id"=>"delay_refuse_modal_{$delayApply["id"]}")); ?>
 									<?php endif; ?>
 								</form>
 							</td>
@@ -38,13 +39,6 @@
 		</table>
 	</div>
 </div>
-
-<?php  
-	//拒绝延时申请form
-    // if(in_array($problem->status, array(ProblemService::WAIT_CHECKING)) && file_exists(dirname(__FILE__).'/_delay_refuse.php')){
-    //     require_once(dirname(__FILE__).'/_delay_refuse.php');
-    // }
-?>
 
 <script type="text/javascript"><!--
 $(function(){

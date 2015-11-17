@@ -684,7 +684,7 @@ class ProblemService extends Service
             $sql = "SELECT `data` FROM `problem_log` WHERE `id`=:log_id";
             $params = array(":log_id"=>$log_id);
             $data = Yii::app()->getDb()->createCommand($sql)->queryScalar($params);
-            $data = CJSON::decode($data);
+            $data = $data ? CJSON::decode($data) : array();
             $delay_time = isset($data["hour"]) ? $data["hour"] : 0;
 
             // Update problem. If apply has approvaled by other admin, the update will not success and rollback transaction.
@@ -749,11 +749,19 @@ class ProblemService extends Service
      * @param int $log_id 延时申请ID
      * @return boolean 操作是否成功
      */
-    public function refuseDelay($id, $log_id) {
+    public function refuseDelay($id, $log_id, $remark) {
         $transaction = Yii::app()->db->beginTransaction();
         $res = false;
 
         try {
+            // Put refuse remark into delay apply data.
+            $sql = "SELECT `data` FROM `problem_log` WHERE `id`=:log_id";
+            $params = array(":log_id"=>$log_id);
+            $data = Yii::app()->getDb()->createCommand($sql)->queryScalar($params);
+            $data = $data ? CJSON::decode($data) : array();
+            $data["delay_refuse_remark"] = $remark;
+            $data = CJSON::encode($data);
+
             // Update problem. If apply has approvaled by other admin, the update will not success and rollback transaction.
             $sql = "UPDATE `problem` 
                     INNER JOIN `problem_log` ON `problem_log`.`pid`=`problem`.`id`
@@ -776,7 +784,8 @@ class ProblemService extends Service
             // Update problem log. If apply has approvaled by other admin, the update will not success and rollback transaction.
             $sql = "UPDATE `problem_log`
                     INNER JOIN `problem` ON `problem_log`.`pid`=`problem`.`id`
-                    SET `problem_log`.`status`=:status_delay_refuse, `problem_log`.`update_time`=:update_time
+                    SET `problem_log`.`status`=:status_delay_refuse, `problem_log`.`data`=:data, 
+                        `problem_log`.`update_time`=:update_time
                     WHERE `problem_log`.`id`=:log_id AND `problem`.`id`=:id AND
                         `problem_log`.`status`=:status_delay_wait";
             $params = array(
@@ -785,6 +794,7 @@ class ProblemService extends Service
                 ":status_delay_wait" => ProblemLogService::STATUS_DELAY_WAIT, 
                 ":status_delay_refuse" => ProblemLogService::STATUS_DELAY_REFUSE, 
                 ":update_time" => Util::time(), 
+                ":data" => $data, 
             );
             $affacted = Yii::app()->getDb()->createCommand($sql)->execute($params);
             if ($affacted == 0) {

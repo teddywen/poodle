@@ -164,12 +164,13 @@ class ProblemFlowController extends ProblemController
 
         $id = $request->getPost("id", 0);
         $log_id = $request->getPost("log_id", 0);
+        $remark = $request->getPost("remark", "");
 
         $result = array("code"=>0, "msg"=>"操作失败");
         if ($request->getPost("agree", null) !== null && $this->problem_service->agreeDelay($id, $log_id)) {
             $result["code"] = 1;
             $result["msg"] = "操作成功";
-        } else if ($request->getPost("refuse", null) !== null && $this->problem_service->refuseDelay($id, $log_id)) {
+        } else if ($request->getPost("refuse", null) !== null && $this->problem_service->refuseDelay($id, $log_id, $remark)) {
             $result["code"] = 1;
             $result["msg"] = "操作成功";
         }

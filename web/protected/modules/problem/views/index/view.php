@@ -326,7 +326,7 @@
                                             <?php elseif($problemDelayLog->status == ProblemLogService::STATUS_DELAY_AGREE): ?>
                                                 已通过
                                             <?php elseif($problemDelayLog->status == ProblemLogService::STATUS_DELAY_REFUSE): ?>
-                                                未通过 <?php if(isset($data["remark"])) echo "(理由: " . CHtml::encode($data["remark"]) . ")"; ?>
+                                                未通过 <?php if(isset($data["delay_refuse_remark"])) echo "(理由: " . CHtml::encode($data["delay_refuse_remark"]) . ")"; ?>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
