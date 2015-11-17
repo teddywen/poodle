@@ -17,7 +17,7 @@
 <div class="jumbotron login-center-block">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-md-offset-4">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-lg-offset-4 col-md-offset-4 col-sm-offset-4 col-xs-offset-4">
                 <h1>问题管理中心</h1>
                 <p>欢迎使用堡镇问题管理中心</p>
                 <p><a class="btn btn-primary btn-lg login-center-btn" href="#" role="button" data-toggle="modal" data-target="#loginModal">马上登录</a></p>

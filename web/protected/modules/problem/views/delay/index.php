@@ -39,6 +39,13 @@
 	</div>
 </div>
 
+<?php  
+	//拒绝延时申请form
+    // if(in_array($problem->status, array(ProblemService::WAIT_CHECKING)) && file_exists(dirname(__FILE__).'/_delay_refuse.php')){
+    //     require_once(dirname(__FILE__).'/_delay_refuse.php');
+    // }
+?>
+
 <script type="text/javascript"><!--
 $(function(){
 	$('form').ajaxForm({

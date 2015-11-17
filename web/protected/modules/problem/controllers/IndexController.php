@@ -2,10 +2,12 @@
 class IndexController extends ProblemController
 {
     public $problem_service = null;
+    public $problem_log_service = null;
     
     public function init(){
         parent::init();
         $this->problem_service = new ProblemService();
+        $this->problem_log_service = new ProblemLogService();
     }
     
     /**
@@ -111,6 +113,7 @@ class IndexController extends ProblemController
         $this->breadcrumbs = array("问题列表"=>urldecode($back_url), "问题详情");
         
         $problem = $this->problem_service->getProlemById($id);
+        $problemDelayLogs = $this->problem_log_service->getDelayApply($id);
         //如果不是当前发布人的发布问题则跳回到列表
         if(Yii::app()->user->checkAccess('finder') && $problem->release_uid != Yii::app()->user->id || Yii::app()->user->checkAccess('unit') && $problem->deal_uid != Yii::app()->user->id){
             $this->redirect(Yii::app()->createUrl('problem'));
@@ -122,7 +125,7 @@ class IndexController extends ProblemController
         $data['problem_images'] = $problem_images;
         $data['pimg_service'] = $pimg_service;
 
-        $this->render('view', compact("back_url", "problem", "problem_images", "pimg_service"));
+        $this->render('view', compact("back_url", "problem", "problem_images", "pimg_service", "problemDelayLogs"));
     }
 }
 ?>

@@ -70,6 +70,7 @@ class ProblemService extends Service
                 'oper_uid' => Yii::app()->user->id,
                 'oper_user' => Yii::app()->user->name,
                 'log_desc' => Yii::app()->user->name.'发布问题',
+                'update_time' => $cur_time, 
                 'create_time' => $cur_time
             );
             $res3 = $plog_service->addNewProblemLog($log_data);
@@ -169,8 +170,14 @@ class ProblemService extends Service
             if(!$res1){
                 throw new Exception(print_r($problem->getErrors(), true));
             }
-            
+
             $plog_service = new ProblemLogService();
+
+            list($count, $affacted) = $plog_service->setDelayApplyInvalid($pid);
+            if ($count > $affacted) {
+                throw new Exception("延时申请无效化失败");
+            }
+
             $log_data = array(
                 'pid' => $pid,
                 'pre_status' => $pre_status,
@@ -178,12 +185,14 @@ class ProblemService extends Service
                 'oper_uid' => Yii::app()->user->id,
                 'oper_user' => Yii::app()->user->name,
                 'log_desc' => Yii::app()->user->name.'将问题分配给'.$deal_user->username,"，时长：".$deal_time,
+                'update_time' => $cur_time, 
                 'create_time' => $cur_time
             );
             $res2 = $plog_service->addNewProblemLog($log_data);
             if(!$res2){
                 throw new Exception(self::getLastErrMsg());
             }
+
             $res = true;
         }
         catch(Exception $e){
@@ -235,6 +244,7 @@ class ProblemService extends Service
                 'oper_uid' => Yii::app()->user->id,
                 'oper_user' => Yii::app()->user->name,
                 'log_desc' => Yii::app()->user->name.'接受处理问题',
+                'update_time' => $cur_time, 
                 'create_time' => $cur_time
             );
             
@@ -299,12 +309,19 @@ class ProblemService extends Service
                 'oper_uid' => Yii::app()->user->id,
                 'oper_user' => Yii::app()->user->name,
                 'log_desc' => Yii::app()->user->name.'提交处理问题凭证',
+                'update_time' => $cur_time, 
                 'create_time' => $cur_time
             );
             $res3 = $plog_service->addNewProblemLog($log_data);
             if(!$res3){
                 throw new Exception(self::getLastErrMsg());
             }
+
+            list($count, $affacted) = $plog_service->setDelayApplyCancel($pid);
+            if ($count > $affacted) {
+                throw new Exception("延时申请撤销失败");
+            }
+
             $res = true;
         }
         catch(Exception $e){
@@ -365,6 +382,7 @@ class ProblemService extends Service
                 'oper_user' => Yii::app()->user->name,
                 'log_desc' => Yii::app()->user->name.'审核'.$problem->deal_username.'的处理结果',
                 'remark' => $problem_log_remark,
+                'update_time' => $cur_time, 
                 'create_time' => $cur_time
             );
         
@@ -424,6 +442,7 @@ class ProblemService extends Service
                 'oper_user' => Yii::app()->user->name,
                 'log_desc' => Yii::app()->user->name.'申请问题退单',
                 'remark' => $problem_log_remark,
+                'update_time' => $cur_time, 
                 'create_time' => $cur_time
             );
         
@@ -552,6 +571,7 @@ class ProblemService extends Service
                 'oper_user' => Yii::app()->user->name,
                 'log_desc' => Yii::app()->user->name.'申请联动APPLYASSITED['.json_encode($unit_users).']APPLYASSITED个小时',
                 'remark' => $problem_log_remark,
+                'update_time' => $cur_time, 
                 'create_time' => $cur_time
             );
         
@@ -609,6 +629,7 @@ class ProblemService extends Service
                 'oper_uid' => Yii::app()->user->id,
                 'oper_user' => Yii::app()->user->name,
                 'log_desc' => Yii::app()->user->name.'撤销问题',
+                'update_time' => $cur_time, 
                 'create_time' => $cur_time
             );
         
