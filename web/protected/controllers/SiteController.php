@@ -60,7 +60,7 @@ class SiteController extends Controller
         $op_log_service = $this->op_log_service;
         if (Yii::app()->user->checkAccess("unit")) {
             $op_log_service->writeOperationLog(Yii::app()->user->getId(), ConstVariables::OP_USER_LOGIN);
-            $this->redirect("/problem");
+            $this->redirect("/problem/index?nav_status=5");
         } else if (Yii::app()->user->checkAccess("finder")) {
             $op_log_service->writeOperationLog(Yii::app()->user->getId(), ConstVariables::OP_USER_LOGIN);
             $this->redirect("/problem/release");
