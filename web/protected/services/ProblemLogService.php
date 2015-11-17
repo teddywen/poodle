@@ -72,6 +72,7 @@ class ProblemLogService extends Service
         $criteria = new CDbCriteria();
         $criteria->compare('pid', $pid);
         $criteria->compare('cur_status', ProblemService::APPLY_DELAYING);
+        $criteria->addCondition("status<>".self::STATUS_DELAY_INVALID);
         $criteria->order = 'update_time DESC';
         $p_logs = ProblemLog::model()->findAll($criteria);
         return $p_logs;

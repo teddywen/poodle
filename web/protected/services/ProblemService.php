@@ -662,9 +662,13 @@ class ProblemService extends Service
         $sql = "SELECT `p`.`id`, `p`.`description`, `pl`.`remark`, `pl`.`data`, `pl`.`id` AS `log_id` 
                 FROM `problem` AS `p` 
                 INNER JOIN `problem_log` AS `pl` ON `p`.`id`=`pl`.`pid`
-                WHERE `p`.`status`=:status_dealing AND `pl`.`status`=:status_delay_waiting
+                WHERE `p`.`status`=:status_apply_delaying AND 
+                    `pl`.`status`=:status_delay_waiting AND `pl`.`cur_status`=:status_apply_delaying
                 ORDER BY `pl`.`create_time` DESC";
-        $params = array(":status_dealing"=>self::APPLY_DELAYING, ":status_delay_waiting"=>ProblemLogService::STATUS_DELAY_WAIT);
+        $params = array(
+            ":status_apply_delaying"=>self::APPLY_DELAYING, 
+            ":status_delay_waiting"=>ProblemLogService::STATUS_DELAY_WAIT
+        );
 
         return Yii::app()->getDb()->createCommand($sql)->queryAll(true, $params);
     }

@@ -15,9 +15,9 @@
                                 <label for="problem_log_remark">请填写延时理由: </label>
                                 <textarea class="form-control modal-textarea problem_log_remark" name="problem_log_remark" rows="3" cols="60" maxlength="255" placeholder="由于..."></textarea>
                             </div>
-                            <div class="row"><div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <div class="row"><div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                 <div class="form-group set_deal_time">
-                                    <label>需要延时: </label>
+                                    <label for="delay_day">需要延时: </label>
                                     <select id="delay_day" name="delay_day" class="form-control">
                                         <?php for($i=1;$i<=30;$i++):?>
                                             <option value="<?php echo $i;?>"><?php echo $i;?>天</option>

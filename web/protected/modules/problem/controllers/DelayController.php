@@ -13,6 +13,7 @@ class DelayController extends AdminController {
         
         $request = Yii::app()->getRequest();
         $delayApplies = $this->problem_service->getWaitingDelayApplies();
+        // var_dump($delayApplies);exit();
 
         $this->render('index', compact("delayApplies"));
     }
