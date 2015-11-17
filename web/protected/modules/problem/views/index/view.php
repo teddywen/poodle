@@ -27,6 +27,14 @@
                     <p class="form-control-static"><?php echo ProblemService::$status[$problem->status];?></p>
                 </div>
             </div>
+            <?php if(!in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_CANCELED))):?>
+            <div class="form-group">
+                <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">分配时间: </label>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <p class="form-control-static"><?php echo date('Y-m-d H:i:s', $problem->assign_time);?></p>
+                </div>
+            </div>
+            <?php endif;?>
             <?php if($problem->status == ProblemService::BE_BACKING):?>
                 <div class="form-group">
                     <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">退单理由: </label>
