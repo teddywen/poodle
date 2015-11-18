@@ -8,9 +8,10 @@
             <div class="panel-body">
                 <div class="row operation-log-customer-alert hidden">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-danger"><strong>提示!</strong>结束日期需大于等于起始日期！</li>
-                        </ul>
+                        <div class="alert alert-warning alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>提示!</strong>结束日期需大于等于起始日期！
+                        </div>
                     </div>
                 </div>
                 <form class="form-horizontal">

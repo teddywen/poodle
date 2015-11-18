@@ -50,6 +50,7 @@ body {
 }
 /*------------------MAIN LAYOUT END---------------------------*/
 
+/*------------------COMMON LAYOUT START---------------------------*/
 .alert-p {
     padding: 15px;
 }
@@ -62,6 +63,28 @@ body {
 .modal-textarea {
     resize: none;
 }
+.label-ext-new {
+    background-color: #ffa0a0;
+}
+.label-ext-deal {
+    background-color: #ffcc99;
+}
+.label-ext-delay {
+    background-color: #ffd850
+}
+.label-ext-approval {
+    background-color: #e3cef6;
+}
+.label-ext-unqualified {
+    background-color: #ff50a8;
+}
+.label-ext-qualified {
+    background-color: #40c0a0;
+}
+.label-ext-closed {
+    background-color: #e8e8e8;
+}
+/*------------------COMMON LAYOUT END---------------------------*/
 
 /*------------------MAIN SUBNAV START---------------------------*/
 li.sub_nav_li>a.sub_nav_a{

@@ -27,6 +27,20 @@ class ProblemService extends Service
         self::BE_CLOSED => '关闭',
         self::BE_CANCELED => '取销'
     );
+
+    public static $status_label_class = array(
+        self::BE_CREATED => 'label-ext-new',
+        self::BE_ASSIGNED => 'label-default',
+        self::APPLY_DELAYING => 'label-ext-delay',
+        self::APPLY_ASSISTING => 'label-default',
+        self::BE_BACKING => 'label-default',
+        self::BE_DEALING => 'label-ext-deal',
+        self::WAIT_CHECKING => 'label-ext-approval',
+        self::BE_UNQUALIFIED => 'label-ext-unqualified',
+        self::BE_QUALIFIED => 'label-ext-qualified',
+        self::BE_CLOSED => 'label-ext-closed',
+        self::BE_CANCELED => 'label-ext-closed'
+    );
     
     /**
      * 创建新的问题

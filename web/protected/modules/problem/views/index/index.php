@@ -12,6 +12,11 @@
 					<th>
 						编号
 					</th>
+					<?php if(isset($_GET['nav_status']) && $_GET['nav_status'] == 999): ?>
+						<th>
+							状态
+						</th>
+					<?php endif; ?>
 					<th>
 						描述
 					</th>
@@ -22,13 +27,10 @@
 						处理单位
 					</th>
 					<th>
-						状态
+						延期
 					</th>
 					<th>
-						是否延期
-					</th>
-					<th>
-						是否联动
+						联动
 					</th>
 					<th>
 						发布时间
@@ -51,6 +53,11 @@
 					<td>
 						<mark><strong>#<?php echo $problem->id;?></strong></mark>
 					</td>
+					<?php if(isset($_GET['nav_status']) && $_GET['nav_status'] == 999): ?>
+						<td>
+							<span class="label <?php echo ProblemService::$status_label_class[$problem->status]; ?>"><?php echo ProblemService::$status[$problem->status];?></span>
+						</td>
+					<?php endif; ?>
 					<td>
 						<?php echo $problem->description;?>
 					</td>
@@ -59,9 +66,6 @@
 					</td>
 					<td>
 						<?php echo $problem->deal_username;?>
-					</td>
-					<td>
-						<?php echo ProblemService::$status[$problem->status];?>
 					</td>
 					<td>
 						<?php echo $problem->is_delay==1?"是":"否";?>

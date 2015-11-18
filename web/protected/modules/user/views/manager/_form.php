@@ -1,9 +1,10 @@
 <?php if(Yii::app()->user->hasFlash($result_key)):?>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-danger"><strong>提示!</strong> <?php echo Yii::app()->user->getFlash($result_key);?></li>
-            </ul>
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>提示!</strong> <?php echo Yii::app()->user->getFlash($result_key);?>
+            </div>
         </div>
     </div>
 <?php endif;?>
