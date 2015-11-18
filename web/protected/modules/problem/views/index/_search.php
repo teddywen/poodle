@@ -43,12 +43,15 @@
             </div>
             <div class="panel-body">
                 <form class="form-horizontal">
+                    <?php if($nav_status): ?>
+                        <input type="hidden" name="nav_status" value="<?php echo $nav_status; ?>" />
+                    <?php endif; ?>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
-                                <label for="s_status" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">关键字: </label>
+                                <label for="s_keyword" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">关键字: </label>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <input type="text" name="s_keyword" value="<?php echo $s_keyword;?>" class="form-control" />
+                                    <input type="text" id="s_keyword" name="s_keyword" value="<?php echo $s_keyword;?>" class="form-control" />
                                 </div>
                             </div>
                         </div>
