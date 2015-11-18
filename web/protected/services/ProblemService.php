@@ -121,7 +121,7 @@ class ProblemService extends Service
         }
         $criteria->limit = $limit;
         $criteria->offset = ($page - 1) * $limit;
-        $criteria->order = 'status asc,id asc';
+        $criteria->order = 'status ASC, update_time DESC';
         $problems = Problem::model()->findAll($criteria);
         
         return $problems;
