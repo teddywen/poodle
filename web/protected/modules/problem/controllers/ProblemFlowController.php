@@ -181,4 +181,23 @@ class ProblemFlowController extends ProblemController
         }
         echo CJSON::encode($result);
     }
+    
+    /**
+     * 管理员关闭问题
+     */
+    public function actionCloseProblem()
+    {
+        if(!Yii::app()->user->checkAccess('manager_close_problem')){
+            $data['code'] = 0; $data['msg'] = '没有权限';
+            exit(json_encode($data));
+        }
+        $pid = isset($_GET['pid'])?intval($_GET['pid']):0;
+        $res = $this->problem_service->closeProblem($pid);
+        $data['code'] = 1; $data['msg'] = '关闭成功';
+        if($res){
+            exit(json_encode($data));
+        }
+        $data['code'] = 0; $data['msg'] = '关闭失败';
+        exit(json_encode($data));
+    }
 }

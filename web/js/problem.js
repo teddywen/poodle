@@ -78,6 +78,21 @@ $(function(){
     		$(".assisted_units_lists").hide();
     	}
     });
+    //管理员关闭问题按钮
+    $(".btn_close_problem").click(function(){
+    	$.ajax({
+    		url:"/problem/problemFlow/closeProblem",
+    		data:{pid:$("input[name='pid']").val()},
+    		dataType:"json",
+    		success:function(res){
+    			var r_msg = res.msg, r_code = res.code;
+                alert(r_msg);
+                if(r_code == 1){
+                    window.location.reload();
+                }
+    		}
+    	});
+    });
 //    //弹出检查延时申请对话框
 //    $(".btn_go_check_delayapply").click(function(){
 //    	$("#check_delay_modal").modal("show");

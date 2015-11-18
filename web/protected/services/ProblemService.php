@@ -846,6 +846,63 @@ class ProblemService extends Service
         }
 
         return $res;
-        return true;
+    }
+    
+    /**
+     * 管理员关闭问题
+     * @param int $pid 问题ID
+     * @throws Exception 错误信息
+     * @return boolean 撤销结果
+     */
+    public function closeProblem($pid = 0)
+    {
+        if(empty($pid)){
+            self::$errorMsg = '关闭请求信息缺失';
+            return false;
+        }
+        
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            $cur_time = $_SERVER['REQUEST_TIME'];
+            $problem = $this->getProlemById($pid);
+            $pre_pstatus = $problem->status;
+            $cur_status = self::BE_CLOSED;
+            $problem->status = $cur_status;
+            $problem->update_time = $cur_time;
+            $res1 = $problem->save();
+            if(!$res1){
+                throw new Exception(print_r($problem->getErrors(), true));
+            }
+        
+            $plog_service = new ProblemLogService();
+            $log_data = array(
+                'pid' => $pid,
+                'pre_status' => $pre_pstatus,
+                'cur_status' => $cur_status,
+                'oper_uid' => Yii::app()->user->id,
+                'oper_user' => Yii::app()->user->name,
+                'log_desc' => Yii::app()->user->name.'关闭问题',
+                'update_time' => $cur_time, 
+                'create_time' => $cur_time
+            );
+        
+            $res2 = $plog_service->addNewProblemLog($log_data);
+            if(!$res2){
+                throw new Exception(self::getLastErrMsg());
+            }
+            $res = true;
+        }
+        catch(Exception $e){
+            self::$errorMsg = $e->getMessage();
+            $res = false;
+        }
+        
+        if($res){
+            $transaction->commit();
+        }
+        else{
+            $transaction->rollback();
+        }
+        return $res;
     }
 }

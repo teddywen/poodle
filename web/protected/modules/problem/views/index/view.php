@@ -3,7 +3,7 @@
     if(Yii::app()->user->checkAccess('finder') && $problem->status == ProblemService::BE_CREATED){
         $opetate_url = '/problem/problemFlow/cancelProblem';
     }
-    if(Yii::app()->user->checkAccess('admin') && !in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_QUALIFIED, ProblemService::BE_CANCELED))){
+    if(Yii::app()->user->checkAccess('admin') && !in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_QUALIFIED, ProblemService::BE_CANCELED, ProblemService::BE_CLOSED))){
         $opetate_url = '/problem/problemFlow/assignDealUser';
         $assign_control_disabled = '';
     }
@@ -38,7 +38,7 @@
                             <p class="form-control-static"><?php echo ProblemService::$status[$problem->status];?></p>
                         </div>
                     </div>
-                    <?php if(!in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_CANCELED))):?>
+                    <?php if(!in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_CANCELED, ProblemService::BE_CLOSED))):?>
                     <div class="form-group">
                         <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">分配时间: </label>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -82,7 +82,7 @@
                         <?php
                             $cate_service = new CategoryService();
                             $gov_cates = $cate_service->getAvailableCate();
-                            if($problem->status != ProblemService::BE_CREATED){
+                            if(!in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_CLOSED))){
                                 $select_gov_users = $user_service->getUserByCate($problem->deal_cate_id);
                             }
                         ?>
@@ -235,7 +235,7 @@
                         </div>
                     </div>
                     <?php endif;?>
-                    <?php if(in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_QUALIFIED, ProblemService::BE_UNQUALIFIED, ProblemService::BE_CLOSED))): ?>
+                    <?php if(in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_QUALIFIED, ProblemService::BE_UNQUALIFIED))): ?>
                         <div class="form-group">
                             <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">解决图片: </label>
                             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
@@ -261,8 +261,12 @@
                                     <button type="button" name="solve_unqualified" class="btn btn-danger btn_submit_form">撤销</button>
                                 <?php endif;?>
                                 <?php if(Yii::app()->user->checkAccess('dispatch_problem') && 
-                                            !in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_QUALIFIED, ProblemService::BE_CANCELED))): ?>
+                                            !in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_QUALIFIED, ProblemService::BE_CANCELED, ProblemService::BE_CLOSED))): ?>
                                     <button type="button" class="btn btn-primary btn_submit_form">分配</button>
+                                <?php endif; ?>
+                                <?php if(Yii::app()->user->checkAccess('manager_close_problem') && 
+                                            in_array($problem->status, array(ProblemService::BE_CREATED))): ?>
+                                    <button type="button" class="btn btn-danger btn_close_problem">关闭</button>
                                 <?php endif; ?>
                                 <?php if(Yii::app()->user->checkAccess('approval_problem') && 
                                             in_array($problem->status, array(ProblemService::WAIT_CHECKING))): ?>
