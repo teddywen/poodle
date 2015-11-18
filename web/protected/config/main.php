@@ -114,6 +114,21 @@ return array(
 				// ),
 			),
 		),
+        'cache'=>array(
+            'class'=>'CMemCache',
+            'servers'=>array(
+                array(
+                    'host'=>'139.196.59.18',
+                    'port'=>11211,
+                    'weight'=>100,
+                ),
+            ),
+        ),
+        'session' => array(
+            'class' => 'CCacheHttpSession',
+            'cacheID' => 'cache',
+            'timeout' => 86400,
+        ),
 	),
 
 	// application-level parameters that can be accessed

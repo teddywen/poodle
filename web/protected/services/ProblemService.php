@@ -13,6 +13,8 @@ class ProblemService extends Service
     const BE_QUALIFIED = 8;//审核通过
     const BE_CLOSED = 9;//关闭
     const BE_CANCELED = 10;//撤销
+
+    // const MEM_KEY_ADMIN_NEW_NUM = "new_problem_num";
     
     public static $status = array(
         self::BE_CREATED => '未分配',
@@ -105,6 +107,17 @@ class ProblemService extends Service
         }
         return $res;
     }
+
+    // public function addNewProblemNum($count = 1) {
+    //     $cache = Yii::app()->getCache();
+    //     $cache->add(self::MEM_KEY_ADMIN_NEW_NUM, 0);
+    //     $cache->set(self::MEM_KEY_ADMIN_NEW_NUM, $cache->get(self::MEM_KEY_ADMIN_NEW_NUM) + $count);
+    // }
+
+    // public function getNewProblemNum() {
+    //     $cache->add(self::MEM_KEY_ADMIN_NEW_NUM, 0);
+    //     return $cache->get(self::MEM_KEY_ADMIN_NEW_NUM);
+    // }
     
     /**
      * 获得指定问题信息
