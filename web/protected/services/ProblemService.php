@@ -14,7 +14,8 @@ class ProblemService extends Service
     const BE_CLOSED = 9;//关闭
     const BE_CANCELED = 10;//撤销
 
-    // const MEM_KEY_ADMIN_NEW_NUM = "new_problem_num";
+    // const MEM_KEY_ADMIN_NEED_DISPATCH = "admin_need_dispatch";
+    // const MEM_KEY_ADMIN_NEED_APPROVAL_DELAY = "admin_need_approval_delay";
     
     public static $status = array(
         self::BE_CREATED => '未分配',
@@ -108,15 +109,15 @@ class ProblemService extends Service
         return $res;
     }
 
-    // public function addNewProblemNum($count = 1) {
+    // public function addNeedDispatchProblemNum($count = 1) {
     //     $cache = Yii::app()->getCache();
-    //     $cache->add(self::MEM_KEY_ADMIN_NEW_NUM, 0);
-    //     $cache->set(self::MEM_KEY_ADMIN_NEW_NUM, $cache->get(self::MEM_KEY_ADMIN_NEW_NUM) + $count);
+    //     $cache->add(self::MEM_KEY_ADMIN_NEED_DISPATCH, 0);
+    //     $cache->set(self::MEM_KEY_ADMIN_NEED_DISPATCH, $cache->get(self::MEM_KEY_ADMIN_NEED_DISPATCH) + $count);
     // }
 
-    // public function getNewProblemNum() {
-    //     $cache->add(self::MEM_KEY_ADMIN_NEW_NUM, 0);
-    //     return $cache->get(self::MEM_KEY_ADMIN_NEW_NUM);
+    // public function getNeedDispatchProblemNum() {
+    //     $cache->add(self::MEM_KEY_ADMIN_NEED_DISPATCH, 0);
+    //     return $cache->get(self::MEM_KEY_ADMIN_NEED_DISPATCH);
     // }
     
     /**
