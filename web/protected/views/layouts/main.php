@@ -105,22 +105,15 @@
                             <li role="presentation" <?php if($subnav_problem_active): ?>class="active"<?php endif; ?>>
                                 <a href="<?php echo $this->createUrl("/problem/index");?>">问题列表</a>
                                 <ul class="nav nav-pills nav-stacked" style="padding-left: 20px;">
-                                    <?php if(!Yii::app()->user->checkAccess('unit')):?>
-                                    <li <?php if($subnav_problem_active && $nav_status==ProblemService::BE_CREATED):?>class="sub_nav_li"<?php endif;?>>
-                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>ProblemService::BE_CREATED));?>" class="sub_nav_a">未分配</a></li>
-                                    <?php endif;?>
-                                    <li <?php if($subnav_problem_active && $nav_status==ProblemService::BE_DEALING):?>class="sub_nav_li"<?php endif;?>>
-                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>ProblemService::BE_DEALING));?>" class="sub_nav_a">已分配</a></li>
-                                    <li <?php if($subnav_problem_active && $nav_status==ProblemService::APPLY_DELAYING):?>class="sub_nav_li"<?php endif;?>>
-                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>ProblemService::APPLY_DELAYING));?>" class="sub_nav_a">申请延时</a></li>
-                                    <li <?php if($subnav_problem_active && $nav_status==ProblemService::BE_UNQUALIFIED):?>class="sub_nav_li"<?php endif;?>>
-                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>ProblemService::BE_UNQUALIFIED));?>" class="sub_nav_a">打回</a></li>
-                                    <li <?php if($subnav_problem_active && $nav_status==ProblemService::WAIT_CHECKING):?>class="sub_nav_li"<?php endif;?>>
-                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>ProblemService::WAIT_CHECKING));?>" class="sub_nav_a">待审核</a></li>
-                                    <li <?php if($subnav_problem_active && $nav_status==ProblemService::BE_QUALIFIED):?>class="sub_nav_li"<?php endif;?>>
-                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>ProblemService::BE_QUALIFIED));?>" class="sub_nav_a">审核通过</a></li>
+                                    <?php foreach(Yii::app()->params->sub_nav_status as $status_key=>$status_value):?>
+                                    <?php if(Yii::app()->user->checkAccess('unit')&&$status_key==ProblemService::BE_CREATED) continue;?>
+                                    <li <?php if($subnav_problem_active && $nav_status==$status_key):?>class="sub_nav_li"<?php endif;?>>
+                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>$nav_status));?>" class="sub_nav_a"><?php echo $status_value;?></a>
+                                    </li>
+                                    <?php endforeach;?>
                                     <li <?php if($subnav_problem_active && $nav_status==999):?>class="sub_nav_li"<?php endif;?>>
-                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>999));?>" class="sub_nav_a">全部</a></li>
+                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>999));?>" class="sub_nav_a">全部</a>
+                                    </li>
                                 </ul>
                             </li>
                         <?php endif; ?>

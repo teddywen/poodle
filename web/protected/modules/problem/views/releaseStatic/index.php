@@ -73,28 +73,20 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th rowspan="3">序号</th>
-                        <th rowspan="3">单位</th>
-                        <th rowspan="3">派单日期</th>
-                        <th rowspan="3">发现问题数</th>
-                        <th colspan="2">存在问题</th>
-                        <th colspan="3">整改计划</th>
-                        <th rowspan="3">需要县镇联动</th>
-                        <th rowspan="3">申请延时</th>
-                        <th rowspan="3">完成情况</th>
-                        <th rowspan="3">备注</th>
-                    </tr>
-                    <tr>
                         <th rowspan="2">序号</th>
-                        <th rowspan="2">具体问题</th>
-                        <th>7天内完成</th>
-                        <th>14天内完成</th>
-                        <th>1个月完成</th>
+                        <th rowspan="2">单位</th>
+                        <th rowspan="2">派单日期</th>
+                        <th rowspan="2">发现问题数</th>
+                        <th colspan="2">存在问题</th>
+                        <th rowspan="2">按时完成</th>
+                        <th rowspan="2">需要县镇联动</th>
+                        <th rowspan="2">申请延时</th>
+                        <th rowspan="2">完成情况</th>
+                        <th rowspan="2">操作</th>
                     </tr>
                     <tr>
-                        <th><?php echo date("Y.n.j", strtotime($assign_date) + 7 * 24 * 3600); ?></th>
-                        <th><?php echo date("Y.n.j", strtotime($assign_date) + 14 * 24 * 3600); ?></th>
-                        <th><?php echo date("Y.n.j", strtotime($assign_date) + 30 * 24 * 3600); ?></th>
+                        <th rowspan="1">序号</th>
+                        <th rowspan="1">具体问题</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -110,13 +102,14 @@
                                 <?php endif; ?>
                                 <td><?php echo $key + 1;?></td>
                                 <td><p class="text-left" style="margin:0px;"><?php echo $row["description"]?></p></td>
-                                <td><?php echo $row["duration_lv"] == 1 ? "√" : "";?></td>
-                                <td><?php echo $row["duration_lv"] == 2 ? "√" : "";?></td>
-                                <td><?php echo $row["duration_lv"] == 3 ? "√" : "";?></td>
+                                <td><?php echo $row['duration_lv'] == 1 ? "√" : "";?></td>
                                 <td><?php echo $row["is_assistant"] ? "√": "";?></td>
                                 <td><?php echo $row["is_delay"] ? ("{$row["delay_day"]}天完成"): "";?></td>
                                 <td><?php echo $row["status"] == ProblemService::BE_QUALIFIED ? "完成": "";?></td>
-                                <td></td>
+                                <?php
+                                    $nav_status = in_array($row['status'], array_keys(Yii::app()->params->sub_nav_status))?$row['status']:999;
+                                ?>
+                                <td><a href="<?php echo $this->createUrl("/problem/index/view", array("id"=>$row['id'], "nav_status"=>$nav_status));?>" class="btn btn-info" target="_blank">查看</a></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php endforeach; ?>

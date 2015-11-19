@@ -39,4 +39,13 @@ return array(
     'page_size' => array(
         'common' => 10, 
     ), 
+    //sub nav staus
+    'sub_nav_status' => array(
+        '0' => '未分配',
+        '5' => '已分配',
+        '2' => '申请延时',
+        '7' => '打回',
+        '6' => '待审核',
+        '8' => '审核通过'
+    )
 );

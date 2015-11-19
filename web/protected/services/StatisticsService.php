@@ -33,9 +33,7 @@ class StatisticsService extends Service {
 
         $sql = "SELECT *, FROM_UNIXTIME(`assign_time`, '%Y-%m-%d') AS `assign_date`, 
                     IF(`status`<>:status_qualified, 0, 
-                        IF(`assign_time`+7*24*3600>`check_time`, 1, IF(
-                            `assign_time`+14*24*3600>`check_time`, 2, IF(
-                                `assign_time`+30*24*3600>`check_time`, 3, 4)))) AS `duration_lv`, 
+                        IF(`assign_time`+(`deal_time` + `delay_time`)*3600>`check_time`, 1, 0)) AS `duration_lv`, 
                     FLOOR(`delay_time`/24) AS `delay_day`
                 FROM `problem` 
                 WHERE `assign_time` BETWEEN :assign_start_time AND :assign_end_time
@@ -105,7 +103,6 @@ class StatisticsService extends Service {
             $ttitleRow = $offsetRow + 1;
             $theadRow = $ttitleRow + 1;
             $thead2Row = $theadRow + 1;
-            $thead3Row = $thead2Row + 1;
             // set ttitle
             $ynj = date('Y.n.j', strtotime($assign_date));
             $objActSheet->setCellValue("A{$ttitleRow}", "{$assign_start_date} ~ {$assign_end_date} 堡政整改反馈汇总表 ($ynj)");
@@ -117,19 +114,13 @@ class StatisticsService extends Service {
             $objActSheet->setCellValue("E{$theadRow}", '存在问题');
             $objActSheet->setCellValue("E{$thead2Row}", '序号');
             $objActSheet->setCellValue("F{$thead2Row}", '具体问题');
-            $objActSheet->setCellValue("G{$theadRow}", '整改计划');
-            $objActSheet->setCellValue("G{$thead2Row}", '7天内完成');
-            $objActSheet->setCellValue("H{$thead2Row}", '14天内完成');
-            $objActSheet->setCellValue("I{$thead2Row}", '一个月完成');
-            $objActSheet->setCellValue("G{$thead3Row}", date("Y.n.j", strtotime($assign_date) + 7 * 24 * 3600));
-            $objActSheet->setCellValue("H{$thead3Row}", date("Y.n.j", strtotime($assign_date) + 14 * 24 * 3600));
-            $objActSheet->setCellValue("I{$thead3Row}", date("Y.n.j", strtotime($assign_date) + 30 * 24 * 3600));
-            $objActSheet->setCellValue("J{$theadRow}", '需要县镇联动');
-            $objActSheet->setCellValue("K{$theadRow}", '申请延时');
-            $objActSheet->setCellValue("L{$theadRow}", '完成情况');
-            $objActSheet->setCellValue("M{$theadRow}", '备注');
+            $objActSheet->setCellValue("G{$theadRow}", '按时完成');
+            $objActSheet->setCellValue("H{$theadRow}", '需要县镇联动');
+            $objActSheet->setCellValue("I{$theadRow}", '申请延时');
+            $objActSheet->setCellValue("J{$theadRow}", '完成情况');
+            $objActSheet->setCellValue("K{$theadRow}", '备注');
             // set tbody
-            $offsetCellRow = $thead3Row + 1;
+            $offsetCellRow = $thead2Row + 1;
             foreach ($deal_username_rows as $deal_username => $rows) {
                 ++$no;
                 $rowsCount = count($rows);
@@ -143,12 +134,10 @@ class StatisticsService extends Service {
                     $objActSheet->setCellValue("E{$currentRow}", $key + 1);
                     $objActSheet->setCellValue("F{$currentRow}", $row["description"]);
                     $objActSheet->setCellValue("G{$currentRow}", $row["duration_lv"] == 1 ? "√" : "");
-                    $objActSheet->setCellValue("H{$currentRow}", $row["duration_lv"] == 2 ? "√" : "");
-                    $objActSheet->setCellValue("I{$currentRow}", $row["duration_lv"] == 3 ? "√" : "");
-                    $objActSheet->setCellValue("J{$currentRow}", $row["is_assistant"] ? "√": "");
-                    $objActSheet->setCellValue("K{$currentRow}", $row["is_delay"] ? ("{$row["delay_day"]}天完成"): "");
-                    $objActSheet->setCellValue("L{$currentRow}", $row["status"] == ProblemService::BE_QUALIFIED ? "完成": "");
-                    $objActSheet->setCellValue("M{$currentRow}", "");
+                    $objActSheet->setCellValue("H{$currentRow}", $row["is_assistant"] ? "√": "");
+                    $objActSheet->setCellValue("I{$currentRow}", $row["is_delay"] ? ("{$row["delay_day"]}天完成"): "");
+                    $objActSheet->setCellValue("J{$currentRow}", $row["status"] == ProblemService::BE_QUALIFIED ? "完成": "");
+                    $objActSheet->setCellValue("K{$currentRow}", "");
                 }
 
                 // set cell merge
@@ -161,23 +150,23 @@ class StatisticsService extends Service {
                 $offsetCellRow += $rowsCount;
             }
             // set cell merge
-            $objActSheet->mergeCells("A{$ttitleRow}:M{$ttitleRow}");
-            $objActSheet->mergeCells("A{$theadRow}:A{$thead3Row}");
-            $objActSheet->mergeCells("B{$theadRow}:B{$thead3Row}");
-            $objActSheet->mergeCells("C{$theadRow}:C{$thead3Row}");
-            $objActSheet->mergeCells("D{$theadRow}:D{$thead3Row}");
+            $objActSheet->mergeCells("A{$ttitleRow}:K{$ttitleRow}");
+            $objActSheet->mergeCells("A{$theadRow}:A{$thead2Row}");
+            $objActSheet->mergeCells("B{$theadRow}:B{$thead2Row}");
+            $objActSheet->mergeCells("C{$theadRow}:C{$thead2Row}");
+            $objActSheet->mergeCells("D{$theadRow}:D{$thead2Row}");
             $objActSheet->mergeCells("E{$theadRow}:F{$theadRow}");
-            $objActSheet->mergeCells("E{$thead2Row}:E{$thead3Row}");
-            $objActSheet->mergeCells("F{$thead2Row}:F{$thead3Row}");
-            $objActSheet->mergeCells("G{$theadRow}:I{$theadRow}");
-            $objActSheet->mergeCells("J{$theadRow}:J{$thead3Row}");
-            $objActSheet->mergeCells("K{$theadRow}:K{$thead3Row}");
-            $objActSheet->mergeCells("L{$theadRow}:L{$thead3Row}");
-            $objActSheet->mergeCells("M{$theadRow}:M{$thead3Row}");
+            $objActSheet->mergeCells("E{$thead2Row}:E{$thead2Row}");
+            $objActSheet->mergeCells("F{$thead2Row}:F{$thead2Row}");
+            $objActSheet->mergeCells("G{$theadRow}:G{$thead2Row}");
+            $objActSheet->mergeCells("H{$theadRow}:H{$thead2Row}");
+            $objActSheet->mergeCells("I{$theadRow}:I{$thead2Row}");
+            $objActSheet->mergeCells("J{$theadRow}:J{$thead2Row}");
+            $objActSheet->mergeCells("K{$theadRow}:K{$thead2Row}");
 
             // set cell border
             for ($row=$offsetRow+1; $row<=$offsetRow+$totalRows+3+1; ++$row) { 
-                for ($col=ord('A'); $col<=ord('M'); ++$col) { 
+                for ($col=ord('A'); $col<=ord('K'); ++$col) { 
                     $colChr = chr($col);
                     $this->_setBorder($objActSheet, "{$colChr}{$row}");
                 }
