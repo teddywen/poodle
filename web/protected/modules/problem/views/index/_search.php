@@ -228,7 +228,7 @@
                     <?php endif;?>
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                            <button type="submit" class="btn btn-primary">查找</button>
+                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查找</button>
                         </div>
                     </div>
                 </form>
