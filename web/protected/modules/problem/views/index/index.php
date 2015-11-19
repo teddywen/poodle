@@ -29,9 +29,9 @@
 					<th>
 						延期
 					</th>
-					<th>
+					<<!-- th>
 						联动
-					</th>
+					</th> -->
 					<th>
 						发布时间
 					</th>
@@ -70,9 +70,9 @@
 					<td>
 						<?php echo $problem->is_delay==1?"是":"否";?>
 					</td>
-					<td>
+					<!--<td>
 						<?php echo $problem->is_assistant==1?"是":"否";?>
-					</td>
+					</td>-->
 					<td>
 						<?php echo date('Y-m-d H:i:s', $problem->create_time) ;?>
 					</td>
