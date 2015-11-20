@@ -96,3 +96,51 @@ a.sub_nav_a{
 	padding: 5px !important;
 }
 /*------------------MAIN SUBNAV END---------------------------*/
+
+
+/*------------------------PROBLEM PAGE BEGIN----------------------*/
+h3.problem-title {
+    height: 1.5em;
+    width: 20%;
+    display: inline-block;
+}
+a.back{
+    position: relative;
+    line-height: 14px;
+    font-weight: bold;
+    float: right;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-color: #fff;
+    padding: 6px;
+}
+a.back:hover,
+a.back:active,
+a.back:active:hover{
+    border-color: #ADADAD;
+    background-color: #ADADAD;
+}
+a.back:active{
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+a.back:before,
+a.back:after{
+    position: absolute;
+    content: " ";
+}
+a.back:before{
+    border: transparent 13px solid;
+    border-right-color: #FFF;
+    top: 0px;
+    left: -27px;
+    height: 0;
+    width: 0;
+}
+a.back:hover:before,
+a.back:active:before,
+a.back:active:hover:before{
+    border-right-color: #ADADAD;
+
+}
+/*------------------------PROBLEM PAGE END----------------------*/

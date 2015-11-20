@@ -18,12 +18,12 @@
 ?>
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h3 class="panel-title">问题详情</h3>
+        <h3 class="panel-title problem-title">问题详情</h3><a href="<?php echo urldecode($back_url) ?>" class="btn btn-default back">返回</a>
     </div>
     <div class="panel-body">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <form class="form-horizontal problem_info_form" method="post" action="<?php echo $opetate_url;?>" onsubmit="return false;">
+                <form class="form-horizontal problem_info_form" method="post" actio n="<?php echo $opetate_url;?>" onsubmit="return false;">
                     <input type="hidden" name="pid" value="<?php echo $problem->id;?>" />
                     <div class="imgname_lists" style="display: none;"></div>
                     <div class="form-group">
