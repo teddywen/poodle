@@ -85,7 +85,7 @@
                         <th rowspan="2">操作</th>
                     </tr>
                     <tr>
-                        <th rowspan="1">序号</th>
+                        <th rowspan="1">编号</th>
                         <th rowspan="1">具体问题</th>
                     </tr>
                 </thead>

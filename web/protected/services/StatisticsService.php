@@ -112,7 +112,7 @@ class StatisticsService extends Service {
             $objActSheet->setCellValue("C{$theadRow}", '派单日期');
             $objActSheet->setCellValue("D{$theadRow}", '发现问题数');
             $objActSheet->setCellValue("E{$theadRow}", '存在问题');
-            $objActSheet->setCellValue("E{$thead2Row}", '序号');
+            $objActSheet->setCellValue("E{$thead2Row}", '编号');
             $objActSheet->setCellValue("F{$thead2Row}", '具体问题');
             $objActSheet->setCellValue("G{$theadRow}", '按时完成');
             $objActSheet->setCellValue("H{$theadRow}", '需要县镇联动');
@@ -131,7 +131,7 @@ class StatisticsService extends Service {
                 $objActSheet->setCellValue("D{$offsetCellRow}", $rowsCount);
                 foreach ($rows as $key => $row) {
                     $currentRow = $offsetCellRow + $key;
-                    $objActSheet->setCellValue("E{$currentRow}", $key + 1);
+                    $objActSheet->setCellValue("E{$currentRow}", '#'.$row["id"]);
                     $objActSheet->setCellValue("F{$currentRow}", $row["description"]);
                     $objActSheet->setCellValue("G{$currentRow}", $row["duration_lv"] == 1 ? "√" : "");
                     $objActSheet->setCellValue("H{$currentRow}", $row["is_assistant"] ? "√": "");
