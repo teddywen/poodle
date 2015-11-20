@@ -108,7 +108,7 @@
                                     <?php foreach(Yii::app()->params->sub_nav_status as $status_key=>$status_value):?>
                                     <?php if(Yii::app()->user->checkAccess('unit')&&$status_key==ProblemService::BE_CREATED) continue;?>
                                     <li <?php if($subnav_problem_active && $nav_status==$status_key):?>class="sub_nav_li"<?php endif;?>>
-                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>$nav_status));?>" class="sub_nav_a"><?php echo $status_value;?></a>
+                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>$status_key));?>" class="sub_nav_a"><?php echo $status_value;?></a>
                                     </li>
                                     <?php endforeach;?>
                                     <li <?php if($subnav_problem_active && $nav_status==999):?>class="sub_nav_li"<?php endif;?>>
