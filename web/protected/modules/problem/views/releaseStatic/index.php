@@ -100,7 +100,7 @@
                                     <td rowspan="<?php echo $count; ?>"><?php echo date("Y.n.j", strtotime($assign_date)); ?></td>
                                     <td rowspan="<?php echo $count; ?>"><?php echo $count; ?></td>
                                 <?php endif; ?>
-                                <td><?php echo $key + 1;?></td>
+                                <td>#<?php echo $row['id'];?></td>
                                 <td><p class="text-left" style="margin:0px;"><?php echo $row["description"]?></p></td>
                                 <td><?php echo $row['duration_lv'] == 1 ? "√" : "";?></td>
                                 <td><?php echo $row["is_assistant"] ? "√": "";?></td>

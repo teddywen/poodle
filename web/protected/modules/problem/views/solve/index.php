@@ -29,7 +29,7 @@
                 <label for="f_image" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">凭证图片: </label>
                 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 up_file_div">
                     <input type="file" id="f_image" name="problem_image" />
-                    <label class="help-inline text-danger">最大文件不能超过8M</label>
+                    <label class="help-inline text-danger">最大文件不能超过<?php echo Yii::app()->params->max_upload_image_size;?>M</label>
                 </div>
             </div>
             <div class="form-group">

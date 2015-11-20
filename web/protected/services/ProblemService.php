@@ -65,6 +65,7 @@ class ProblemService extends Service
             $model = new Problem();
             $model->attributes = $data;
             $model->create_time = $cur_time;
+            $model->update_time = $cur_time;
             $res1 = $model->save();
             if(!$res1){
                 throw new Exception(print_r($model->getErrors(), true));

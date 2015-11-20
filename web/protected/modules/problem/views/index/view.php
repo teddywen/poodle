@@ -266,7 +266,7 @@
                                 <?php endif; ?>
                                 <?php if(Yii::app()->user->checkAccess('manager_close_problem') && 
                                             in_array($problem->status, array(ProblemService::BE_CREATED))): ?>
-                                    <button type="button" class="btn btn-danger btn_close_problem">关闭</button>
+                                    <button type="button" class="btn btn-danger btn_close_problem">删除</button>
                                 <?php endif; ?>
                                 <?php if(Yii::app()->user->checkAccess('approval_problem') && 
                                             in_array($problem->status, array(ProblemService::WAIT_CHECKING))): ?>
