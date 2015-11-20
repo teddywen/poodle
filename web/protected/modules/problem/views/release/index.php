@@ -85,7 +85,7 @@
         var img_height = 190;
         var img_width = Math.ceil(img_height * img_radion);
         var img_str = '<img src="/upload/images/'+r_img_path+'" width="'+img_width+'px" height="'+img_height+'px" class="img-rounded" />'
-        var li_str = '<li style="margin-bottom: 15px;" data-imgname="'+r_img_path+'">'
+        var li_str = '<li style="margin-bottom: 15px;" data-imgname="'+r_img_path+'" data-width="'+t_width+'" data-height="'+t_height+'">'
             + '<a class="close remove_img" style="color: red;" title="删除">×</a>'
             + img_str + '</i>';
         $(".imgname_lists").append('<input type="hidden" name="img_names[]" value="'+r_img_path+","+t_width+","+t_height+'" />');
@@ -97,8 +97,10 @@
     //删除照片
     function removeImg(obj){
         var li_obj = $(obj).closest("li");
-        var img_name = $(li_obj).attr("data-imgname");
-        $(".imgname_lists").find("input[value='"+img_name+"']").remove();
+        var img_name = $(li_obj).data("imgname");
+        var img_width = $(li_obj).data("width");
+        var img_height = $(li_obj).data("height");
+        $(".imgname_lists").find("input[value='"+img_name+","+img_width+","+img_height+"']").remove();
         $(li_obj).remove();
         if ($(".img_lists").html()=="") {
             $(".img_lists").addClass("hidden");
