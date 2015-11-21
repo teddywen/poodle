@@ -103,6 +103,7 @@ h3.problem-title {
     height: 1.5em;
     width: 20%;
     display: inline-block;
+    padding-top: 0.5%;
 }
 a.back{
     position: relative;
