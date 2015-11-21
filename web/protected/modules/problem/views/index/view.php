@@ -273,11 +273,19 @@
                                     <button type="button" name="solve_qualified" class="btn btn-success btn_solve_qualified">通过</button>
                                     <button type="button" name="solve_unqualified" class="btn btn-danger btn_go_solve_unqualified">打回</button>
                                 <?php endif; ?>
+                                <?php if(Yii::app()->user->checkAccess('apply_problem') && Yii::app()->user->getId() == $problem->deal_uid):?>
+                                    <?php if(in_array($problem->status, array(ProblemService::BE_DEALING, ProblemService::APPLY_DELAYING))):?>
+                                    <a href="<?php echo $this->createUrl("/problem/solve", array("pid"=>$problem->id, "back_url_top"=>$back_url, "back_url"=>urlencode(Util::getCurrentUrl()))); ?>" 
+                                        class="btn btn-primary">上传处理结果</a>
+                                    <?php elseif(in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_UNQUALIFIED))):?>
+                                    <a href="<?php echo $this->createUrl("/problem/solve", array("pid"=>$problem->id, 'modify_solve' => 1, "back_url_top"=>$back_url, "back_url"=>urlencode(Util::getCurrentUrl()))); ?>" 
+                                        class="btn btn-warning">修改处理结果</a>
+                                    <?php endif;?>
+                                <?php endif;?>
                                 <?php if(Yii::app()->user->checkAccess('apply_problem') && 
                                             Yii::app()->user->getId() == $problem->deal_uid && 
                                             in_array($problem->status, array(ProblemService::BE_DEALING, ProblemService::BE_UNQUALIFIED, ProblemService::APPLY_DELAYING))): ?>
-                                    <a href="<?php echo $this->createUrl("/problem/solve", array("pid"=>$problem->id, "back_url_top"=>$back_url, "back_url"=>urlencode(Util::getCurrentUrl()))); ?>" 
-                                        class="btn btn-primary">上传处理结果</a>
+                                    
                                 <?php endif; ?>
                                 <?php if(Yii::app()->user->checkAccess('delay_apply_problem') &&
                                             Yii::app()->user->getId() == $problem->deal_uid && 

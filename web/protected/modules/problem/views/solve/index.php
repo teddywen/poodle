@@ -8,11 +8,11 @@
         </div>
     </div>
 <?php endif;?>
-
+<?php $modify_solve = isset($_GET['modify_solve'])?intval($_GET['modify_solve']):0;?>
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <form class="form-horizontal" method="post">
-            <div class="imgname_lists" style="display: none;"></div>
+            <input type="hidden" name="modify_solve" value="<?php echo $modify_solve;?>" />
             <div class="form-group">
                 <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">地址: </label>
                 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
@@ -34,14 +34,40 @@
             </div>
             <div class="form-group">
                 <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                    <ul class="form-control-static list-unstyled list-inline img_lists hidden"></ul>
+                    <?php
+                        $has_img = 0;
+                        if($modify_solve == 1 && !empty($solve_images)){
+                            $has_img = 1;
+                        }
+                    ?>
+                    <ul class="form-control-static list-unstyled list-inline img_lists <?php if(!$has_img):?>hidden<?php endif;?>">
+                    <?php if($modify_solve == 1 && !empty($solve_images)):?>
+                        <?php foreach($solve_images as $solve_image):?>
+                        <?php
+                            $img_path = substr($solve_image->img_path, strlen(Yii::app()->params->upload_img_url));
+                            $img_width = $solve_image->img_width; $img_height = $solve_image->img_height;
+                            $show_height = 190; $show_width = ceil($show_height * round($img_width/ $img_height, 2));
+                            $form_img_value = $img_path.','.$img_width.','.$img_height;
+                            $cur_img_lists[] = '<input type="hidden" name="img_names[]" value="'.$form_img_value.'">';
+                        ?>
+                        <input type="hidden" name="cur_images[]" value="<?php echo $form_img_value;?>" />
+                        <li style="margin-bottom: 15px;" data-imgname="<?php echo $img_path;?>" data-width="<?php echo $img_width;?>" data-height="<?php echo $img_height;?>">
+                        <a class="close remove_img" style="color: red;" title="删除">×</a><img src="<?php echo $solve_image->img_path;?>" width="<?php echo $show_width;?>" height="<?php echo $show_height;?>" class="img-rounded"></li>
+                        <?php endforeach;?>
+                    <?php endif;?>
+                    </ul>
                 </div>
             </div>
+            <div class="imgname_lists" style="display: none;">
+            <?php if(isset($cur_img_lists)&&!empty($cur_img_lists)) echo implode('', $cur_img_lists);?>
+            </div>
+            <?php if($problem->deal_uid == Yii::app()->user->id):?>
             <div class="form-group">
                 <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-10 col-md-10 col-sm-10 col-xs-10">
                     <button type="submit" class="btn btn-primary">提交审核</button>
                 </div>
             </div>
+            <?php endif;?>
         </form>
     </div>
 </div>
@@ -88,7 +114,7 @@
         var img_radion = r_img_size.radio, t_width = r_img_size.width, t_height = r_img_size.height;
         var img_height = 190;
         var img_width = Math.ceil(img_height * img_radion);
-        var img_str = '<img src="/upload/images/'+r_img_path+'" width="'+img_width+'px" height="'+img_height+'px" class="img-rounded" />'
+        var img_str = '<img src="/upload/images/'+r_img_path+'" width="'+img_width+'" height="'+img_height+'" class="img-rounded" />'
         var li_str = '<li style="margin-bottom: 15px;" data-imgname="'+r_img_path+'">'
             + '<a class="close remove_img" style="color: red;" title="删除">×</a>'
             + img_str + '</i>';
@@ -102,7 +128,9 @@
     function removeImg(obj){
         var li_obj = $(obj).closest("li");
         var img_name = $(li_obj).attr("data-imgname");
-        $(".imgname_lists").find("input[value='"+img_name+"']").remove();
+        var img_width = $(li_obj).data("width");
+        var img_height = $(li_obj).data("height");
+        $(".imgname_lists").find("input[value='"+img_name+","+img_width+","+img_height+"']").remove();
         $(li_obj).remove();
         if ($(".img_lists").html()=="") {
             $(".img_lists").addClass("hidden");

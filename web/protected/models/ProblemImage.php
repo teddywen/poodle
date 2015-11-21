@@ -5,13 +5,14 @@
  *
  * The followings are the available columns in table 'problem_image':
  * @property string $id
- * @property integer $pid
+ * @property string $pid
  * @property string $img_path
  * @property integer $img_width
  * @property integer $img_height
  * @property integer $img_type
  * @property integer $status
  * @property string $create_time
+ * @property integer $update_time
  */
 class ProblemImage extends CActiveRecord
 {
@@ -31,12 +32,12 @@ class ProblemImage extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('pid, img_width, img_height, img_type, status', 'numerical', 'integerOnly'=>true),
+			array('img_width, img_height, img_type, status, update_time', 'numerical', 'integerOnly'=>true),
+			array('pid, create_time', 'length', 'max'=>10),
 			array('img_path', 'length', 'max'=>150),
-			array('create_time', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, pid, img_path, img_width, img_height, img_type, status, create_time', 'safe', 'on'=>'search'),
+			array('id, pid, img_path, img_width, img_height, img_type, status, create_time, update_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,6 +66,7 @@ class ProblemImage extends CActiveRecord
 			'img_type' => 'Img Type',
 			'status' => 'Status',
 			'create_time' => 'Create Time',
+			'update_time' => 'Update Time',
 		);
 	}
 
@@ -87,13 +89,14 @@ class ProblemImage extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('pid',$this->pid);
+		$criteria->compare('pid',$this->pid,true);
 		$criteria->compare('img_path',$this->img_path,true);
 		$criteria->compare('img_width',$this->img_width);
 		$criteria->compare('img_height',$this->img_height);
 		$criteria->compare('img_type',$this->img_type);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('create_time',$this->create_time,true);
+		$criteria->compare('update_time',$this->update_time);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
