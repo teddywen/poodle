@@ -19,7 +19,7 @@
 							<td><?php echo $delayApply["remark"]; ?></td>
 							<td><?php $data = CJSON::decode($delayApply["data"]); echo floor($data["hour"] / 24); ?></td>
 							<td>
-								<form action="<?php echo $this->createUrl("/problem/problemflow/approvaldelayapply"); ?>" method="post">
+								<form action="<?php echo $this->createUrl("/problem/problemFlow/approvaldelayapply"); ?>" method="post">
 									<input type="hidden" name="id" value="<?php echo $delayApply["id"]; ?>" />
 									<input type="hidden" name="log_id" value="<?php echo $delayApply["log_id"]; ?>" />
 									<a href="<?php echo $this->createUrl("/problem/index/view", array("id"=>$delayApply["id"])); ?>" target="_blank" class="btn btn-primary">查看</a>
