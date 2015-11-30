@@ -23,7 +23,23 @@ usermod -a -G scw shang.jie
     mkdir .ssh
     chmod 700 .ssh
     cd .ssh
-    echo "ForwardAgent yes" > config
-    chmod 600 config
     echo "<登陆用的公钥>" > authorized_keys
     chmod 600 authorized_keys
+chmod u+w /etc/sudoers
+vim /etc/sudoers
+    root    ALL=(ALL)       ALL
+    + wen.xiang    ALL=(ALL)       NOPASSWD: ALL
+    + shang.jie    ALL=(ALL)       NOPASSWD: ALL
+    + chen.songping    ALL=(ALL)       NOPASSWD: ALL
+chmod u-w /etc/sudoers
+
+四、sshd配置
+vim /etc/ssh/sshd_config
+    - PermitRootLogin yes
+    + PermitRootLogin no
+
+五、trash-cli
+cd /usr/local/src/
+git clone https://github.com/andreafrancia/trash-cli.git
+cd trash-cli
+easy_install trash-cli

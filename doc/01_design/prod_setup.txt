@@ -10,6 +10,7 @@ config
 
 optional
 1. db slave
+2. ss5
 
 software
 2. php
