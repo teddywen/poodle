@@ -1,0 +1,29 @@
+linux账户
+一、磁盘分区
+磁盘 /dev/xvdb. 分区并格式化 /dev/xvdb1. 挂载到 /var 中.
+添加开机挂载启动项 /etc/fstab 
+
+二、交换区
+新建 /var/swap/swapfile 2GB
+添加开机挂载启动项 /etc/fstab 
+
+三、新建用户
+groupadd wen.xiang
+groupadd chen.songping
+groupadd shang.jie
+groupadd scw
+useradd -g wen.xiang wen.xiang
+useradd -g chen.songping chen.songping
+useradd -g shang.jie shang.jie
+usermod -a -G scw wen.xiang
+usermod -a -G scw chen.songping
+usermod -a -G scw shang.jie
+切换到某一个用户下并执行ssh配置操作,命令如下:
+    su - wen.xiang
+    mkdir .ssh
+    chmod 700 .ssh
+    cd .ssh
+    echo "ForwardAgent yes" > config
+    chmod 600 config
+    echo "<登陆用的公钥>" > authorized_keys
+    chmod 600 authorized_keys

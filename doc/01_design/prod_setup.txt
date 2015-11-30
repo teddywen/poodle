@@ -6,7 +6,7 @@ config
 5. poodle, cacti
 6. poodle prod config
 7. supervise of deamontools, service
-8. logrotate
+8. logrotate for poodle, 
 
 optional
 1. db slave
