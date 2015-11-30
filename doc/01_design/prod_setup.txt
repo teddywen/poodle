@@ -1,0 +1,19 @@
+config
+1. linux account setting
+2. website git
+3. rsync script
+4. mysql account, database
+5. poodle, cacti
+6. poodle prod config
+7. supervise of deamontools, service
+8. logrotate
+
+optional
+1. db slave
+
+software
+2. php
+3. mysql
+4. apache
+5. memcached
+6. deamontools supervise
