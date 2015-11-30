@@ -43,3 +43,6 @@ cd /usr/local/src/
 git clone https://github.com/andreafrancia/trash-cli.git
 cd trash-cli
 easy_install trash-cli
+
+六、apache2
+cd /usr/local/apache2
