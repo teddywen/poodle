@@ -16,7 +16,7 @@
         <!--Page Title-->
         <div class="row main-header">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <p><h1>上海 · 崇明 <small>建设美好家园</small></h1></p>
+                <p><h1><?php echo Yii::app()->params->address_name;?> <small><?php echo Yii::app()->params->project_name;?></small></h1></p>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <p></p>

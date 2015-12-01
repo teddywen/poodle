@@ -1,5 +1,13 @@
 <?php
 return array(
+    //地方名称
+    'address_name' => '崇明堡镇',
+    //地方名称
+    'project_name' => '堡镇三创工作联动平台',
+    //审核时间
+    'check_time' => '10:00 ~ 16:30',
+    //联系方式
+    'contact_phone' => '021-59410315',
     //网站所用图片路径
     'image_url' => '/images',
     //网站所用js文件路径
