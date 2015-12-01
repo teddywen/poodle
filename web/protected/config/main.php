@@ -68,7 +68,7 @@ return array(
 		'db'=>array(
 			'connectionString' => 'mysql:host=127.0.0.1;dbname=poodle_prod',
 			'emulatePrepare' => true,
-			'username' => 'poodle',
+			'username' => 'poodle_prod',
 			'password' => '',
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
