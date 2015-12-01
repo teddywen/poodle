@@ -110,7 +110,7 @@
                 <?php endforeach;?>
                 <?php else:?>
                 <tr>
-                    <td colspan="6">
+                    <td colspan="9" class="text-center">
                         暂无数据...
                     </td>
                 </tr>
