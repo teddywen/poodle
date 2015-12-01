@@ -1,0 +1,4 @@
+#/bin/sh
+
+rsync -r --delete --exclude-from=rsync_list/exclude.list --include-from=rsync_list/include.list ./ /srv/www/poodle_prod/
+chmod a+w /srv/www/poodle_prod/web/upload /srv/www/poodle_prod/web/assets /srv/www/poodle_prod/web/protected/runtime

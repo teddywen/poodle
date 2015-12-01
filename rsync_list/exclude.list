@@ -1,0 +1,10 @@
+exclude.list
+include.list
+.git
+.gitignore
+/doc/
+/resources/
+/README.md
+/web/upload/images/*
+/web/assets/*
+/web/protected/runtime/*
