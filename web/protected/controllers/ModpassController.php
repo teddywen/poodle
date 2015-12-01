@@ -66,7 +66,7 @@ class ModpassController extends Controller
                 $model->password = CPasswordHelper::hashPassword($new_pass);
                 $model->update_time = Util::time();
                 if ($model->save()) {
-                    Yii::app()->user->logout();
+                    $this->redirect('/site/logout');
                     $ok = true;
                 } else 
                     throw new CHttpException(500, print_r($model->getErrors(), true));

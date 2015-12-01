@@ -3,14 +3,18 @@ class UploadService extends Service
 {
     const IMAGE_MAX_SIZE = 800;//图片最长的一边边长
     
-    public function uploadImage($up_name = 'problem_image')
+    public function uploadImage($up_name = 'file')
     {
         $upload_path = Yii::app()->params->upload_img_url;
-        
+
         $image = CUploadedFile::getInstanceByName($up_name);
         if(empty($image->tempName)){
-            self::$errorMsg = '图片上传失败';
-            return null;
+            $up_name = 'problem_image';
+            $image = CUploadedFile::getInstanceByName($up_name);
+            if(empty($image->tempName)){
+                self::$errorMsg = '图片上传失败';
+                return null;
+            }
         }
         $size_info = getimagesize($image->tempName);
         $width = $size_info[0];

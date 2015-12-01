@@ -124,6 +124,12 @@
                                         <option value="<?php echo $i;?>"<?php if($i==$deal_day):?> selected="selected"<?php endif;?>><?php echo $i;?>天</option>
                                     <?php endfor;?>
                                 </select>
+                                <?php $total_day = floor(($problem->deal_time + $problem->delay_time )/ 24); ?>
+                                <?php $deal_day = floor($problem->deal_time / 24); ?>
+                                <?php $delay_day = floor($problem->delay_time / 24); ?>                           
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 control-label" style="text-align: left;">
+                                <?php if($delay_day > 0):?>延时：<?php echo $delay_day;?>天<?php endif;?>【截止到：<?php echo date('Y-m-d H:i:s', $problem->assign_time + ($deal_day + $delay_day) * 24 * 3600);?>】
                             </div>
                         </div>
                     <?php elseif(!in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_CANCELED))):?>
@@ -135,11 +141,11 @@
                         </div>
                         <div class="form-group set_deal_time">
                             <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">完成用时: </label>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <?php $total_day = floor(($problem->deal_time + $problem->delay_time )/ 24); ?>
                                 <?php $deal_day = floor($problem->deal_time / 24); ?>
                                 <?php $delay_day = floor($problem->delay_time / 24); ?>
-                                <p class="form-control-static"><?php echo $total_day; ?>天 <?php if($delay_day > 0) echo "({$deal_day}天 + 延时{$delay_day}天)"; ?></p>
+                                <p class="form-control-static"><?php echo $total_day; ?>天 <?php if($delay_day > 0) echo "({$deal_day}天 + 延时{$delay_day}天)"; ?>【截止到：<?php echo date('Y-m-d H:i:s', $problem->assign_time + ($deal_day + $delay_day) * 24 * 3600);?>】</p>
                             </div>
                         </div>
                     <?php endif;?>
@@ -262,7 +268,7 @@
                                 <?php endif;?>
                                 <?php if(Yii::app()->user->checkAccess('dispatch_problem') && 
                                             !in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_QUALIFIED, ProblemService::BE_CANCELED, ProblemService::BE_CLOSED))): ?>
-                                    <button type="button" class="btn btn-primary btn_submit_form">分配</button>
+                                    <button type="button" class="btn btn-primary btn_submit_form"><?php if(empty($problem->deal_uid)):?>分配<?php else:?>重置分配<?php endif;?></button>
                                 <?php endif; ?>
                                 <?php if(Yii::app()->user->checkAccess('manager_close_problem') && 
                                             in_array($problem->status, array(ProblemService::BE_CREATED))): ?>

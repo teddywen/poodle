@@ -25,10 +25,18 @@
                     <p class="form-control-static"><?php echo $problem->description;?></p>
                 </div>
             </div>
+            <!-- 
             <div class="form-group">
                 <label for="f_image" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">凭证图片: </label>
                 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 up_file_div">
                     <input type="file" id="f_image" name="problem_image" />
+                    <label class="help-inline text-danger">最大文件不能超过<?php echo Yii::app()->params->max_upload_image_size;?>M</label>
+                </div>
+            </div> -->
+            <div class="form-group">
+                <label for="f_image" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">问题图片: </label>
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 up_file_div">
+                    <div id="pick">选择文件</div>
                     <label class="help-inline text-danger">最大文件不能超过<?php echo Yii::app()->params->max_upload_image_size;?>M</label>
                 </div>
             </div>
@@ -82,6 +90,63 @@
             if(confirm("确定删除该照片？")){
                 removeImg(this);
             }
+        });
+
+        var uploader = WebUploader.create({
+            // 验证单个文件大小是否超出限制, 超出则不允许加入队列。
+            fileSingleSizeLimit: <?php echo Yii::app()->params->max_upload_image_size * 1024 * 1024;?>, 
+            // 指定Drag And Drop拖拽的容器，如果不指定，则不启动。
+            dnd: '#pick', 
+            // 去重， 根据文件名字、文件大小和最后修改时间来生成hash Key
+            duplicate: true, 
+            // 选完文件后，是否自动上传。
+            auto: true,
+            // swf文件路径
+            swf: '<?php echo Yii::app()->params->plugin_url;?>/webuploader-0.1.5/Uploader.swf',
+            // 文件接收服务端。
+            server: '<?php echo Yii::app()->baseUrl?>/image',
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#pick',
+            // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+            // compress: false, 
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            }
+        });
+        // 当有文件被添加进队列的时候
+        var pickText = '';
+        uploader.on( 'fileQueued', function( file ) {
+            pickText = $("#pick .webuploader-pick").html();
+            $("#pick .webuploader-pick").html("队列中");
+        });
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on( 'uploadProgress', function( file, percentage ) {
+            $("#pick .webuploader-pick").html(percentage * 100 + '%');
+        });
+        uploader.on( 'uploadSuccess', function( file, response ) {
+            var r_code = response.code;
+            if(r_code == 0){
+                var r_msg = response.msg;
+                alert(r_msg);
+            }
+            else{
+                var img_info = response.img_info;
+                addNewImage(img_info);
+            }
+        });
+        uploader.on('uploadComplete', function( file ) {
+            $("#pick .webuploader-pick").html(pickText);
+        });
+        uploader.on( 'uploadError', function( file, reason ) {
+            console.log(file);
+            console.log(reason);
+        });
+        uploader.on( 'error', function( type ) {
+            console.log(type);
         });
     });
     //上传照片

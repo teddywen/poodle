@@ -127,10 +127,10 @@ vim /usr/local/lib/php.ini
 apachectl restart
 
 2. gd扩展
-yum install libpng-devel
+yum install libpng-devel libjpeg-turbo-devel
 cd /usr/local/src/php-5.6.16/ext/gd/
 phpize
-./configure
+./configure --with-jpeg-dir
 make
 make install
 vim /usr/local/lib/php.ini
@@ -163,3 +163,10 @@ mysql -h 127.0.0.1 -u root -p
     mysql> LOAD DATA infile '/path/to/datadump_auth_assignment.txt' into table auth_assignment;
     mysql> LOAD DATA infile '/path/to/datadump_gov_user.txt' into table gov_user;
 
+十、数据初始化
+1.单位分类
+gov_category_data.txt
+2.单位账号
+gov_user_data.txt
+3.权限和用户关系
+gov_category_data.txt

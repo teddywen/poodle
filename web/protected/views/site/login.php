@@ -2,13 +2,13 @@
     <div class="row">
         <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><img src="<?php echo Yii::app()->params->image_url;?>/logo.png" class="logo"></div> -->
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <p><h1>上海 · 崇明 <small>建设美好家园</small></h1></p>
+            <p><h1><?php echo Yii::app()->params->address_name;?> <small>建设美好家园</small></h1></p>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <p></p>
             <dl class="dl-horizontal pull-right">
-                <dt>审核时间 :</dt><dd><mark>工作日 10:00 ~ 15:00</mark></dd>
-                <dt>联系方式 :</dt><dd><mark>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;012-6229-3361</mark></dd>
+                <dt>审核时间 :</dt><dd><mark>工作日 <?php echo Yii::app()->params->check_time;?></mark></dd>
+                <dt>联系方式 :</dt><dd><mark>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo Yii::app()->params->contact_phone;?></mark></dd>
             </dl>
         </div>
     </div>
@@ -17,8 +17,8 @@
 <div class="jumbotron login-center-block">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-lg-offset-4 col-md-offset-4 col-sm-offset-4 col-xs-offset-4">
-                <h1>问题管理中心</h1>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+                <h1><?php echo Yii::app()->params->project_name;?></h1>
                 <p>欢迎使用堡镇问题管理中心</p>
                 <p><a class="btn btn-primary btn-lg login-center-btn" href="#" role="button" data-toggle="modal" data-target="#loginModal">马上登录</a></p>
             </div>
