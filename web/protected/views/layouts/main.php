@@ -16,7 +16,7 @@
         <!--Page Title-->
         <div class="row main-header">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <p><h1><?php echo Yii::app()->params->address_name;?> <small><?php echo Yii::app()->params->project_name;?></small></h1></p>
+                <p><h1><?php echo Yii::app()->params->address_name;?> <small>建设美好家园</small></h1></p>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <p></p>
@@ -107,6 +107,8 @@
                                 <ul class="nav nav-pills nav-stacked" style="padding-left: 20px;">
                                     <?php foreach(Yii::app()->params->sub_nav_status as $status_key=>$status_value):?>
                                     <?php if(Yii::app()->user->checkAccess('unit')&&$status_key==ProblemService::BE_CREATED) continue;?>
+                                    <?php if(Yii::app()->user->checkAccess('unit')&&$status_key==ProblemService::BE_UNQUALIFIED) $status_value = '审核未通过';?>
+                                    <?php if(Yii::app()->user->checkAccess('unit')&&$status_key==ProblemService::BE_DEALING) $status_value = '待处理';?>
                                     <li <?php if($subnav_problem_active && $nav_status==$status_key):?>class="sub_nav_li"<?php endif;?>>
                                         <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>$status_key));?>" class="sub_nav_a"><?php echo $status_value;?></a>
                                     </li>
