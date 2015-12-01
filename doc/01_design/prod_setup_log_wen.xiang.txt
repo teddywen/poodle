@@ -111,3 +111,55 @@ vim /usr/local/apache2/conf/extra/httpd-mpm.conf
         - MaxConnectionsPerChild 0
         + MaxConnectionsPerChild 1000
     </IfModule>
+
+八、php配置
+1. memcache扩展
+cd /usr/local/src/
+wget http://pecl.php.net/get/memcache-2.2.7.tgz
+tar -zxvf memcache-2.2.7.tgz
+cd memcache-2.2.7/
+phpize
+./configure
+make
+make install
+vim /usr/local/lib/php.ini
+    + extension=memcache.so
+apachectl restart
+
+2. gd扩展
+yum install libpng-devel
+cd /usr/local/src/php-5.6.16/ext/gd/
+phpize
+./configure
+make
+make install
+vim /usr/local/lib/php.ini
+    + extension=gd.so
+apachectl restart
+
+3. pdo扩展
+cd /usr/local/src/php-5.6.16/ext/pdo_mysql/
+phpize
+./configure
+make
+make install
+vim /usr/local/lib/php.ini
+    + extension=pdo_mysql.so
+apachectl restart
+
+九、mysql配置
+1. 新建mysql账号
+mysql -h 127.0.0.1 -u root -p
+    mysql> create schema poodle_prod;
+    mysql> CREATE USER 'poodle_prod'@'127.0.0.1' IDENTIFIED BY '';
+    mysql> GRANT ALL PRIVILEGES ON poodle_prod.* TO 'poodle_prod'@'127.0.0.1' WITH GRANT OPTION;
+
+2. 初始化站点db
+mysql -h 127.0.0.1 -u root -p
+    mysql> use poodle_prod;
+    mysql> source /path/to/tabledump.sql
+    mysql> LOAD DATA infile '/path/to/datadump_auth_item.txt' into table auth_item;
+    mysql> LOAD DATA infile '/path/to/datadump_auth_item_child.txt' into table auth_item_child;
+    mysql> LOAD DATA infile '/path/to/datadump_auth_assignment.txt' into table auth_assignment;
+    mysql> LOAD DATA infile '/path/to/datadump_gov_user.txt' into table gov_user;
+
