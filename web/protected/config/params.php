@@ -57,5 +57,5 @@ return array(
         '8' => '审核通过'
     ),
     //图片最大上传大小M
-    'max_upload_image_size' => 12
+    'max_upload_image_size' => 15
 );
