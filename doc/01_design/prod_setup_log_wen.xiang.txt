@@ -127,10 +127,10 @@ vim /usr/local/lib/php.ini
 apachectl restart
 
 2. gd扩展
-yum install libpng-devel
+yum install libpng-devel libjpeg-turbo-devel
 cd /usr/local/src/php-5.6.16/ext/gd/
 phpize
-./configure
+./configure --with-jpeg-dir
 make
 make install
 vim /usr/local/lib/php.ini
