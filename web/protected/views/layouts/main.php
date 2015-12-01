@@ -10,6 +10,10 @@
     <script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/bootstrap/bootstrap.min.js"></script>
     <script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/bootstrap/bootstrap-paginator.min.js"></script>
     <script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/jquery.form.js"></script>
+
+    <!-- webuploader -->
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->params->plugin_url;?>/webuploader-0.1.5/webuploader.css">
+    <script type="text/javascript" src="<?php echo Yii::app()->params->plugin_url;?>/webuploader-0.1.5/webuploader.js"></script>
 </head>
 <body>
     <div class="container">

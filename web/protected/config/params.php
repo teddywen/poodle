@@ -14,6 +14,8 @@ return array(
     'js_url' => '/js',
     //网站所用css文件路径
     'css_url' => '/css',
+    //网站所用css文件路径
+    'plugin_url' => '/plugin',
     //上传图片路径
     'upload_img_url' => '/upload/images/',
     //上传文件路径
