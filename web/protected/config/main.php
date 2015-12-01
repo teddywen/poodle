@@ -66,7 +66,7 @@ return array(
 	'components'=>array(
 		// uncomment the following to use a MySQL database
 		'db'=>array(
-			'connectionString' => 'mysql:host=139.196.59.18;dbname=poodle_test',
+			'connectionString' => 'mysql:host=127.0.0.1;dbname=poodle_prod',
 			'emulatePrepare' => true,
 			'username' => 'poodle',
 			'password' => '',
@@ -118,7 +118,7 @@ return array(
             'class'=>'CMemCache',
             'servers'=>array(
                 array(
-                    'host'=>'139.196.59.18',
+                    'host'=>'127.0.0.1',
                     'port'=>11211,
                     'weight'=>100,
                 ),
