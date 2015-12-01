@@ -1,0 +1,4 @@
+INSERT INTO `gov_category` VALUES ('1', '机关', '1', '1448972757', '1448972757');
+INSERT INTO `gov_category` VALUES ('2', '村居', '1', '1448972757', '1448972757');
+INSERT INTO `gov_category` VALUES ('3', '事业', '1', '1448972757', '1448972757');
+INSERT INTO `gov_category` VALUES ('4', '其他', '1', '1448972757', '1448972757');
