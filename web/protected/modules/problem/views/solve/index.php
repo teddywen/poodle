@@ -38,6 +38,7 @@
                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 up_file_div">
                     <div id="pick">选择文件</div>
                     <label class="help-inline text-danger">最大文件不能超过<?php echo Yii::app()->params->max_upload_image_size;?>M</label>
+                    <div class="upload_info text-info"></div>
                 </div>
             </div>
             <div class="form-group">
@@ -121,13 +122,29 @@
         var pickText = '';
         uploader.on( 'fileQueued', function( file ) {
             pickText = $("#pick .webuploader-pick").html();
-            $("#pick .webuploader-pick").html("队列中");
+            $(".upload_info").append('<div id="' + file.id + '" class="item">' + 
+                '<h4 class="info">' + file.name + '</h4>' + 
+                '<p class="state">等待上传...</p>' + '</div>');
         });
         // 文件上传过程中创建进度条实时显示。
         uploader.on( 'uploadProgress', function( file, percentage ) {
-            $("#pick .webuploader-pick").html(percentage * 100 + '%');
+            var $li = $( '#'+file.id ),
+                $percent = $li.find('.progress .progress-bar');
+
+            // 避免重复创建
+            if ( !$percent.length ) {
+                $percent = $('<div class="progress progress-striped active">' +
+                  '<div class="progress-bar" role="progressbar" style="width: 0%">' +
+                  '</div>' +
+                '</div>').appendTo( $li ).find('.progress-bar');
+            }
+
+            $li.find('p.state').text('上传中');
+
+            $percent.css( 'width', percentage * 100 + '%' );
         });
         uploader.on( 'uploadSuccess', function( file, response ) {
+            $( '#'+file.id ).find('p.state').text('已上传');
             var r_code = response.code;
             if(r_code == 0){
                 var r_msg = response.msg;
@@ -139,9 +156,10 @@
             }
         });
         uploader.on('uploadComplete', function( file ) {
-            $("#pick .webuploader-pick").html(pickText);
+            $( '#'+file.id ).fadeOut();
         });
         uploader.on( 'uploadError', function( file, reason ) {
+            $( '#'+file.id ).find('p.state').text('上传出错');
             console.log(file);
             console.log(reason);
         });
