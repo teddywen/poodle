@@ -96,6 +96,8 @@
         var uploader = WebUploader.create({
             // 验证单个文件大小是否超出限制, 超出则不允许加入队列。
             fileSingleSizeLimit: <?php echo Yii::app()->params->max_upload_image_size * 1024 * 1024;?>, 
+    	    //是否禁掉整个页面的拖拽功能，如果不禁用，图片拖进来的时候会默认被浏览器打开
+    		disableGlobalDnd: true,
             // 指定Drag And Drop拖拽的容器，如果不指定，则不启动。
             // dnd: '#pick', 
             // 去重， 根据文件名字、文件大小和最后修改时间来生成hash Key
@@ -108,7 +110,12 @@
             server: '<?php echo Yii::app()->baseUrl?>/image',
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-            pick: '#pick',
+            //每次只能选择一张图片上传
+            pick: {
+                id: '#pick',
+                multiple: false
+            },
+        	fileNumLimit: 1,
             // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
             // compress: false, 
             // 只允许选择图片文件。
