@@ -17,7 +17,7 @@
 <div class="jumbotron login-center-block">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
                 <h1><?php echo Yii::app()->params->project_name;?></h1>
                 <p>欢迎使用堡镇问题管理中心</p>
                 <p><a class="btn btn-primary btn-lg login-center-btn" href="#" role="button" data-toggle="modal" data-target="#loginModal">马上登录</a></p>
