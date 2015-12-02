@@ -97,7 +97,7 @@
             // 验证单个文件大小是否超出限制, 超出则不允许加入队列。
             fileSingleSizeLimit: <?php echo Yii::app()->params->max_upload_image_size * 1024 * 1024;?>, 
             // 指定Drag And Drop拖拽的容器，如果不指定，则不启动。
-            dnd: '#pick', 
+            // dnd: '#pick', 
             // 去重， 根据文件名字、文件大小和最后修改时间来生成hash Key
             duplicate: true, 
             // 选完文件后，是否自动上传。
