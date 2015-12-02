@@ -1,7 +1,7 @@
 <?php
 return array(
     //地方名称
-    'address_name' => '崇明堡镇',
+    'address_name' => '崇明 · 堡镇',
     //地方名称
     'project_name' => '堡镇三创工作联动平台',
     //审核时间
