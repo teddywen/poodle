@@ -105,18 +105,18 @@ $(function(){
 //    	}
 //    	submitProblemDealForm('check_delay_form');
 //    });
-//    //弹出检查联动申请对话框
-//    $(".btn_go_check_assistedapply").click(function(){
-//    	$("#check_assisted_modal").modal("show");
-//    });
-//    //提交检查联动申请表单
-//    $(".btn_check_assistedapply").click(function(){
-//    	if($(this).closest("form").find(".problem_log_remark").val().length <= 0){
-//    		alert("请填写理由");
-//    		return false;
-//    	}
-//    	submitProblemDealForm('check_assisted_form');
-//    });
+    //弹出检查联动申请对话框
+    $(".btn_go_check_assistedapply").click(function(){
+    	$("#check_assisted_modal").modal("show");
+    });
+    //提交检查联动申请表单
+    $(".btn_check_assistedapply").click(function(){
+    	if($(this).closest("form").find(".problem_log_remark").val().length <= 0){
+    		alert("请填写理由");
+    		return false;
+    	}
+    	submitProblemDealForm('check_assisted_form');
+    });
 });
 //页面加载完成执行结束
 

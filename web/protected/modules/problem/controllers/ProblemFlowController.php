@@ -138,6 +138,27 @@ class ProblemFlowController extends ProblemController
     }
     
     /**
+     * 修改联动申请单位
+     */
+    public function actionModifyApplyAssited()
+    {
+        if(!Yii::app()->user->checkAccess('admin')){
+            $data['code'] = 0; $data['msg'] = '没有权限';
+            exit(json_encode($data));
+        }
+        $pid = isset($_POST['pid'])?intval($_POST['pid']):0;
+        $problem_log_remark = isset($_POST['problem_log_remark'])?trim($_POST['problem_log_remark']):"";
+        $unit_users = isset($_POST['user_ids'])?$_POST['user_ids']:array();
+        $res = $this->problem_service->modifyAssitedProblem($pid, $problem_log_remark, $unit_users);
+        $data['code'] = 1; $data['msg'] = '修改联动申请成功';
+        if($res){
+            exit(json_encode($data));
+        }
+        $data['code'] = 0; $data['msg'] = '修改联动申请失败';
+        exit(json_encode($data));
+    }
+    
+    /**
      * 发布者关闭自己发布的问题
      */
     public function actionCancelProblem()

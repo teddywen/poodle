@@ -150,13 +150,12 @@
                         </div>
                     <?php endif;?>
 
-                    <!-- 
                     <?php if($problem->is_assistant != 0): ?>
                         <?php $assistedapply_logs = $problem_log_service->getProblemStatusLog($problem->id, ProblemService::APPLY_ASSISTING); ?>
                         <?php $assistedapply_log = end($assistedapply_logs); ?>
-                        <div class="control-group">
-                            <label class="control-label" for="inputPassword">申请联动：</label>
-                            <div class="controls">
+                        <div class="form-group">
+                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">申请联动：</label>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <?php
                                     $unit_uids = json_decode($problem->assist_unit, true);
                                     $unit_users = $user_service->getGovUserByIds($unit_uids);
@@ -168,16 +167,16 @@
                                         $users_str = substr($users_str, 1);
                                     }
                                 ?>
-                                <label class="control-label" style="text-align: left;width: 100%;"><?php echo $users_str;?></label>
+                                <p class="form-control-static"><?php echo $users_str;?></p>
                                 <?php if(Yii::app()->user->checkAccess('admin')):?>
-                                <button type="button" class="btn btn-info btn_reset_assisted">重新分配</button>
+                                <button type="button" class="btn btn-info btn_go_check_assistedapply">重新分配</button>
                                 <?php endif;?>
                             </div>
                         </div>
-                        <div class="control-group">
-                            <label class="control-label" for="inputPassword">联动理由：</label>
-                            <div class="controls">
-                                <label class="control-label" style="text-align: left;width: 100%;"><?php echo empty($assistedapply_log)?"":$assistedapply_log->remark;?></label>
+                        <div class="form-group">
+                            <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">联动理由：</label>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <p class="form-control-static"><?php echo empty($assistedapply_log)?"":$assistedapply_log->remark;?></p>
                             </div>
                         </div>
                         <div class="control-group reset_assisted_units" style="display: none;">
@@ -225,7 +224,7 @@
                                 <?php endif;?>
                             </div>
                         </div>
-                    <?php endif;?> -->
+                    <?php endif;?>
                     <?php if(!(isset($problem_images) && empty($problem_images))):?>
                     <div class="form-group">
                         <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">问题图片: </label>
@@ -280,10 +279,10 @@
                                     <button type="button" name="solve_unqualified" class="btn btn-danger btn_go_solve_unqualified">打回</button>
                                 <?php endif; ?>
                                 <?php if(Yii::app()->user->checkAccess('apply_problem') && Yii::app()->user->getId() == $problem->deal_uid):?>
-                                    <?php if(in_array($problem->status, array(ProblemService::BE_DEALING, ProblemService::APPLY_DELAYING))):?>
+                                    <?php if(in_array($problem->status, array(ProblemService::BE_DEALING, ProblemService::APPLY_DELAYING, ProblemService::APPLY_ASSISTING, ProblemService::APPLY_DELAYING))):?>
                                     <a href="<?php echo $this->createUrl("/problem/solve", array("pid"=>$problem->id, "back_url_top"=>$back_url, "back_url"=>urlencode(Util::getCurrentUrl()))); ?>" 
                                         class="btn btn-primary">上传处理结果</a>
-                                    <?php elseif(in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_UNQUALIFIED))):?>
+                                    <?php elseif(in_array($problem->status, array(ProblemService::WAIT_CHECKING, ProblemService::BE_UNQUALIFIED, ProblemService::APPLY_ASSISTING, ProblemService::APPLY_DELAYING))):?>
                                     <a href="<?php echo $this->createUrl("/problem/solve", array("pid"=>$problem->id, 'modify_solve' => 1, "back_url_top"=>$back_url, "back_url"=>urlencode(Util::getCurrentUrl()))); ?>" 
                                         class="btn btn-warning">修改处理结果</a>
                                     <?php endif;?>
@@ -297,6 +296,11 @@
                                             Yii::app()->user->getId() == $problem->deal_uid && 
                                             in_array($problem->status, array(ProblemService::BE_DEALING, ProblemService::BE_UNQUALIFIED))): ?>
                                     <button type="button" class="btn btn-warning btn_go_delay_problem">申请延时</button>
+                                <?php endif; ?>
+                                <?php if(Yii::app()->user->checkAccess('asisstant_apply_problem') &&
+                                            Yii::app()->user->getId() == $problem->deal_uid && 
+                                            in_array($problem->status, array(ProblemService::BE_DEALING, ProblemService::BE_UNQUALIFIED))): ?>
+                                    <button type="button" class="btn btn-info btn_go_assisted_problem">申请联动</button>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -381,6 +385,10 @@
     //打回处理结果form
     if(in_array($problem->status, array(ProblemService::WAIT_CHECKING)) && file_exists(dirname(__FILE__).'/_solve_unqualified.php')){
         require_once(dirname(__FILE__).'/_solve_unqualified.php');
+    }
+    //重新分配联动form
+    if(in_array($problem->status, array(ProblemService::APPLY_ASSISTING)) && file_exists(dirname(__FILE__).'/_check_assistedapply_problem.php')){
+        require_once(dirname(__FILE__).'/_check_assistedapply_problem.php');
     }
 ?>
 <script type="text/javascript" src="<?php echo Yii::app()->params->js_url;?>/file/ajaxfileupload.js"></script>

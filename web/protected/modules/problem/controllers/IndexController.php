@@ -22,7 +22,6 @@ class IndexController extends ProblemController
         $condition = $this->setSearchCond();
         $count = $this->problem_service->getProblemByPage($page, $this->PAGE_SIZE, $condition, true);
         $problems = $this->problem_service->getProblemByPage($page, $this->PAGE_SIZE, $condition);
-        
         $data['count'] = $count;
         $data['problems'] = $problems;
         $data['page'] = $page;
