@@ -248,7 +248,7 @@
     	            dataType:"JSON",
     	            data:{cate_id:cate_id},
     	            success:function(res){
-    	                console.log(res);console.log(res.length);
+    	                // console.log(res);console.log(res.length);
     	                if(res.length > 0){
     	                	var u_length = res.length, option_users = '';
     	                    for(var i=0;i<u_length;i++){
