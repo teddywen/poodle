@@ -131,7 +131,7 @@ function getCateUsers(cate_id){
         dataType:"JSON",
         data:{cate_id:cate_id},
         success:function(res){
-            console.log(res);console.log(res.length);
+            // console.log(res);console.log(res.length);
             if(res.length > 0){
             	setOptionUsers(res, cate_id);
             }

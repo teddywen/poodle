@@ -167,11 +167,11 @@
         });
         uploader.on( 'uploadError', function( file, reason ) {
             $( '#'+file.id ).find('p.state').text('上传出错');
-            console.log(file);
-            console.log(reason);
+            // console.log(file);
+            // console.log(reason);
         });
         uploader.on( 'error', function( type ) {
-            console.log(type);
+            // console.log(type);
         });
     });
     //上传照片
