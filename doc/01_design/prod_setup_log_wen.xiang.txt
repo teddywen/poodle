@@ -1,13 +1,20 @@
 linux账户
-一、磁盘分区
++---------+
+| 磁盘分区 |
++---------+
+===========
 磁盘 /dev/xvdb. 分区并格式化 /dev/xvdb1. 挂载到 /var 中.
 添加开机挂载启动项 /etc/fstab 
 
-二、交换区
++-------+
+| 交换区 |
++-------+
 新建 /var/swap/swapfile 2GB
 添加开机挂载启动项 /etc/fstab 
 
-三、新建用户
++---------+
+| 新建用户 |
++---------+
 groupadd wen.xiang
 groupadd chen.songping
 groupadd shang.jie
@@ -33,18 +40,30 @@ vim /etc/sudoers
     + chen.songping    ALL=(ALL)       NOPASSWD: ALL
 chmod u-w /etc/sudoers
 
-四、sshd配置
++---------+
+| sshd配置 |
++---------+
 vim /etc/ssh/sshd_config
     - PermitRootLogin yes
     + PermitRootLogin no
 
-五、trash-cli
++-----------+
+| trash-cli |
++-----------+
 cd /usr/local/src/
 git clone https://github.com/andreafrancia/trash-cli.git
 cd trash-cli
 easy_install trash-cli
 
-六、memcached
++-------+
+| monit |
++-------+
+yum install monit
+systemctl enable monit.service
+
++-----------+
+| memcached |
++-----------+
 yum install libevent-devel
 cd /usr/local/src/
 wget http://memcached.org/files/memcached-1.4.24.tar.gz
@@ -54,7 +73,9 @@ cd memcached-1.4.24/
 make
 make install
 
-七、apache配置
++-----------+
+| apache配置 |
++-----------+
 vim /usr/local/apache2/conf/httpd.conf
     - #LoadModule deflate_module modules/mod_deflate.so
     - LoadModule deflate_module modules/mod_deflate.so
@@ -112,7 +133,9 @@ vim /usr/local/apache2/conf/extra/httpd-mpm.conf
         + MaxConnectionsPerChild 1000
     </IfModule>
 
-八、php配置
++--------+
+| php配置 |
++--------+
 1. memcache扩展
 cd /usr/local/src/
 wget http://pecl.php.net/get/memcache-2.2.7.tgz
@@ -147,7 +170,9 @@ vim /usr/local/lib/php.ini
     + extension=pdo_mysql.so
 apachectl restart
 
-九、mysql配置
++----------+
+| mysql配置 |
++----------+
 1. 新建mysql账号
 mysql -h 127.0.0.1 -u root -p
     mysql> create schema poodle_prod;
@@ -163,7 +188,9 @@ mysql -h 127.0.0.1 -u root -p
     mysql> LOAD DATA infile '/path/to/datadump_auth_assignment.txt' into table auth_assignment;
     mysql> LOAD DATA infile '/path/to/datadump_gov_user.txt' into table gov_user;
 
-十、数据初始化
++----------+
+| 数据初始化 |
++----------+
 1.单位分类
 gov_category_data.txt
 2.单位账号
