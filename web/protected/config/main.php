@@ -39,7 +39,7 @@ return array(
             'delimeter' => '/', //可选，默认是 -
             'debug' => true, //可选,默认是 false
             'pageSize' => 10, //可选，默认是 15
-            'superUser' => 'Authorizer', //可选，默认是 Authorizer
+            'superUser' => 'superAdmin', //可选，默认是 Authorizer
             'layout' => 'application.views.layouts.srbac', //可选,默认是 application.views.layouts.main, 必须是一个存在的路径别名
             'notAuthorizedView' => 'srbac.views.authitem.unauthorized',  //可选,默认是srbac.views.authitem.unauthorized, 必须是一个存在的路径别名
             'alwaysAllowed' => array(//default: array()
