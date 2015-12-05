@@ -113,9 +113,9 @@
             //每次只能选择一张图片上传
             pick: {
                 id: '#pick',
-                multiple: false
+                multiple: true
             },
-        	fileNumLimit: 1,
+        	// fileNumLimit: 1,
             // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
             // compress: false, 
             // 只允许选择图片文件。

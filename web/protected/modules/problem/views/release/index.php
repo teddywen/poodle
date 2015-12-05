@@ -82,9 +82,9 @@
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
             pick: {
                 id: '#pick',
-                multiple: false
+                multiple: true
             },
-        	fileNumLimit: 1,
+        	// fileNumLimit: 1,
             // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
             // compress: false, 
             // 只允许选择图片文件。
