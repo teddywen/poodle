@@ -38,7 +38,7 @@
                             <p class="form-control-static"><?php echo ProblemService::$status[$problem->status];?></p>
                         </div>
                     </div>
-                    <?php if(!in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_CANCELED, ProblemService::BE_CLOSED))):?>
+                    <?php if(Yii::app()->user->checkAccess('view_dispatch_time') && !in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_CANCELED, ProblemService::BE_CLOSED))):?>
                     <div class="form-group">
                         <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">分配时间: </label>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
