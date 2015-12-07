@@ -205,7 +205,7 @@
         var img_height = 190;
         var img_width = Math.ceil(img_height * img_radion);
         var img_str = '<img src="/upload/images/'+r_img_path+'" width="'+img_width+'" height="'+img_height+'" class="img-rounded" />'
-        var li_str = '<li style="margin-bottom: 15px;" data-imgname="'+r_img_path+'">'
+        var li_str = '<li style="margin-bottom: 15px;" data-imgname="'+r_img_path+'" data-width="'+t_width+'" data-height="'+t_height+'">'
             + '<a class="close remove_img" style="color: red;" title="删除">×</a>'
             + img_str + '</i>';
         $(".imgname_lists").append('<input type="hidden" name="img_names[]" value="'+r_img_path+","+t_width+","+t_height+'" />');
