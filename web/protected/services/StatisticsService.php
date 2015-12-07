@@ -14,10 +14,10 @@ class StatisticsService extends Service {
 
         $statistics = array();
         foreach ($rows as $key => $row) {
-            if (!isset($statistics[$row["assign_date"]][$row["deal_username"]])) {
-                $statistics[$row["assign_date"]][$row["deal_username"]] = array();
+            if (!isset($statistics[$row["deal_username"]][$row["assign_date"]])) {
+                $statistics[$row["deal_username"]][$row["assign_date"]] = array();
             }
-            $statistics[$row["assign_date"]][$row["deal_username"]][] = $row;
+            $statistics[$row["deal_username"]][$row["assign_date"]][] = $row;
         }
         return $statistics;
     }
@@ -25,23 +25,30 @@ class StatisticsService extends Service {
     /**
      * @param string $assign_start_date - Y-m-d
      * @param string $assign_end_date - Y-m-d
-     * @return array - [[<`problem`.*, `assign_date`, `duration_lv`, `delay_time`>], ...]
+     * @return array - [[<`problem`.*, `img_paths`, `img_widths`, `img_heights`, `assign_date`, `duration_lv`, `delay_time`>], ...]
      */
     private function _getReleaseRows($assign_start_date, $assign_end_date) {
         $assign_start_date = date("Y-m-d 00:00:00", strtotime($assign_start_date));
         $assign_end_date = date("Y-m-d 23:59:59", strtotime($assign_end_date));
 
-        $sql = "SELECT *, FROM_UNIXTIME(`assign_time`, '%Y-%m-%d') AS `assign_date`, 
-                    IF(`status`<>:status_qualified, 0, 
-                        IF(`times_up`=1, 0, 1)) AS `duration_lv`, 
-                    FLOOR(`delay_time`/24) AS `delay_day`
+        $sql = "SELECT `problem`.*, 
+                    GROUP_CONCAT(`problem_image`.`img_path`) AS `img_paths`, 
+                    GROUP_CONCAT(`problem_image`.`img_width`) AS `img_widths`, 
+                    GROUP_CONCAT(`problem_image`.`img_height`) AS `img_heights`, 
+                    FROM_UNIXTIME(`problem`.`assign_time`, '%Y-%m-%d') AS `assign_date`, 
+                    IF(`problem`.`status`<>:status_qualified, 0, 
+                        IF(`problem`.`times_up`=1, 2, 1)) AS `duration_lv`, 
+                    FLOOR(`problem`.`delay_time`/24) AS `delay_day`
                 FROM `problem` 
-                WHERE `assign_time` BETWEEN :assign_start_time AND :assign_end_time
-                ORDER BY `assign_time` ASC, `deal_uid` ASC";
+                LEFT JOIN `problem_image` ON `problem`.`id`=`problem_image`.`pid`
+                WHERE `problem`.`assign_time` BETWEEN :assign_start_time AND :assign_end_time AND (`problem_image`.`id` IS NULL OR `problem_image`.`status`=:status_release)
+                GROUP BY `problem`.`id`
+                ORDER BY `problem`.`deal_uid` ASC, `problem`.`assign_time` ASC";
         $params = array(
             ":assign_start_time" => strtotime($assign_start_date), 
             ":assign_end_time" => strtotime($assign_end_date), 
             ":status_qualified" => ProblemService::BE_QUALIFIED, 
+            ":status_release" => 1, 
         );
         return Yii::app()->getDb()->createCommand($sql)->queryAll(true, $params);
     }
@@ -179,6 +186,29 @@ class StatisticsService extends Service {
         
 
         $this->_saveAndExport($objExcel);
+    }
+
+    public function exportNewReleaseStatistics($statistics, $assign_start_date, $assign_end_date) {
+        Util::usePhpExcel();
+        $objExcel = new PHPExcel();
+        // set properties
+        $objProps = $objExcel->getProperties();
+        $objProps->setCreator("SCW"); 
+        $objProps->setLastModifiedBy("SCW");
+        $objProps->setTitle("Problem Statistics");
+        $objProps->setSubject("Release Statistics");
+        $objProps->setDescription("Release problem summary for every problem.");
+        $objProps->setKeywords("Problem Release Statistics");
+        $objProps->setCategory("Statistics");
+
+        // set sheet
+        $objExcel->setActiveSheetIndex(0);
+        $objActSheet = $objExcel->getActiveSheet();
+        // set sheet title
+        $objActSheet->setTitle("{$assign_start_date} ~ {$assign_end_date}");
+        // set default style
+        $objActSheet->getDefaultStyle()->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
     }
 
     /**
