@@ -78,7 +78,7 @@ make install
 +-----------+
 vim /usr/local/apache2/conf/httpd.conf
     - #LoadModule deflate_module modules/mod_deflate.so
-    - LoadModule deflate_module modules/mod_deflate.so
+    + LoadModule deflate_module modules/mod_deflate.so
 
     - #LoadModule rewrite_module modules/mod_rewrite.so
     + LoadModule rewrite_module modules/mod_rewrite.so
@@ -198,9 +198,9 @@ gov_user_data.txt
 3.权限和用户关系
 gov_category_data.txt
 
-安装
-1.apache install
-
++------------+
+| apache安装 |
++------------+
 sudo wget http://apache.fayea.com//httpd/httpd-2.4.17.tar.gz
 sudo tar -xvf httpd-2.4.17.tar.gz
 cd httpd-2.4.17
@@ -235,8 +235,9 @@ sudo ./configure --with-apr=/usr/local/apr --with-apr-util=/usr/local/apr-util/ 
 sudo make
 sudo make install
 
-
-2.mysql install
++-----------+
+| mysql安装 |
++-----------+
 document：http://dev.mysql.com/doc/refman/5.6/en/binary-installation.html
 sudo wget http://cdn.mysql.com//Downloads/MySQL-5.6/mysql-5.6.27-linux-glibc2.5-x86_64.tar.gz
 
@@ -254,9 +255,9 @@ sudo chown -R mysql data
 sudo bin/mysqld_safe --user=mysql &
 sudo cp support-files/mysql.server /etc/init.d/mysql.server
 
-
-
-3.php install
++---------+
+| php安装 |
++---------+
 document：http://php.net/manual/en/install.unix.apache2.php
 sudo wget http://cn2.php.net/distributions/php-5.6.16.tar.gz
 sudo tar -zxf php-5.6.16.tar.gz
@@ -270,3 +271,17 @@ sudo yum install libxml2-devel -y
 */
 sudo make
 sudo make install
+
++-----------+
+| 站点初始化 |
++-----------+
+mkdir /srv/www
+cd /tmp/
+git clone git@github.com:teddywen/poodle.git
+sudo mv poodle /srv/www/poodle_git
+./setgrp
+./deploy
+cd /tmp/
+git clone git@github.com:teddywen/cacti.git
+sudo mv cacti /srv/www/cacti
+sudo chown -R root:root /srv/www/cacti

@@ -393,7 +393,7 @@ class ProblemService extends Service
             $problem->update_time = $cur_time;
 
             // Check whether times up.
-            if ($cur_status == self::BE_QUALIFIED && $problem->accept_time + $problem->deal_time * 3600 < $cur_time) {
+            if ($cur_status == self::BE_QUALIFIED && $problem->assign_time + ($problem->deal_time + $problem->delay_time) * 3600 < $cur_time) {
                 $problem->times_up = 1;
             }
 
