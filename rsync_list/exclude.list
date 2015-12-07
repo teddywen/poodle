@@ -1,5 +1,6 @@
-exclude.list
-include.list
+/rsync_list/
+/deploy
+/setgrp
 .git
 .gitignore
 /doc/

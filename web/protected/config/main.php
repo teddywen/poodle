@@ -37,7 +37,7 @@ return array(
             'userid' => 'id', //可选,默认是 userid
             'username' => 'username', //可选，默认是 username
             'delimeter' => '/', //可选，默认是 -
-            'debug' => true, //可选,默认是 false
+            'debug' => false, //可选,默认是 false
             'pageSize' => 10, //可选，默认是 15
             'superUser' => 'superAdmin', //可选，默认是 Authorizer
             'layout' => 'application.views.layouts.srbac', //可选,默认是 application.views.layouts.main, 必须是一个存在的路径别名
