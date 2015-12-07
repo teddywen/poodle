@@ -1,13 +1,20 @@
-linux账户
-一、磁盘分区
+﻿linux账户
++---------+
+| 磁盘分区 |
++---------+
+===========
 磁盘 /dev/xvdb. 分区并格式化 /dev/xvdb1. 挂载到 /var 中.
 添加开机挂载启动项 /etc/fstab 
 
-二、交换区
++-------+
+| 交换区 |
++-------+
 新建 /var/swap/swapfile 2GB
 添加开机挂载启动项 /etc/fstab 
 
-三、新建用户
++---------+
+| 新建用户 |
++---------+
 groupadd wen.xiang
 groupadd chen.songping
 groupadd shang.jie
@@ -33,18 +40,30 @@ vim /etc/sudoers
     + chen.songping    ALL=(ALL)       NOPASSWD: ALL
 chmod u-w /etc/sudoers
 
-四、sshd配置
++---------+
+| sshd配置 |
++---------+
 vim /etc/ssh/sshd_config
     - PermitRootLogin yes
     + PermitRootLogin no
 
-五、trash-cli
++-----------+
+| trash-cli |
++-----------+
 cd /usr/local/src/
 git clone https://github.com/andreafrancia/trash-cli.git
 cd trash-cli
 easy_install trash-cli
 
-六、memcached
++-------+
+| monit |
++-------+
+yum install monit
+systemctl enable monit.service
+
++-----------+
+| memcached |
++-----------+
 yum install libevent-devel
 cd /usr/local/src/
 wget http://memcached.org/files/memcached-1.4.24.tar.gz
@@ -54,10 +73,12 @@ cd memcached-1.4.24/
 make
 make install
 
-七、apache配置
++-----------+
+| apache配置 |
++-----------+
 vim /usr/local/apache2/conf/httpd.conf
     - #LoadModule deflate_module modules/mod_deflate.so
-    - LoadModule deflate_module modules/mod_deflate.so
+    + LoadModule deflate_module modules/mod_deflate.so
 
     - #LoadModule rewrite_module modules/mod_rewrite.so
     + LoadModule rewrite_module modules/mod_rewrite.so
@@ -112,7 +133,9 @@ vim /usr/local/apache2/conf/extra/httpd-mpm.conf
         + MaxConnectionsPerChild 1000
     </IfModule>
 
-八、php配置
++--------+
+| php配置 |
++--------+
 1. memcache扩展
 cd /usr/local/src/
 wget http://pecl.php.net/get/memcache-2.2.7.tgz
@@ -147,7 +170,9 @@ vim /usr/local/lib/php.ini
     + extension=pdo_mysql.so
 apachectl restart
 
-九、mysql配置
++----------+
+| mysql配置 |
++----------+
 1. 新建mysql账号
 mysql -h 127.0.0.1 -u root -p
     mysql> create schema poodle_prod;
@@ -163,10 +188,100 @@ mysql -h 127.0.0.1 -u root -p
     mysql> LOAD DATA infile '/path/to/datadump_auth_assignment.txt' into table auth_assignment;
     mysql> LOAD DATA infile '/path/to/datadump_gov_user.txt' into table gov_user;
 
-十、数据初始化
++----------+
+| 数据初始化 |
++----------+
 1.单位分类
 gov_category_data.txt
 2.单位账号
 gov_user_data.txt
 3.权限和用户关系
 gov_category_data.txt
+
++------------+
+| apache安装 |
++------------+
+sudo wget http://apache.fayea.com//httpd/httpd-2.4.17.tar.gz
+sudo tar -xvf httpd-2.4.17.tar.gz
+cd httpd-2.4.17
+sudo ./configure
+/*
+编译时提示：APR not found.  Please read the documentation.解决办法：
+sudo wget http://archive.apache.org/dist/apr/apr-1.4.5.tar.gz
+sudo wget http://archive.apache.org/dist/apr/apr-util-1.3.12.tar.gz
+sudo wget http://jaist.dl.sourceforge.net/project/pcre/pcre/8.10/pcre-8.10.zip
+a:解决apr not found问题>>>>>>
+sudo tar -zxf apr-1.4.5.tar.gz  
+sudo cd  apr-1.4.5  
+sudo ./configure
+sudo make
+sudo make install
+b:解决APR-util not found问题>>>>
+sudo tar -zxf apr-util-1.3.12.tar.gz  
+cd apr-util-1.3.12  
+sudo ./configure --prefix=/usr/local/apr-util -with-apr=/usr/local/apr 
+sudo make
+sudo make install
+c:解决pcre问题>>>>>>>>>
+sudo unzip -o pcre-8.10.zip  
+cd pcre-8.10  
+sudo ./configure --prefix=/usr/local/pcre
+sudo make
+sudo make install 
+将这三个包进行编译安装
+*/
+之后即可继续编译安装apache
+sudo ./configure --with-apr=/usr/local/apr --with-apr-util=/usr/local/apr-util/ --with-pcre=/usr/local/pcre
+sudo make
+sudo make install
+
++-----------+
+| mysql安装 |
++-----------+
+document：http://dev.mysql.com/doc/refman/5.6/en/binary-installation.html
+sudo wget http://cdn.mysql.com//Downloads/MySQL-5.6/mysql-5.6.27-linux-glibc2.5-x86_64.tar.gz
+
+sudo groupadd mysql
+sudo useradd -r -g mysql -s /bin/false mysql
+sudo tar -zxf mysql-5.6.27-linux-glibc2.5-x86_64.tar.gz
+cd /usr/local
+sudo ln -s /usr/local/src/mysql-5.6.27-linux-glibc2.5-x86_64 mysql
+cd mysql
+sudo chown -R mysql .
+sudo chgrp -R mysql .
+sudo scripts/mysql_install_db --user=mysql
+sudo chown -R root .
+sudo chown -R mysql data
+sudo bin/mysqld_safe --user=mysql &
+sudo cp support-files/mysql.server /etc/init.d/mysql.server
+
++---------+
+| php安装 |
++---------+
+document：http://php.net/manual/en/install.unix.apache2.php
+sudo wget http://cn2.php.net/distributions/php-5.6.16.tar.gz
+sudo tar -zxf php-5.6.16.tar.gz
+sudo ./configure --with-apxs2=/usr/local/apache2/bin/apxs --with-mysql
+/*
+编译出现：configure: error: xml2-config not found. Please check your libxml2 installation.
+解决办法：
+rpm -qa |grep  libxml2
+sudo yum install libxml2
+sudo yum install libxml2-devel -y
+*/
+sudo make
+sudo make install
+
++-----------+
+| 站点初始化 |
++-----------+
+mkdir /srv/www
+cd /tmp/
+git clone git@github.com:teddywen/poodle.git
+sudo mv poodle /srv/www/poodle_git
+./setgrp
+./deploy
+cd /tmp/
+git clone git@github.com:teddywen/cacti.git
+sudo mv cacti /srv/www/cacti
+sudo chown -R root:root /srv/www/cacti

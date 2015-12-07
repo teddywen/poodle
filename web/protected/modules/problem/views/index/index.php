@@ -32,9 +32,11 @@
 					<!-- th>
 						联动
 					</th> -->
-					<th>
-						发布时间
-					</th>
+					<?php if(Yii::app()->user->checkAccess("view_problem_create_time")): ?>
+						<th>
+							发布时间
+						</th>
+					<?php endif; ?>
 					<th>
 						分配时间
 					</th>
@@ -73,9 +75,11 @@
 					<!--<td>
 						<?php echo $problem->is_assistant==1?"是":"否";?>
 					</td>-->
-					<td>
-						<?php echo date('Y-m-d H:i:s', $problem->create_time) ;?>
-					</td>
+					<?php if(Yii::app()->user->checkAccess("view_problem_create_time")): ?>
+						<td>
+							<?php echo date('Y-m-d H:i:s', $problem->create_time) ;?>
+						</td>
+					<?php endif; ?>
 					<td>
 						<?php echo !empty($problem->assign_time)?date('Y-m-d H:i:s', $problem->assign_time):"" ;?>
 					</td>

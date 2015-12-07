@@ -33,7 +33,7 @@ class StatisticsService extends Service {
 
         $sql = "SELECT *, FROM_UNIXTIME(`assign_time`, '%Y-%m-%d') AS `assign_date`, 
                     IF(`status`<>:status_qualified, 0, 
-                        IF(`assign_time`+(`deal_time` + `delay_time`)*3600>`check_time`, 1, 0)) AS `duration_lv`, 
+                        IF(`times_up`=1, 0, 1)) AS `duration_lv`, 
                     FLOOR(`delay_time`/24) AS `delay_day`
                 FROM `problem` 
                 WHERE `assign_time` BETWEEN :assign_start_time AND :assign_end_time

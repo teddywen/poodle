@@ -88,6 +88,13 @@ class IndexController extends ProblemController
             $create_end_time = empty($create_end_time)?$default_end_time:strtotime($create_end_time.' 23:59:59');
             $condition['create_time'] = array("between" => array($create_start_time, $create_end_time));
         }
+        $assign_start_time = isset($_REQUEST['assign_start_time'])?trim($_REQUEST['assign_start_time']):"";
+        $assign_end_time = isset($_REQUEST['assign_end_time'])?trim($_REQUEST['assign_end_time']):"";
+        if(!empty($assign_start_time) || !empty($assign_end_time)){
+            $assign_start_time = empty($assign_start_time)?$default_start_time:strtotime($assign_start_time.' 00:00:00');
+            $assign_end_time = empty($assign_end_time)?$default_end_time:strtotime($assign_end_time.' 23:59:59');
+            $condition['assign_time'] = array("between" => array($assign_start_time, $assign_end_time));
+        }
         $update_start_time = isset($_REQUEST['update_start_time'])?trim($_REQUEST['update_start_time']):"";
         $update_end_time = isset($_REQUEST['update_end_time'])?trim($_REQUEST['update_end_time']):"";
         if(!empty($update_start_time) || !empty($update_end_time)){
