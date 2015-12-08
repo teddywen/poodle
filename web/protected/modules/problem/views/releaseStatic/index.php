@@ -121,7 +121,7 @@
                                         <?php $img_widths = explode(",", $row["img_widths"]); ?>
                                         <?php $img_heights = explode(",", $row["img_heights"]); ?>
                                         <?php foreach($img_paths as $key => $img_path): ?>
-                                            <img src="<?php echo $img_path; ?>" width="100" height="100">
+                                            <img src="<?php echo $img_path; ?>" width="100" class="img-responsive">
                                             <?php break; // just display one. ?>
                                         <?php endforeach; ?>
                                     <?php endif; ?>

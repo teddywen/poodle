@@ -139,7 +139,7 @@ class StatisticsService extends Service {
         $objActSheet->setCellValue('H3', '具体问题');
         $objActSheet->getColumnDimension('H')->setWidth(36);
         $objActSheet->setCellValue('I3', '问题图片');
-        $objActSheet->getColumnDimension('I')->setWidth(30);
+        $objActSheet->getColumnDimension('I')->setWidth(36);
         $objActSheet->setCellValue('J2', '申请延时');
         $objActSheet->getColumnDimension('J')->setWidth(18);
         $objActSheet->mergeCells("J2:J3");
@@ -198,7 +198,7 @@ class StatisticsService extends Service {
                             $imgUnixPath = Yii::app()->basePath . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $img_path;
                             if (file_exists($imgUnixPath)) {
                                 $objDrawing->setPath($imgUnixPath);
-                                $objDrawing->setHeight(120);
+                                $objDrawing->setHeight(140);
                                 $objDrawing->setCoordinates("I{$rowLv3}"); 
                                 $objDrawing->setOffsetX(10); 
                                 $objDrawing->setOffsety(10); 
