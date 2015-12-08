@@ -1,5 +1,5 @@
 <?php
-class SolveStaticController extends AdminController {
+class SolveStaticController extends ProblemController {
     public $statistics_service = NULL;
 
     public function init() {
@@ -8,6 +8,10 @@ class SolveStaticController extends AdminController {
     }
 
     public function actionIndex() {
+        if (!Yii::app()->user->checkAccess("export_solve_problem")) {
+            throw new CHttpException(403, "Request fobidden.");
+        }
+
         $this->pageTitle = '整改汇总';
         $this->breadcrumbs = array("整改汇总");
         
@@ -17,12 +21,13 @@ class SolveStaticController extends AdminController {
         $preview_assign_start_date = $request->getParam("preview_assign_start_date", date('Y-m-01'));
         $preview_assign_end_date = $request->getParam("preview_assign_end_date", date('Y-m-d'));
 
-        $statistics = $this->statistics_service->getSolveStatistics($assign_start_date, $assign_end_date);
+        $statistics = $this->statistics_service->getSolveStatistics($assign_start_date, $assign_end_date, Yii::app()->user->checkAccess("export_all") ? 0 : Yii::app()->user->getId());
+        $displaySummary = Yii::app()->user->checkAccess("export_all");
 
         if ($request->getParam("export") !== null) {
-            $this->statistics_service->exportSolveStatistics($statistics, $preview_assign_start_date, $preview_assign_end_date);
+            $this->statistics_service->exportSolveStatistics($statistics, $preview_assign_start_date, $preview_assign_end_date, $displaySummary);
         }
 
-        $this->render('index', compact("statistics", "assign_start_date", "assign_end_date"));
+        $this->render('index', compact("statistics", "assign_start_date", "assign_end_date", "displaySummary"));
     }
 }

@@ -53,6 +53,11 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+                            <label><input type="checkbox" name="with_image" <?php if($with_image == "on"): ?>checked<?php endif; ?>> 是否显示问题图片</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-10 col-md-10 col-sm-10 col-xs-10">
                             <input type="submit" class="btn btn-primary" name="preview" value="预览" />
                             <input type="submit" class="btn btn-success second-btn" name="export" value="导出汇总" />
@@ -111,7 +116,7 @@
                                 <td class="text-left"><?php echo $row["address"]; ?></td>
                                 <td class="text-left"><?php echo $row["description"]; ?></td>
                                 <td>
-                                    <?php if($row["img_paths"]): ?>
+                                    <?php if($with_image == "on" && $row["img_paths"]): ?>
                                         <?php $img_paths = explode(",", $row["img_paths"]); ?>
                                         <?php $img_widths = explode(",", $row["img_widths"]); ?>
                                         <?php $img_heights = explode(",", $row["img_heights"]); ?>
