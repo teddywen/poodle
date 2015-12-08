@@ -196,19 +196,18 @@ class StatisticsService extends Service {
                             $objDrawing->setName("image_{$row["id"]}");
                             $objDrawing->setDescription("Image for #{$row["id"]}");
                             $imgUnixPath = Yii::app()->basePath . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $img_path;
-                            if (!file_exists($imgUnixPath)) {
-                                continue;
+                            if (file_exists($imgUnixPath)) {
+                                $objDrawing->setPath($imgUnixPath);
+                                $objDrawing->setHeight(120);
+                                $objDrawing->setCoordinates("I{$rowLv3}"); 
+                                $objDrawing->setOffsetX(10); 
+                                $objDrawing->setOffsety(10); 
+                                // $objDrawing->setRotation(50);
+                                $objDrawing->getShadow()->setVisible(true); 
+                                // $objDrawing->getShadow()->setDirection(36); 
+                                $objDrawing->setWorksheet($objActSheet); 
+                                $objActSheet->getRowDimension($rowLv3)->setRowHeight(120);
                             }
-                            $objDrawing->setPath($imgUnixPath);
-                            $objDrawing->setHeight(120);
-                            $objDrawing->setCoordinates("I{$rowLv3}"); 
-                            $objDrawing->setOffsetX(10); 
-                            $objDrawing->setOffsety(10); 
-                            // $objDrawing->setRotation(50);
-                            $objDrawing->getShadow()->setVisible(true); 
-                            // $objDrawing->getShadow()->setDirection(36); 
-                            $objDrawing->setWorksheet($objActSheet); 
-                            $objActSheet->getRowDimension($rowLv3)->setRowHeight(120);
                             break;
                         }
                     }
