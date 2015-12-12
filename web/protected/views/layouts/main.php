@@ -109,22 +109,29 @@
                             <li role="presentation" <?php if($subnav_problem_active): ?>class="active"<?php endif; ?>>
                                 <a href="<?php echo $this->createUrl("/problem/index");?>">问题列表</a>
                                 <ul class="nav nav-pills nav-stacked" style="padding-left: 20px;">
-                                    <?php foreach(Yii::app()->params->sub_nav_status as $status_key=>$status_value):?>
-                                    <?php if(Yii::app()->user->checkAccess('unit')&&$status_key==ProblemService::BE_CREATED) continue;?>
-                                    <?php if(Yii::app()->user->checkAccess('unit')&&$status_key==ProblemService::BE_UNQUALIFIED) $status_value = '审核未通过';?>
-                                    <?php if(Yii::app()->user->checkAccess('unit')&&$status_key==ProblemService::BE_DEALING) $status_value = '待处理';?>
+                                    <?php
+                                        $standout_sub_nav_status = Yii::app()->params->standout_sub_nav_status;
+                                        $sub_nav_status = Yii::app()->params->sub_nav_status;
+                                        if(Yii::app()->user->checkAccess('admin')){
+                                            $sub_nav_status = Yii::app()->params->admin_sub_nav_status;
+                                        }
+                                        if(Yii::app()->user->checkAccess('unit')){
+                                            $sub_nav_status = Yii::app()->params->unit_sub_nav_status;
+                                        }
+                                    ?>
+                                    <?php foreach($sub_nav_status as $status_key=>$status_value):?>
                                     <li <?php if($subnav_problem_active && $nav_status==$status_key):?>class="sub_nav_li"<?php endif;?>>
-                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>$status_key));?>" class="sub_nav_a"><?php echo $status_value;?></a>
+                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>$status_key));?>" class="sub_nav_a"><span <?php if(in_array($status_key, $standout_sub_nav_status)):?>style="border-bottom: solid 4px #337AB7;"<?php endif;?>><?php echo $status_value;?></span></a>
                                     </li>
                                     <?php endforeach;?>
                                     <li <?php if($subnav_problem_active && $nav_status==999):?>class="sub_nav_li"<?php endif;?>>
-                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>999));?>" class="sub_nav_a">全部</a>
+                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>999));?>" class="sub_nav_a"><span style="border-bottom: solid 4px #337AB7;">全部</span></a>
                                     </li>
                                 </ul>
                             </li>
                         <?php endif; ?>
                         <?php if(Yii::app()->user->checkAccess('delay_approval_problem')): ?>
-                            <li role="presentation" <?php if($subnav_delay_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/problem/delay");?>">延时申请</a></li>
+                            <li role="presentation" <?php if($subnav_delay_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/problem/delay");?>"><span style="border-bottom: solid 4px #337AB7;">延时申请</span></a></li>
                         <?php endif; ?>
                         <?php if(Yii::app()->user->checkAccess('export_release_problem')): ?>
                             <li role="presentation" <?php if($subnav_static_release_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/problem/releaseStatic");?>">反馈汇总</a></li>
