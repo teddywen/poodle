@@ -61,7 +61,7 @@
                         ?>
                         <input type="hidden" name="cur_images[]" value="<?php echo $form_img_value;?>" />
                         <li style="margin-bottom: 15px;" data-imgname="<?php echo $img_path;?>" data-width="<?php echo $img_width;?>" data-height="<?php echo $img_height;?>">
-                        <a class="close remove_img" style="color: red;" title="删除">×</a><img src="<?php echo $solve_image->img_path;?>" width="<?php echo $show_width;?>" height="<?php echo $show_height;?>" class="img-rounded"></li>
+                        <a class="close remove_img" style="color: red;" title="删除">×</a><a target="_blank" href="<?php echo $solve_image->img_path;?>"><img src="<?php echo $solve_image->img_path;?>" width="<?php echo $show_width;?>" height="<?php echo $show_height;?>" class="img-rounded"></a></li>
                         <?php endforeach;?>
                     <?php endif;?>
                     </ul>

@@ -235,7 +235,7 @@
                                     <?php $img_path = $problem_image->img_path; ?>
                                     <?php $img_radio = round($problem_image->img_width / $problem_image->img_height, 2); ?>
                                     <?php $img_height = 190; $img_width = $img_height * $img_radio; ?>
-                                    <li><img src="<?php echo $img_path;?>" width="<?php echo $img_width;?>" height="<?php echo $img_height;?>" class="img-rounded" /></li>
+                                    <li><a target="_blank" href="<?php echo $img_path;?>"><img src="<?php echo $img_path;?>" width="<?php echo $img_width;?>" height="<?php echo $img_height;?>" class="img-rounded" /></a></li>
                                 <?php endforeach;?>
                             </ul>
                         </div>
@@ -251,7 +251,7 @@
                                         <?php $img_path = $solve_image->img_path; ?>
                                         <?php $img_radio = round($solve_image->img_width / $solve_image->img_height, 2); ?>
                                         <?php $img_height = 190; $img_width = $img_height * $img_radio; ?>
-                                        <li><img src="<?php echo $img_path;?>" width="<?php echo $img_width;?>" height="<?php echo $img_height;?>" class="img-rounded" /></li>
+                                        <li><a target="_blank" href="<?php echo $img_path;?>"><img src="<?php echo $img_path;?>" width="<?php echo $img_width;?>" height="<?php echo $img_height;?>" class="img-rounded" /></a></li>
                                     <?php endforeach;?>
                                 </ul>
                             </div>

@@ -1,10 +1,14 @@
 <?php
     $nav_status = isset($_GET['nav_status'])?intval($_GET['nav_status']):0;
+    //问题编号
+    $s_pid = isset($_GET['s_pid'])?$_GET['s_pid']:'';
     //关键字
     $s_keyword = isset($_GET['s_keyword'])?$_GET['s_keyword']:'';
+    //时间设置
     $calendar_icon = Yii::app()->params->image_url.'/calendar.gif';
-    $start_time = Yii::app()->user->checkAccess("view_problem_create_time") ? date('Y-m-01') : date('Y-m-01', 0); $end_time = date('Y-m-d');
-
+    //添加ID搜索将默认时间去掉，否则会出现根据ID查不出来数据的情况
+    //$start_time = Yii::app()->user->checkAccess("view_problem_create_time") ? date('Y-m-01') : date('Y-m-01', 0); $end_time = date('Y-m-d');
+    $start_time = $end_time = "";
     //创建时间
     $create_start_time = isset($_GET['create_start_time'])?$_GET['create_start_time']:$start_time;
     $create_end_time = isset($_GET['create_end_time'])?$_GET['create_end_time']:$end_time;
@@ -50,6 +54,24 @@
                     <?php if($nav_status): ?>
                         <input type="hidden" name="nav_status" value="<?php echo $nav_status; ?>" />
                     <?php endif; ?>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="form-group">
+                                <label for="s_pid" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 control-label">问题编号: </label>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" id="s_pid" name="s_pid" value="<?php echo $s_pid;?>" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <div class="form-group">
+                                <label for="s_keyword" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">关键字: </label>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" id="s_keyword" name="s_keyword" value="<?php echo $s_keyword;?>" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
@@ -215,17 +237,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                 <div class="form-group">
-                                    <label for="gov_cate_id" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 control-label">指派给: </label>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <select id="gov_cate_id" name="s_gov_cate_id" class="form-control">
+                                    <label for="gov_cate_id" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">指派给: </label>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                        <select id="gov_cate_id" name="s_gov_cate_id" class="form-control" style="width: 30%; float: left; margin-right: 10px;">
                                             <option value="">全部</option>
                                             <?php if(!empty($gov_cates)):?>
                                                 <?php foreach($gov_cates as $gov_cate):?>
-                                                    <option value="<?php echo $gov_cate->id;?>"<?php if($s_gov_cate_id==$gov_cate->id):?> selected="selected"<?php endif;?>><?php echo $gov_cate->cate_name;?></option>
+                                                <option value="<?php echo $gov_cate->id;?>"<?php if($s_gov_cate_id==$gov_cate->id):?> selected="selected"<?php endif;?>><?php echo $gov_cate->cate_name;?></option>
                                                 <?php endforeach;?>
                                             <?php endif;?>
+                                        </select>
+                                        <select id="gov_users" name="s_deal_uid" class="form-control" style="width: 60%;<?php echo $gov_users_display;?>">
+                                        <?php if(empty($gov_users_display)):?>
+                                        <?php foreach($select_gov_users as $select_gov_user):?>
+                                            <option value="<?php echo $select_gov_user->id;?>"<?php if($select_gov_user->id==$s_deal_uid):?> selected="selected"<?php endif;?>><?php echo $select_gov_user->username;?></option>
+                                        <?php endforeach;?>
+                                        <?php endif;?>
                                         </select>
                                     </div>
                                 </div>
@@ -298,13 +327,12 @@
     	            dataType:"JSON",
     	            data:{cate_id:cate_id},
     	            success:function(res){
-    	                // console.log(res);console.log(res.length);
     	                if(res.length > 0){
     	                	var u_length = res.length, option_users = '';
     	                    for(var i=0;i<u_length;i++){
     	                    	option_users += '<option value="'+res[i].uid+'">'+res[i].username+'</option>';
     	                    }
-    	                    $("#gov_users").append(option_users);
+    	                    $("#gov_users").html(option_users);
     	                    $("#gov_users").show();
     	                }
     	                else{

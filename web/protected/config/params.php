@@ -58,6 +58,24 @@ return array(
         '6' => '待审核',
         '8' => '审核通过'
     ),
+    //admin sub nav staus
+    'admin_sub_nav_status' => array(
+        '0' => '未分配',
+        '5' => '已分配',
+        '2' => '申请延时',
+        '6' => '待审核',
+        '8' => '审核通过',
+        '7' => '打回'
+    ),
+    //unit sub nav staus
+    'unit_sub_nav_status' => array(
+        '5' => '待处理',
+        '2' => '申请延时',
+        '6' => '待审核',
+        '8' => '审核通过',
+        '7' => '审核未通过',
+    ),
+    'standout_sub_nav_status' => array(0,5,2,7),
     //图片最大上传大小M
     'max_upload_image_size' => 15
 );

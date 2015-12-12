@@ -164,6 +164,14 @@
     </div>
 </div>
 
+<?php
+    $total_page = ceil($count / $this->PAGE_SIZE);
+    if($total_page > 1){
+        if(file_exists(Yii::app()->basePath.'/views/common/pager.php')){
+            require_once(Yii::app()->basePath.'/views/common/pager.php');
+        }
+    }
+?>
 <script type="text/javascript">
     $(function(){
         //validate date_from and date_to
