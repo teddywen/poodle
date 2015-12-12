@@ -52,10 +52,15 @@ class IndexController extends ProblemController
             if(!empty($s_release_uid)){
                 $condition['release_uid'] = $s_release_uid;
             }
+            $s_gov_cate_id = isset($_REQUEST['s_gov_cate_id'])?intval($_REQUEST['s_gov_cate_id']):0;
             $s_deal_uid = isset($_REQUEST['s_deal_uid'])?intval($_REQUEST['s_deal_uid']):0;
-            if(!empty($s_deal_uid)){
+            if(!empty($s_gov_cate_id) && !empty($s_deal_uid)){
                 $condition['deal_uid'] = $s_deal_uid;
             }
+        }
+        $s_pid = isset($_REQUEST['s_pid'])&&strlen($_REQUEST['s_pid'])>0?trim($_REQUEST['s_pid']):"";
+        if(strlen($s_pid)){
+            $condition['id'] = $s_pid;
         }
         $s_keyword = isset($_REQUEST['s_keyword'])&&strlen($_REQUEST['s_keyword'])>0?trim($_REQUEST['s_keyword']):"";
         if(strlen($s_keyword)){
