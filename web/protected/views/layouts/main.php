@@ -121,17 +121,17 @@
                                     ?>
                                     <?php foreach($sub_nav_status as $status_key=>$status_value):?>
                                     <li <?php if($subnav_problem_active && $nav_status==$status_key):?>class="sub_nav_li"<?php endif;?>>
-                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>$status_key));?>" class="sub_nav_a"><span <?php if(in_array($status_key, $standout_sub_nav_status)):?>style="border-bottom: solid 4px #337AB7;"<?php endif;?>><?php echo $status_value;?></span></a>
+                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>$status_key));?>" class="sub_nav_a"><span><?php echo $status_value;?></span></a>
                                     </li>
                                     <?php endforeach;?>
                                     <li <?php if($subnav_problem_active && $nav_status==999):?>class="sub_nav_li"<?php endif;?>>
-                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>999));?>" class="sub_nav_a"><span style="border-bottom: solid 4px #337AB7;">全部</span></a>
+                                        <a href="<?php echo $this->createUrl("/problem/index", array("nav_status"=>999));?>" class="sub_nav_a"><span>全部</span></a><!-- border-bottom: solid 4px #337AB7; -->
                                     </li>
                                 </ul>
                             </li>
                         <?php endif; ?>
                         <?php if(Yii::app()->user->checkAccess('delay_approval_problem')): ?>
-                            <li role="presentation" <?php if($subnav_delay_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/problem/delay");?>"><span style="border-bottom: solid 4px #337AB7;">延时申请</span></a></li>
+                            <li role="presentation" <?php if($subnav_delay_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/problem/delay");?>"><span>延时申请</span></a></li>
                         <?php endif; ?>
                         <?php if(Yii::app()->user->checkAccess('export_release_problem')): ?>
                             <li role="presentation" <?php if($subnav_static_release_active): ?>class="active"<?php endif; ?>><a href="<?php echo $this->createUrl("/problem/releaseStatic");?>">反馈汇总</a></li>
