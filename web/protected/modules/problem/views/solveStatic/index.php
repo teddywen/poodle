@@ -99,16 +99,18 @@
                             <td></td>
                         </tr>
                     <?php endforeach; ?>
-                    <tr>
-                        <td colspan="2">合计</td>
-                        <td><?php echo $total_problem_count; ?></td>
-                        <td><?php echo $total_problem_qualified_count; ?></td>
-                        <td><?php echo $total_problem_is_assistant_count; ?></td>
-                        <td><?php echo $total_problem_is_delay_count; ?></td>
-                        <td><?php echo $total_problem_times_up_count; ?></td>
-                        <td><?php echo $total_problem_unqualified_count; ?></td>
-                        <td></td>
-                    </tr>
+                    <?php if($displaySummary): ?>
+                        <tr>
+                            <td colspan="2">合计</td>
+                            <td><?php echo $total_problem_count; ?></td>
+                            <td><?php echo $total_problem_qualified_count; ?></td>
+                            <td><?php echo $total_problem_is_assistant_count; ?></td>
+                            <td><?php echo $total_problem_is_delay_count; ?></td>
+                            <td><?php echo $total_problem_times_up_count; ?></td>
+                            <td><?php echo $total_problem_unqualified_count; ?></td>
+                            <td></td>
+                        </tr>
+                    <?php endif;?>
                 <?php else: ?>
                     <tr>
                         <td colspan="9" class="text-center">
