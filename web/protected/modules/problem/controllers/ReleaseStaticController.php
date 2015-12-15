@@ -21,15 +21,20 @@ class ReleaseStaticController extends ProblemController {
         $preview_assign_start_date = $request->getParam("preview_assign_start_date", date('Y-m-01'));
         $preview_assign_end_date = $request->getParam("preview_assign_end_date", date('Y-m-d'));
         $preview = $request->getParam("preview", false);
-        $export = $request->getParam("export", false);        
+        $export = $request->getParam("export", false);
+        $hide_with_image = Yii::app()->user->checkAccess("admin");
         $with_image = ($preview || $export) ? $request->getParam("with_image", "off") : (Yii::app()->user->checkAccess("admin") ? "off" : "on");
         
         $statistics = $this->statistics_service->getReleaseStatistics($assign_start_date, $assign_end_date, Yii::app()->user->checkAccess("export_all") ? 0 : Yii::app()->user->getId());
         
         if ($request->getParam("export") !== null) {
-            $this->statistics_service->exportReleaseStatistics($statistics, $preview_assign_start_date, $preview_assign_end_date, $with_image == "on");
+            $is_with_image = $with_image == "on";
+            if ($is_with_image) {
+                ini_set("memory_limit", "256M"); // increase runtime memory for excel export with image.
+            }
+            $this->statistics_service->exportReleaseStatistics($statistics, $preview_assign_start_date, $preview_assign_end_date, $is_with_image);
         }
         
-        $this->render('index', compact("statistics", "assign_start_date", "assign_end_date", "with_image"));
+        $this->render('index', compact("statistics", "assign_start_date", "assign_end_date", "with_image", "hide_with_image"));
     }
 }
