@@ -52,7 +52,7 @@
                             ?>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group <?php if($hide_with_image): ?>hidden<?php endif; ?>">
                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
                             <label><input type="checkbox" name="with_image" <?php if($with_image == "on"): ?>checked<?php endif; ?>> 是否显示问题图片</label>
                         </div>
