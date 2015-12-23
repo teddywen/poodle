@@ -117,6 +117,38 @@ $(function(){
 //    	}
 //    	submitProblemDealForm('check_assisted_form');
 //    });
+    //动态计算处理截止时间
+    $("#deal_day").change(function(){
+    	var need_days = $(this).val();
+    	var mydate = new Date();
+    	var cur_time = mydate.getTime();
+    	cur_time = Math.floor(cur_time / 1000);
+    	var deal_time_tmp = need_days * 24 * 3600 + cur_time;
+    	mydate.setTime(parseInt(deal_time_tmp) * 1000);
+    	var year = mydate.getFullYear(),
+        month = mydate.getMonth()+1,
+        date = mydate.getDate(),
+        hour = mydate.getHours(), 
+        minute = mydate.getMinutes(),
+        second = mydate.getSeconds();
+    	if(month < 10){
+    		month = "0" + month;
+    	}
+    	if(date < 10){
+    		date = "0" + date;
+    	}
+    	if(hour < 10){
+    		hour = "0" + hour;
+    	}
+    	if(minute < 10){
+    		minute = "0" + minute;
+    	}
+    	if(second < 10){
+    		second = "0" + second;
+    	}
+    	var deal_time_str = year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
+    	$(".deal_time_view").html(deal_time_str);
+    });
 });
 //页面加载完成执行结束
 

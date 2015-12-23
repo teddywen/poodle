@@ -129,7 +129,12 @@
                                 <?php $delay_day = floor($problem->delay_time / 24); ?>                           
                             </div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 control-label" style="text-align: left;">
-                                <?php if($delay_day > 0):?>延时：<?php echo $delay_day;?>天<?php endif;?>【截止到：<?php echo date('Y-m-d H:i:s', $problem->assign_time + ($deal_day + $delay_day) * 24 * 3600);?>】
+                                <?php
+                                    $cur_time = time();
+                                    $assign_time = empty($problem->assign_time)?$cur_time + 24 * 3600:$problem->assign_time + ($deal_day + $delay_day) * 24 * 3600;
+                                ?>
+                                <span style="display: none;" class="base_deal_time"><?php echo $cur_time;?></span>
+                                <?php if($delay_day > 0):?>延时：<?php echo $delay_day;?>天<?php endif;?>【截止到：<span class="deal_time_view"><?php echo date('Y-m-d H:i:s', $assign_time);?></span>】
                             </div>
                         </div>
                     <?php elseif(!in_array($problem->status, array(ProblemService::BE_CREATED, ProblemService::BE_CANCELED))):?>

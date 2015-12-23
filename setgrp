@@ -1,4 +1,0 @@
-#/bin/sh
-
-sudo chmod -R g+w .
-sudo chgrp -R scw .
