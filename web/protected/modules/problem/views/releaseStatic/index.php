@@ -127,7 +127,10 @@
                                     <?php endif; ?>
                                 </td>
                                 <td><?php echo $row["is_delay"] ? "延时{$row["delay_time"]}小时" : "";?></td>
-                                <td><?php if ($row['duration_lv'] == 0) echo "未完成"; if ($row['duration_lv'] == 1) echo "准时完成"; if ($row['duration_lv'] == 2) echo "超时完成";?></td>
+                                <td><?php if ($row['duration_lv'] == 0) echo "未完成"; 
+                                    if ($row['duration_lv'] == 1) echo "准时完成"; 
+                                    if ($row['duration_lv'] == 2) echo "超时完成"; 
+                                    if ($row['duration_lv'] == 3) echo "<span class='text-danger'>未完成(已超时)</span>";?></td>
                                 <?php $nav_status = in_array($row['status'], array_keys(Yii::app()->params->sub_nav_status))?$row['status']:999; ?>
                                 <td><a href="<?php echo $this->createUrl("/problem/index/view", array("id"=>$row['id'], "nav_status"=>$nav_status));?>" class="btn btn-info" target="_blank">查看</a></td>
                             </tr>
