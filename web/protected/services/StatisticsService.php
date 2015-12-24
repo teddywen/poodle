@@ -225,6 +225,10 @@ class StatisticsService extends Service {
                         case 2:
                             $finishStatus = "超时完成";
                             break;
+                        case 3:
+                            $finishStatus = "未完成(已超时)";
+                            $objActSheet->getStyle("K{$rowLv3}")->getFont()->getColor()->setARGB(PHPExcel_Style_Color::COLOR_RED);
+                            break;
                         default:
                             $finishStatus = "未完成";
                             break;
