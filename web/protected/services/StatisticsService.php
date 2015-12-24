@@ -36,7 +36,7 @@ class StatisticsService extends Service {
                     GROUP_CONCAT(`problem_image`.`img_width`) AS `img_widths`, 
                     GROUP_CONCAT(`problem_image`.`img_height`) AS `img_heights`, 
                     FROM_UNIXTIME(`problem`.`assign_time`, '%Y-%m-%d') AS `assign_date`, 
-                    IF(`problem`.`status`<>:status_qualified, 0, 
+                    IF(`problem`.`status`<>:status_qualified, IF(`problem`.`assign_time`+`problem`.`deal_time`*3600+`problem`.`delay_time`*3600<:now_stamp, 3, 0), 
                         IF(`problem`.`times_up`=1, 2, 1)) AS `duration_lv`, 
                     FLOOR(`problem`.`delay_time`/24) AS `delay_day`
                 FROM `problem` 
@@ -52,6 +52,7 @@ class StatisticsService extends Service {
             ":assign_end_time" => strtotime($assign_end_date), 
             ":status_qualified" => ProblemService::BE_QUALIFIED, 
             ":status_release" => 1, 
+            ":now_stamp" => time(), 
         );
         if ($user_id) {
             $params[":user_id"] = $user_id;
