@@ -97,7 +97,7 @@
                             <!--<td><?php echo $row["problem_is_assistant_count"]; $total_problem_is_assistant_count += $row["problem_is_assistant_count"]; ?></td>-->
                             <td><?php echo $row["problem_is_delay_count"]; $total_problem_is_delay_count += $row["problem_is_delay_count"]; ?></td>
                             <td><?php echo $row["problem_unqualified_count"]; $total_problem_unqualified_count += $row["problem_unqualified_count"]; ?></td>
-                            <td><?php echo $row["problem_unqualified_count"]; $total_problem_unqualified_expired_count += $row["problem_unqualified_expired_count"]; ?></td>
+                            <td><?php echo $row["problem_unqualified_expired_count"]; $total_problem_unqualified_expired_count += $row["problem_unqualified_expired_count"]; ?></td>
                             <td></td>
                         </tr>
                     <?php endforeach; ?>
