@@ -72,7 +72,8 @@ class StatisticsService extends Service {
         $sql = "SELECT `deal_username`, COUNT(*) AS `problem_count`, SUM(IF(`status`=:status_qualified, 1, 0)) AS `problem_qualified_count`, 
                     SUM(`is_assistant`) AS `problem_is_assistant_count`, SUM(`is_delay`) AS `problem_is_delay_count`, 
                     SUM(`times_up`) AS `problem_times_up_count`, 
-                    SUM(IF(`status`<>:status_qualified, 1, 0)) AS `problem_unqualified_count`
+                    SUM(IF(`status`<>:status_qualified, 1, 0)) AS `problem_unqualified_count`, 
+                    SUM(IF(`status`<>:status_qualified, IF(`assign_time`+`deal_time`*3600+`delay_time`*3600<:now_stamp, 1, 0), 0)) AS `problem_unqualified_expired_count`
                 FROM `problem`
                 WHERE `assign_time` BETWEEN :assign_start_time AND :assign_end_time";
         if ($user_id) {
@@ -83,6 +84,7 @@ class StatisticsService extends Service {
             ":assign_start_time" => strtotime($assign_start_date), 
             ":assign_end_time" => strtotime($assign_end_date), 
             ":status_qualified" => ProblemService::BE_QUALIFIED, 
+            ":now_stamp" => time(), 
         );
         if ($user_id) {
             $params[":user_id"] = $user_id;
@@ -286,10 +288,11 @@ class StatisticsService extends Service {
         $objActSheet->setCellValue('B2', '单位');
         $objActSheet->setCellValue('C2', '问题数');
         $objActSheet->setCellValue('D2', '已整改');
-        $objActSheet->setCellValue('E2', '联动问题');
+        $objActSheet->setCellValue('E2', '整改超时');
+        // $objActSheet->setCellValue('F2', '联动问题');
         $objActSheet->setCellValue('F2', '申请延期');
-        $objActSheet->setCellValue('G2', '整改超时');
-        $objActSheet->setCellValue('H2', '未整改');
+        $objActSheet->setCellValue('G2', '未整改');
+        $objActSheet->setCellValue('H2', '未整改超时');
         $objActSheet->setCellValue('I2', '备注');
         // set tbody
         foreach ($statistics as $key => $row) {
@@ -299,10 +302,11 @@ class StatisticsService extends Service {
             $objActSheet->setCellValue("B{$cellRow}", $row["deal_username"]);
             $objActSheet->setCellValue("C{$cellRow}", $row["problem_count"]);
             $objActSheet->setCellValue("D{$cellRow}", $row["problem_qualified_count"]);
-            $objActSheet->setCellValue("E{$cellRow}", $row["problem_is_assistant_count"]);
+            $objActSheet->setCellValue("E{$cellRow}", $row["problem_times_up_count"]);
+            // $objActSheet->setCellValue("F{$cellRow}", $row["problem_is_assistant_count"]);
             $objActSheet->setCellValue("F{$cellRow}", $row["problem_is_delay_count"]);
-            $objActSheet->setCellValue("G{$cellRow}", $row["problem_times_up_count"]);
-            $objActSheet->setCellValue("H{$cellRow}", $row["problem_unqualified_count"]);
+            $objActSheet->setCellValue("G{$cellRow}", $row["problem_unqualified_count"]);
+            $objActSheet->setCellValue("H{$cellRow}", $row["problem_unqualified_expired_count"]);
         }
         $sumStartRow = 3;
         $sumEndRow = count($statistics) + 2;
@@ -312,6 +316,7 @@ class StatisticsService extends Service {
             $objActSheet->setCellValue("C{$lastRow}", "=SUM(C{$sumStartRow}:C{$sumEndRow})");
             $objActSheet->setCellValue("D{$lastRow}", "=SUM(D{$sumStartRow}:D{$sumEndRow})");
             $objActSheet->setCellValue("E{$lastRow}", "=SUM(E{$sumStartRow}:E{$sumEndRow})");
+            // $objActSheet->setCellValue("F{$lastRow}", "=SUM(F{$sumStartRow}:F{$sumEndRow})");
             $objActSheet->setCellValue("F{$lastRow}", "=SUM(F{$sumStartRow}:F{$sumEndRow})");
             $objActSheet->setCellValue("G{$lastRow}", "=SUM(G{$sumStartRow}:G{$sumEndRow})");
             $objActSheet->setCellValue("H{$lastRow}", "=SUM(H{$sumStartRow}:H{$sumEndRow})");

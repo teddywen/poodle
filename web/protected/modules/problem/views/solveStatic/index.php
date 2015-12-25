@@ -75,27 +75,29 @@
                     <th>单位</th>
                     <th>问题数</th>
                     <th>已整改</th>
-                    <th>联动问题</th>
-                    <th>申请延期</th>
                     <th>整改超时</th>
+                    <!--<th>联动问题</th>-->
+                    <th>申请延期</th>
                     <th>未整改</th>
+                    <th>未整改超时</th>
                     <th>备注</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if(!empty($statistics)):?>
                     <?php $total_problem_count = $total_problem_qualified_count = $total_problem_is_assistant_count = 
-                        $total_problem_is_delay_count = $total_problem_times_up_count = $total_problem_unqualified_count = 0; ?>
+                        $total_problem_is_delay_count = $total_problem_times_up_count = $total_problem_unqualified_count = $total_problem_unqualified_expired_count = 0; ?>
                     <?php foreach($statistics as $key => $row): ?>
                         <tr>
                             <td><?php echo $key + 1; ?></td>
                             <td><?php echo $row["deal_username"]; ?></td>
                             <td><?php echo $row["problem_count"]; $total_problem_count += $row["problem_count"]; ?></td>
                             <td><?php echo $row["problem_qualified_count"]; $total_problem_qualified_count += $row["problem_qualified_count"]; ?></td>
-                            <td><?php echo $row["problem_is_assistant_count"]; $total_problem_is_assistant_count += $row["problem_is_assistant_count"]; ?></td>
-                            <td><?php echo $row["problem_is_delay_count"]; $total_problem_is_delay_count += $row["problem_is_delay_count"]; ?></td>
                             <td><?php echo $row["problem_times_up_count"]; $total_problem_times_up_count += $row["problem_times_up_count"]; ?></td>
+                            <!--<td><?php echo $row["problem_is_assistant_count"]; $total_problem_is_assistant_count += $row["problem_is_assistant_count"]; ?></td>-->
+                            <td><?php echo $row["problem_is_delay_count"]; $total_problem_is_delay_count += $row["problem_is_delay_count"]; ?></td>
                             <td><?php echo $row["problem_unqualified_count"]; $total_problem_unqualified_count += $row["problem_unqualified_count"]; ?></td>
+                            <td><?php echo $row["problem_unqualified_count"]; $total_problem_unqualified_expired_count += $row["problem_unqualified_expired_count"]; ?></td>
                             <td></td>
                         </tr>
                     <?php endforeach; ?>
@@ -104,10 +106,11 @@
                             <td colspan="2">合计</td>
                             <td><?php echo $total_problem_count; ?></td>
                             <td><?php echo $total_problem_qualified_count; ?></td>
-                            <td><?php echo $total_problem_is_assistant_count; ?></td>
-                            <td><?php echo $total_problem_is_delay_count; ?></td>
                             <td><?php echo $total_problem_times_up_count; ?></td>
+                            <!--<td><?php echo $total_problem_is_assistant_count; ?></td>-->
+                            <td><?php echo $total_problem_is_delay_count; ?></td>
                             <td><?php echo $total_problem_unqualified_count; ?></td>
+                            <td><?php echo $total_problem_unqualified_expired_count; ?></td>
                             <td></td>
                         </tr>
                     <?php endif;?>
