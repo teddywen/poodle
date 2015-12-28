@@ -3,7 +3,7 @@ return array(
     //地方名称
     'address_name' => '崇明 · 堡镇',
     //地方名称
-    'project_name' => '堡镇三创工作联动平台',
+    'project_name' => '三创工作联系网上管理平台',
     //审核时间
     'check_time' => '10:00 ~ 16:30',
     //联系方式
