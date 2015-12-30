@@ -3,6 +3,9 @@
 class UserService extends Service
 {
     const DEFAULT_PWD = '123456';
+    const STATUS_INVALID = 0;
+    const STATUS_VALID = 1;
+
     /**
      * 获得用户列表
      * @param int $page 页数

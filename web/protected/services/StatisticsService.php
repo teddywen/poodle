@@ -41,7 +41,11 @@ class StatisticsService extends Service {
                     FLOOR(`problem`.`delay_time`/24) AS `delay_day`
                 FROM `problem` 
                 LEFT JOIN `problem_image` ON `problem`.`id`=`problem_image`.`pid`
-                WHERE `problem`.`assign_time` BETWEEN :assign_start_time AND :assign_end_time AND (`problem_image`.`id` IS NULL OR `problem_image`.`status`=:status_release)";
+                INNER JOIN `gov_user` ON `problem`.`deal_uid`=`gov_user`.`id`
+                WHERE `problem`.`assign_time` BETWEEN :assign_start_time AND :assign_end_time AND 
+                    (`problem_image`.`id` IS NULL OR `problem_image`.`status`=:status_release) AND
+                    `problem`.`status`<>:status_closed AND `problem`.`status`<>:status_canceled AND
+                    `gov_user`.`status`=:status_valid";
         if ($user_id) {
             $sql .= " AND `problem`.`deal_uid`=:user_id";
         }
@@ -53,6 +57,9 @@ class StatisticsService extends Service {
             ":status_qualified" => ProblemService::BE_QUALIFIED, 
             ":status_release" => 1, 
             ":now_stamp" => time(), 
+            ":status_valid" => UserService::STATUS_VALID, 
+            ":status_closed" => ProblemService::BE_CLOSED, 
+            ":status_canceled" => ProblemService::BE_CANCELED, 
         );
         if ($user_id) {
             $params[":user_id"] = $user_id;
@@ -69,13 +76,16 @@ class StatisticsService extends Service {
         $assign_start_date = date("Y-m-d 00:00:00", strtotime($assign_start_date));
         $assign_end_date = date("Y-m-d 23:59:59", strtotime($assign_end_date));
 
-        $sql = "SELECT `deal_username`, COUNT(*) AS `problem_count`, SUM(IF(`status`=:status_qualified, 1, 0)) AS `problem_qualified_count`, 
+        $sql = "SELECT `deal_username`, COUNT(*) AS `problem_count`, SUM(IF(`problem`.`status`=:status_qualified, 1, 0)) AS `problem_qualified_count`, 
                     SUM(`is_assistant`) AS `problem_is_assistant_count`, SUM(`is_delay`) AS `problem_is_delay_count`, 
                     SUM(`times_up`) AS `problem_times_up_count`, 
-                    SUM(IF(`status`<>:status_qualified, 1, 0)) AS `problem_unqualified_count`, 
-                    SUM(IF(`status`<>:status_qualified, IF(`assign_time`+`deal_time`*3600+`delay_time`*3600<:now_stamp, 1, 0), 0)) AS `problem_unqualified_expired_count`
+                    SUM(IF(`problem`.`status`<>:status_qualified, 1, 0)) AS `problem_unqualified_count`, 
+                    SUM(IF(`problem`.`status`<>:status_qualified, IF(`assign_time`+`deal_time`*3600+`delay_time`*3600<:now_stamp, 1, 0), 0)) AS `problem_unqualified_expired_count`
                 FROM `problem`
-                WHERE `assign_time` BETWEEN :assign_start_time AND :assign_end_time";
+                INNER JOIN `gov_user` ON `problem`.`deal_uid`=`gov_user`.`id`
+                WHERE `assign_time` BETWEEN :assign_start_time AND :assign_end_time AND 
+                    `problem`.`status`<>:status_closed AND `problem`.`status`<>:status_canceled AND
+                    `gov_user`.`status`=:status_valid";
         if ($user_id) {
             $sql .= " AND `deal_uid`=:user_id";
         }
@@ -85,6 +95,9 @@ class StatisticsService extends Service {
             ":assign_end_time" => strtotime($assign_end_date), 
             ":status_qualified" => ProblemService::BE_QUALIFIED, 
             ":now_stamp" => time(), 
+            ":status_valid" => UserService::STATUS_VALID, 
+            ":status_closed" => ProblemService::BE_CLOSED, 
+            ":status_canceled" => ProblemService::BE_CANCELED, 
         );
         if ($user_id) {
             $params[":user_id"] = $user_id;
